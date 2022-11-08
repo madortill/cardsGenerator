@@ -4,7 +4,7 @@
             <div class="title">ברוכים הבאים למחולל לומדת כרטיסיות</div>
             <div class="text">בעזרת המחולל אתם תוכלו ליצור לומדה חדשה בעצמכם, עם תוכן שמותאם לקורס שאתם מעבירים.​
                 המחולל מסדר את התוכן שאתם מכניסים בתוך כרטיסיות, שמסודרות לפי תתי-נושאים ולפי נושאים גדולים יותר. אתם יכולים גם להוסיף מבחן על החומר או תרגולים לכל נושא.​</div>
-                <div class="button">בואו נצא לדרך!</div>
+                <div class="button" @click="$emit('next-stage')">בואו נצא לדרך!</div>
             </div>
             <img class="open-pic" src="@/assets/media/cardsOpenImage.png" alt="דוגמה ללומדות מוכנות" />
         </div>
@@ -12,12 +12,20 @@
 
 <script>
 export default {
-
+    name: "open-screen",
+    data() {
+        return {
+        }
+    },
+    component: {},
+    props: [],
+    methods: {},
 }
 </script>
 
 <style scoped>
     .open-screen {
+        user-select: none;
         display: flex;
         justify-content: space-around;
         align-items: center;
@@ -67,5 +75,6 @@ export default {
         /* align-self: center; */
         margin: 1vh 9rem 4rem;
         text-align: center;
+        cursor: pointer;
     }
 </style>

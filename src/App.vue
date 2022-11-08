@@ -1,13 +1,26 @@
-<script setup>
-import OpenScreen from './components/OpenScreen.vue';
+<script>
+import Instructions from './components/Instructions.vue'
+import OpenScreen from './components/OpenScreen.vue'
 
+
+    export default {
+      components: { OpenScreen, Instructions },
+      data() {
+        return {
+          currentStage: 0,
+        }
+      },
+    }
+    
 </script>
 
 <template>
-  <div id="app">
-        <OpenScreen></OpenScreen>
+  <div id="app"> 
+    <open-screen @next-stage="currentStage++" v-if="currentStage === 0"></open-screen>
+    <instructions v-else-if="currentStage === 1"></instructions>
   </div>
 </template>
+
 
 <style>
   #app {

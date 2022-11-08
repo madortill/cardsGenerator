@@ -1,4 +1,4 @@
-# Boilerplate
+# Cards Lomda Generator
 This template should help get you started developing with Vue 2 in Vite.  
 It is a boilerplate create by the command "npm init@vue2".
 
