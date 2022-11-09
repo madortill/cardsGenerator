@@ -1,13 +1,15 @@
 <script>
 import Instructions from './components/Instructions.vue'
 import OpenScreen from './components/OpenScreen.vue'
+import MainStage from './components/MainStage.vue'
 
 
     export default {
-      components: { OpenScreen, Instructions },
+      components: { OpenScreen, Instructions, MainStage },
       data() {
         return {
-          currentStage: 0,
+          currentStage: 2,
+          theme: "lightBlue"
         }
       },
     }
@@ -18,6 +20,7 @@ import OpenScreen from './components/OpenScreen.vue'
   <div id="app"> 
     <open-screen @next-stage="currentStage++" v-if="currentStage === 0"></open-screen>
     <instructions v-else-if="currentStage === 1"></instructions>
+    <main-stage v-else-if="currentStage === 2" :theme="theme"></main-stage>
   </div>
 </template>
 
