@@ -6,7 +6,7 @@
                 המחולל מסדר את התוכן שאתם מכניסים בתוך כרטיסיות, שמסודרות לפי תתי-נושאים ולפי נושאים גדולים יותר. אתם יכולים גם להוסיף מבחן על החומר או תרגולים לכל נושא.​</div>
                 <div class="button" @click="$emit('next-stage')">בואו נצא לדרך!</div>
             </div>
-            <img class="open-pic" src="@/assets/media/cardsOpenImage.png" alt="דוגמה ללומדות מוכנות" />
+            <img class="open-pic" src="@/assets/colorNeutralAssets/cardsOpenImage.png" alt="דוגמה ללומדות מוכנות" />
         </div>
 </template>
 
