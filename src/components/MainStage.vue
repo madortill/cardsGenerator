@@ -5,7 +5,7 @@
             <div class="input-container">
                 <input class="title-input" type="text" placeholder="שם הלומדה"/>
             </div>
-            <div class="learningCard" :style="{backgroundImage: 'url(src/assets/cardAssets/colors/' + this.theme + '/images/learning/subject_btn.svg)'}">
+            <div class="learningCard" :style="{backgroundImage: 'url(src/assets/cardsAssets/colors/' + this.theme + '/images/learning/subject_btn.svg)'}"> 
                 <img :src="'src/assets/cardsAssets/colors/' + this.theme + '/images/learning/Artboard 4.svg'" class="icon">
                 <div class="subject">הכנס שם של נושא</div>
             </div>
@@ -31,15 +31,10 @@ export default {
 
 <style scoped>
     .title-input {
-        /* background-image:url("src/assets/colorNeutralAssets/home_header.svg");
-        background-repeat: no-repeat;
-        background-size: 100% 100%; */
         font-size: 1.7rem;
         border: none;
         background-color: transparent;
         text-align: center;
-        /* padding: 0.5rem 1rem 1rem; */
-        /* width: 20rem; */
         padding: 0.6rem 1.3rem 0.8rem;
         margin-top: 0.5rem;
         border-radius: 0.8rem;
@@ -53,10 +48,6 @@ export default {
         width: 20rem;
         height: fit-content;
     }
-
-    /* .title-input:focus {
-        padding: 0.6rem 1rem 1rem 1rem;
-    } */
 
     .flex-container {
         display: flex;
