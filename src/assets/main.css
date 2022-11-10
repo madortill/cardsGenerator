@@ -6,6 +6,7 @@ body {
 
 :root {
   font-size: calc(10px + 0.5vw);
+  --black: #000; 
 }
 
 @font-face {
