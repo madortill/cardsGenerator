@@ -9,7 +9,11 @@ import MainStage from './components/MainScreen.vue'
       data() {
         return {
           currentStage: 2,
-          theme: "lightBlue",
+          theme: {name: "lightBlue",
+                    primaryColor: "",
+                    secondaryColor: "",
+                    textColor: "",
+                    },
           cardsData: {
                 "title1": {
                     "icon": `../assets/images//learning/Artboard 4.svg`,
@@ -99,7 +103,11 @@ import MainStage from './components/MainScreen.vue'
                             ],
                         }
                     },
-                }
+                },
+                "title2" : {},
+                "title3" : {},
+                "title4" : {}
+
             },
         }
       },
@@ -131,3 +139,5 @@ import MainStage from './components/MainScreen.vue'
     direction: rtl;
   }
 </style>
+
+<!-- Add powershell file that enables to add new color (clone files and replace their colors based on three parameters). Add option to test it? -->
