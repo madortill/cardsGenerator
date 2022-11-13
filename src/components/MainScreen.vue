@@ -11,7 +11,7 @@
                 :style="{ backgroundImage: 'url(src/assets/cardsAssets/colors/' + this.theme + '/images/learning/subject_btn.svg)' }">
                 <div class="subject">הוספת נושא</div>
                 <div :style="{ backgroundImage: 'url(src/assets/cardsAssets/colors/' + this.theme + '/images/learning/Artboard_4.svg)' }" class="icon">
-                    <img src="src\assets\colorNeutralAssets\plus-small.svg" class="plus"/>
+                    <img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus"/>
                 </div>
             </div>
             <!-- <div class="learningCard"
