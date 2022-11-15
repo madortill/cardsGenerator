@@ -9,11 +9,13 @@
             <div class="cardsContainer">
                 <div class="learningCard"
                     :style="{ backgroundImage: 'url(src/assets/cardsAssets/colors/' + theme.name + '/images/learning/subject_btn.svg)' }"
-                    v-for="(value, index) in subjectArray" :key="'title' + index">
+                    v-for="(value, index) in subjectArray" :key="'title' + index"
+                    @click="$emit('go-to-subject', value)">
                     <div class="subject">{{ value }}</div>
                 </div>
                 <div class="learningCard"
-                    :style="{ backgroundImage: 'url(src/assets/cardsAssets/colors/' + theme.name + '/images/learning/subject_btn.svg)' }">
+                    :style="{ backgroundImage: 'url(src/assets/cardsAssets/colors/' + theme.name + '/images/learning/subject_btn.svg)' }"
+                    @click="$emit('go-to-subject', 'newSubject')">
                     <div class="subject">הוספת נושא</div>
                     <div :style="{ backgroundImage: 'url(src/assets/cardsAssets/colors/' + theme.name + '/images/learning/Artboard_4.svg)' }"
                         class="icon">

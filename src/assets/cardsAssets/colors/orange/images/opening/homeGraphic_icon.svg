@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 23.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 25.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 940.7 885.9" style="enable-background:new 0 0 940.7 885.9;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#F29C2D;}
-	.st1{fill:none;stroke:#4D2A0B;stroke-width:4;stroke-miterlimit:10;}
-	.st2{fill:none;stroke:#4D2A0B;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;}
+	.st0{fill:#ffa700;}
+	.st1{fill:none;stroke:#708FA0;stroke-width:4;stroke-miterlimit:10;}
+	.st2{fill:none;stroke:#708FA0;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;}
 	.st3{fill:#FFFFFF;}
 	.st4{fill:#FDDE2E;}
 	.st5{opacity:0.1;fill:none;stroke:#EF4230;stroke-width:5;stroke-miterlimit:10;enable-background:new    ;}
 	.st6{opacity:0.1;fill:none;stroke:#26A6E0;stroke-width:5;stroke-miterlimit:10;enable-background:new    ;}
-	.st7{opacity:0.15;fill:#F29C2D;enable-background:new    ;}
-	.st8{fill:none;stroke:#4D2A0B;stroke-width:4;stroke-linecap:round;stroke-miterlimit:10;}
-	.st9{opacity:0.2;fill:#F29C2D;enable-background:new    ;}
+	.st7{opacity:0.15;fill:#FCB328;enable-background:new    ;}
+	.st8{fill:none;stroke:#708FA0;stroke-width:4;stroke-linecap:round;stroke-miterlimit:10;}
+	.st9{opacity:0.2;fill:#FCB328;enable-background:new    ;}
 </style>
 <g id="גרפיקה" transform="translate(-69.648 -516.034)">
 	<g id="Group_10">
@@ -109,7 +109,7 @@
 			<path id="Path_55" class="st0" d="M393.3,1401.8l-205.1-37c-8.9-1.6-16.1-10.9-16.1-20.8V962.6c0-13,13.7-27.1,25.9-24.1
 				l195.3,46.2c8.9,1.6,16.1,10.9,16.1,20.8l8.7,373.3C418.1,1388.6,403.8,1403.5,393.3,1401.8z"/>
 			<path id="Path_56" class="st7" d="M390.9,1401.8l-209.8-37.9c-9.1-1.6-16.4-11.1-16.4-21.2V952.5c0-13.2,14-27.8,26.5-24.6
-				L391,975.1c9.1,1.6,16.4,11.1,16.4,21.2l8.9,381.9C416.3,1388.3,401.6,1403.6,390.9,1401.8z"/>
+				l199.8,47.2c9.1,1.6,16.4,11.1,16.4,21.2l8.9,381.9C416.3,1388.3,401.6,1403.6,390.9,1401.8z"/>
 			<line id="Line_41" class="st1" x1="233.6" y1="940.7" x2="237.3" y2="957.8"/>
 			<path id="Path_57" class="st2" d="M238.1,955.9l0.9,4c0.6,2.8-0.9,5.3-3.3,5.5l0,0c-2.4,0.2-4.9-1.9-5.5-4.7l-0.9-4l-4.3-20"/>
 			<path id="Path_58" class="st3" d="M402,1392.5l-205.1-37c-8.9-1.6-16.1-10.9-16.1-20.8V953.2c0-9.9,7.2-16.6,16.1-15l205.1,37
@@ -137,12 +137,12 @@
 		</g>
 	</g>
 	<g id="Group_20">
-		<path id="Rectangle_3" class="st9" d="M378,606.3h324c8.3,0,15,6.7,15,15v517.1c0,8.3-6.7,15-15,15H378c-8.3,0-15-6.7-15-15V621.3
+		<path id="Rectangle_3" class="st9" d="M378,606.3H702c8.3,0,15,6.7,15,15v517.1c0,8.3-6.7,15-15,15H378c-8.3,0-15-6.7-15-15V621.3
 			C363,613,369.7,606.3,378,606.3z"/>
 		<path id="Rectangle_4" class="st0" d="M392.8,626.3h294.5c8.3,0,15,6.7,15,15v486c0,8.3-6.7,15-15,15H392.8c-8.3,0-15-6.7-15-15
 			v-486C377.8,633,384.5,626.3,392.8,626.3z"/>
 		<line id="Line_54" class="st1" x1="449.5" y1="609.3" x2="454.6" y2="629.6"/>
-		<path id="Path_63" class="st2" d="M455.6,627l1.2,4.8c0.8,3.4-1.2,6.8-4.6,7.6l0,0l0,0c-3.4,0.8-6.8-1.2-7.6-4.6l-1.2-4.8
+		<path id="Path_63" class="st2" d="M455.6,627l1.2,4.8c0.8,3.4-1.2,6.8-4.6,7.6c0,0,0,0,0,0l0,0c-3.4,0.8-6.8-1.2-7.6-4.6l-1.2-4.8
 			l-5.9-23.7"/>
 		<path id="Rectangle_5" class="st3" d="M391.9,614.5h296.2c8.3,0,15,6.7,15,15v486c0,8.3-6.7,15-15,15H391.9c-8.3,0-15-6.7-15-15
 			v-486C376.9,621.2,383.6,614.5,391.9,614.5z"/>
@@ -163,7 +163,7 @@
 			<line id="Line_66" class="st6" x1="399" y1="1093.6" x2="703.1" y2="1093.6"/>
 		</g>
 		<g id="Group_19">
-			<path id="Path_65" class="st2" d="M433,635.9l-9.5-37.9c-1.5-6,2.1-12.1,8.2-13.6l0,0l0,0c6-1.5,12.1,2.2,13.6,8.2l4.2,16.7"/>
+			<path id="Path_65" class="st2" d="M433,635.9l-9.5-37.9c-1.5-6,2.1-12.1,8.2-13.6h0l0,0c6-1.5,12.1,2.2,13.6,8.2l4.2,16.7"/>
 			<path id="Path_66" class="st2" d="M427.3,612.9l8.9,35.6c2.1,8.5,10.7,13.6,19.2,11.5l0,0c8.5-2.1,13.6-10.7,11.5-19.2l-5.4-21.4
 				"/>
 		</g>

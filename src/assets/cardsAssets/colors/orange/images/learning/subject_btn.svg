@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 23.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 25.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 812.9 529.1" style="enable-background:new 0 0 812.9 529.1;" xml:space="preserve">
 <style type="text/css">
 	.st0{opacity:0.2;fill:#FCB328;enable-background:new    ;}
-	.st1{fill:none;stroke:#4D2A0B;stroke-width:7;stroke-miterlimit:10;}
-	.st2{fill:none;stroke:#4D2A0B;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;}
+	.st1{fill:none;stroke:#B3B3B3;stroke-width:7;stroke-miterlimit:10;}
+	.st2{fill:none;stroke:#708FA0;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;}
 	.st3{fill:#FFFFFF;}
 	.st4{fill:#FDDE2E;}
 	.st5{opacity:0.1;fill:none;stroke:#EF4230;stroke-width:7;stroke-miterlimit:10;enable-background:new    ;}
 	.st6{opacity:0.1;fill:none;stroke:#26A6E0;stroke-width:7;stroke-miterlimit:10;enable-background:new    ;}
+	.st7{fill:none;stroke:#708FA0;stroke-width:7;stroke-miterlimit:10;}
 </style>
 <g id="Component_4_22" transform="translate(0 3.524)">
 	<g id="Group_37" transform="translate(0 11.525)">
@@ -39,7 +40,7 @@
 	<g id="Group_40" transform="translate(122.242)">
 		<path id="Rectangle_11" class="st0" d="M690.5,125.8l-28.3,345.6c-1.7,20.5-19.7,35.8-40.3,34.2l-590-48.3
 			C11.4,455.6-3.9,437.6-2.3,417L26.1,71.3c1.7-20.5,19.7-35.8,40.3-34.2l590,48.3C676.9,87.2,692.2,105.2,690.5,125.8z"/>
-		<line id="Line_84" class="st1" x1="130.6" y1="37.2" x2="135.4" y2="66.4"/>
+		<line id="Line_84" class="st7" x1="130.6" y1="37.2" x2="135.4" y2="66.4"/>
 		<path id="Path_85" class="st2" d="M135.3,65.8l1.1,6.9c0.8,4.8-2.5,9.4-7.3,10.2l0,0l0,0c-4.8,0.8-9.4-2.5-10.2-7.3l0,0l-1.1-6.9
 			l-5.6-34"/>
 		<path id="Rectangle_12" class="st3" d="M677.6,132.5l-27,330.1c-1.7,20.5-19.7,35.8-40.3,34.2L44.8,450.4
@@ -62,7 +63,7 @@
 	<g id="Group_43" transform="translate(88.958 3.112)">
 		<path id="Rectangle_14" class="st0" d="M661.4,78.1v346.8c0,20.6-16.7,37.3-37.3,37.3H32c-20.6,0-37.3-16.7-37.3-37.3V78.1
 			c0-20.6,16.7-37.3,37.3-37.3h592C644.7,40.7,661.4,57.5,661.4,78.1z"/>
-		<line id="Line_91" class="st1" x1="96.1" y1="35.6" x2="103.3" y2="64.2"/>
+		<line id="Line_91" class="st7" x1="96.1" y1="35.6" x2="103.3" y2="64.2"/>
 		<path id="Path_89" class="st2" d="M103.1,63.7l1.7,6.8c1.2,4.7-1.7,9.5-6.4,10.7l0,0l0,0c-4.7,1.2-9.5-1.7-10.7-6.4L86,68
 			l-8.4-33.5"/>
 		<path id="Rectangle_15" class="st3" d="M649.1,85.8V417c0,20.6-16.7,37.3-37.3,37.3H44.3C23.7,454.4,7,437.7,7,417.1V85.8

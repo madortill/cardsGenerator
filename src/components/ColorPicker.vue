@@ -20,7 +20,42 @@ export default {
         secondaryColor: "#c23ac0",
         textColor:"#260129",
         gradient: "#e586d7"
-      }
+      },
+      orange: {
+        name: "orange",
+        primaryColor: "#FCB328",
+        secondaryColor: "#FDDE2E",
+        textColor:"#414042",
+        gradient: "#ffa700"
+      },
+      lightPurple: {
+        name: "lightPurple",
+        primaryColor: "#9E7FAD",
+        secondaryColor: "#9B6BAE",
+        textColor:"#414042",
+        gradient: "#3D2768"
+      },
+      darkBlue: {
+        name: "darkBlue",
+        primaryColor: "#223D6D",
+        secondaryColor: "#516FA5 ",
+        textColor:"#223d6d",
+        gradient: "#516FA5"
+      },
+      brown: {
+        name: "brown",
+        primaryColor: "#a7603b",
+        secondaryColor: "#8f4e2c",
+        textColor:"#361d10",
+        gradient: "#602003"
+      },
+      color: {
+        name: "",
+        primaryColor: "",
+        secondaryColor: "",
+        textColor:"",
+        gradient: ""
+      },
     }
   }
 }

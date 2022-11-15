@@ -1,26 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 23.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 35.5 35.5" style="enable-background:new 0 0 35.5 35.5;" xml:space="preserve">
-<style type="text/css">
-	.st0{fill:none;stroke:#F29C2D;stroke-width:6;stroke-linecap:round;}
-</style>
-<g id="Group_530" transform="translate(-829.143 -475.12)">
-	<g id="Group_440" transform="translate(833.386 479.363)">
-		<g id="Group_372" transform="translate(0 0) rotate(45)">
-			<path id="Path_490" class="st0" d="M38.2,0H0"/>
-		</g>
-		<g id="Group_468" transform="translate(0 0) rotate(45)">
-			<path id="Path_490-2" class="st0" d="M38.2,0H0"/>
-		</g>
-	</g>
-	<g id="Group_469" transform="translate(860.407 479.363) rotate(90)">
-		<g id="Group_372-2" transform="translate(0 0) rotate(45)">
-			<path id="Path_490-3" class="st0" d="M38.2,0H0"/>
-		</g>
-		<g id="Group_468-2" transform="translate(0 0) rotate(45)">
-			<path id="Path_490-4" class="st0" d="M38.2,0L0,0"/>
-		</g>
-	</g>
-</g>
+<svg xmlns="http://www.w3.org/2000/svg" width="35.507" height="35.507" viewBox="0 0 35.507 35.507">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #FDDE2E;
+        stroke-linecap: round;
+        stroke-width: 6px;
+      }
+    </style>
+  </defs>
+  <g id="Group_530" data-name="Group 530" transform="translate(-829.143 -475.12)">
+    <g id="Group_440" data-name="Group 440" transform="translate(833.386 479.363)">
+      <g id="Group_372" data-name="Group 372" transform="translate(0 0) rotate(45)">
+        <path id="Path_490" data-name="Path 490" class="cls-1" d="M38.214,0H0" transform="translate(0 0)"/>
+      </g>
+      <g id="Group_468" data-name="Group 468" transform="translate(0 0) rotate(45)">
+        <path id="Path_490-2" data-name="Path 490" class="cls-1" d="M38.214,0H0" transform="translate(0 0)"/>
+      </g>
+    </g>
+    <g id="Group_469" data-name="Group 469" transform="translate(860.407 479.363) rotate(90)">
+      <g id="Group_372-2" data-name="Group 372" transform="translate(0 0) rotate(45)">
+        <path id="Path_490-3" data-name="Path 490" class="cls-1" d="M38.214,0H0" transform="translate(0 0)"/>
+      </g>
+      <g id="Group_468-2" data-name="Group 468" transform="translate(0 0) rotate(45)">
+        <path id="Path_490-4" data-name="Path 490" class="cls-1" d="M38.214,0H0" transform="translate(0 0)"/>
+      </g>
+    </g>
+  </g>
 </svg>
