@@ -1,7 +1,7 @@
 <template>
     <div>
         <ColorPicker></ColorPicker>
-        <div class="flex-container"
+        <div class="grid-container"
             :style="{ backgroundImage: 'url(src/assets/cardsAssets/colors/' + theme.name + '/images/general/bg.svg)' }">
             <div class="input-container">
                 <input v-model="title" class="title-input" type="text" placeholder="שם הלומדה" @input="$emit('titleChange', this.title)" />
@@ -11,9 +11,6 @@
                     :style="{ backgroundImage: 'url(src/assets/cardsAssets/colors/' + theme.name + '/images/learning/subject_btn.svg)' }"
                     v-for="(value, index) in subjectArray" :key="'title' + index">
                     <div class="subject">{{ value }}</div>
-                    <!-- <div :style="{ backgroundImage: 'url(src/assets/cardsAssets/colors/' + this.theme + '/images/learning/Artboard_4.svg)' }" class="icon">
-                    <img src="src\assets\colorNeutralAssets\plus-small.svg" class="plus"/> -->
-                    <!-- </div> -->
                 </div>
                 <div class="learningCard"
                     :style="{ backgroundImage: 'url(src/assets/cardsAssets/colors/' + theme.name + '/images/learning/subject_btn.svg)' }">
@@ -24,11 +21,11 @@
                     </div>
                 </div>
                 <div class="button-container">
-                    <span class="button"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" />הוספת מבחן</span>
+                    <span class="button"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" /> הוספת מבחן</span>
                     <span class="button"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" />הוספת תרגול</span>
-    
                 </div>
             </div>
+            <div class="save-and-continue">שמירה והמשך</div>
         </div>
     </div>
 </template>
@@ -41,17 +38,28 @@ export default {
     data() {
         return {
             title: "",
+            color: "#000"
         };
     },
     component: {},
     props: {"subjectArray": Array, "theme": Object},
     methods: {},
+    computed: {},
     components: { ColorPicker },
 }
 
 </script>
 
 <style scoped>
+.grid-container {
+    height: 100vh;
+    width: 66.67vw;
+    position: absolute;
+    left: 0;
+    display: grid;
+    grid-template-rows: 1fr 7.3fr 0.7fr;
+}
+
 .title-input {
     font-size: 1.7rem;
     border: none;
@@ -66,19 +74,11 @@ export default {
     background-image: url("src/assets/colorNeutralAssets/home_header.svg");
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    padding: 3rem 0rem 2rem 2rem;
+    padding: 2rem 0rem 1rem 2rem;
     width: 20rem;
     height: fit-content;
-}
-
-.flex-container {
-    height: 100vh;
-    width: 66.67vw;
-    position: absolute;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    grid-area: 1/ 1/ span 1 / span 1;
+    justify-self: center;
 }
 
 .cardsContainer {
@@ -86,10 +86,13 @@ export default {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    max-height: 77vh;
+    grid-area: 2 / 1 / span 1 / span 1;
     width: 100%;
     gap: 1rem;
     overflow-y: auto;
+    transform: translateX(0%);
+    scrollbar-color: rgba(211, 211, 211, 0.685) darkgrey;
+    scrollbar-width: 15px;
 }
 
 .learningCard {
@@ -103,13 +106,15 @@ export default {
     justify-content: center;
     font-size: 2rem;
     text-align: center;
-    color: v-bind(color);
+}
+
+.subject {
+    color: v-bind("theme.textColor");
 }
 
 .icon {
     width: 1.6em;
     height: 1.6em;
-    /* position: relative; */
     top: 3em;
     left: 0.4em;
     margin-top: 1rem;
@@ -130,12 +135,7 @@ export default {
     width: 100%;
     display: flex;
     justify-content: center;
-
 }
-
-/* .button:nth-of-type(1) {
-    margin-right: 12rem;
-} */
 
 .button {
     color: white;
@@ -153,4 +153,38 @@ export default {
     top: 0.5rem;
     margin-left: 0.4rem; 
 }
+
+.save-and-continue {
+    background-color: v-bind('theme.textColor');
+    color: white;
+    z-index: 2;
+    padding: 0.5rem 1rem;
+    margin-left: 2rem;
+    border-radius: 0.4rem;
+    font-size: 1.1rem;
+    grid-area: 3/ 1/ span 1/ span 1;
+    align-self: center;
+    justify-self: flex-end;
+    width: fit-content;
+}
+
+.cardsContainer::-webkit-scrollbar {
+  width: 15px;
+}
+ 
+.cardsContainer::-webkit-scrollbar-track {
+  border-radius: 0.4rem;
+  background-color: rgba(211, 211, 211, 0.686);
+}
+
+ 
+.cardsContainer::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  border-radius: 0.4rem;   
+}
+
+.cardsContainer::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(136, 134, 134); 
+}
+
 </style>

@@ -10,9 +10,10 @@ import MainStage from './components/MainScreen.vue'
         return {
           currentStage: 2,
           theme: {name: "lightBlue",
-                    primaryColor: "",
-                    secondaryColor: "",
-                    textColor: "",
+                    primaryColor: "#20c5f2",
+                    secondaryColor: "#1de8f7",
+                    textColor: "#1c3f55",
+                    gradient: "red" //"#27c5f2"
                     },
           cardsData: {
                 "title1": {
@@ -106,7 +107,8 @@ import MainStage from './components/MainScreen.vue'
                 },
                 "title2" : {},
                 "title3" : {},
-                "title4" : {}
+                "title4" : {},
+                "title5" : {},
 
             },
         }
