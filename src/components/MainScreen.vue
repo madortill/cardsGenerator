@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ColorPicker></ColorPicker>
+        <ColorPicker :theme="theme"></ColorPicker>
         <div class="grid-container"
             :style="{ backgroundImage: 'url(src/assets/cardsAssets/colors/' + theme.name + '/images/general/bg.svg)' }">
             <div class="input-container">
