@@ -183,8 +183,8 @@ export default {
 
  
 .cardsContainer::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-  border-radius: 0.4rem;   
+    background-color: #e5e5e5;
+    border-radius: 0.4rem;
 }
 
 .cardsContainer::-webkit-scrollbar-thumb:hover {
