@@ -1,21 +1,18 @@
 <template>
     <div>
-        <ColorPicker :theme="theme"></ColorPicker>
+        <ColorPicker :theme="theme" @change-color="changeColor"></ColorPicker>
         <div class="grid-container"
             :style="{ backgroundImage: 'url(src/assets/cardsAssets/colors/' + theme.name + '/images/general/bg.svg)' }">
             <div class="input-container">
                 <input v-model="title" class="title-input" type="text" placeholder="שם הלומדה" @input="$emit('titleChange', this.title)" />
             </div>
             <div class="cardsContainer">
-                <div class="learningCard"
-                    :style="{ backgroundImage: 'url(src/assets/cardsAssets/colors/' + theme.name + '/images/learning/subject_btn.svg)' }"
-                    v-for="(value, index) in subjectArray" :key="'title' + index"
-                    @click="$emit('go-to-subject', value)">
+                <div class="learningCard" v-for="(value, index) in subjectArray" :key="'title' + index" @click="$emit('go-to-subject', value)">
+                    <learningCardSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></learningCardSvg>
                     <div class="subject">{{ value }}</div>
                 </div>
-                <div class="learningCard"
-                    :style="{ backgroundImage: 'url(src/assets/cardsAssets/colors/' + theme.name + '/images/learning/subject_btn.svg)' }"
-                    @click="$emit('go-to-subject', 'newSubject')">
+                <div class="learningCard"  @click="$emit('go-to-subject', 'newSubject')">
+                    <learningCardSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></learningCardSvg>
                     <div class="subject">הוספת נושא</div>
                     <div :style="{ backgroundImage: 'url(src/assets/cardsAssets/colors/' + theme.name + '/images/learning/Artboard_4.svg)' }"
                         class="icon">
@@ -34,6 +31,7 @@
 
 <script>
 import ColorPicker from './ColorPicker.vue';
+import learningCardSvg from './svg/learningCardSvg.vue';
 
 export default {
     name: "main-stage",
@@ -43,11 +41,14 @@ export default {
             color: "#000"
         };
     },
-    component: {},
     props: {"subjectArray": Array, "theme": Object},
-    methods: {},
+    methods: {
+        changeColor(theme) {
+            this.$emit("change-color", theme);
+        }
+    },
     computed: {},
-    components: { ColorPicker },
+    components: { ColorPicker, learningCardSvg },
 }
 
 </script>
@@ -108,6 +109,7 @@ export default {
     justify-content: center;
     font-size: 2rem;
     text-align: center;
+    position: relative;
 }
 
 .subject {
@@ -189,4 +191,8 @@ export default {
     background-color: rgb(136, 134, 134); 
 }
 
+.svg {
+    position: absolute;
+    z-index: -1;
+}
 </style>

@@ -113,6 +113,11 @@ import MainStage from './components/MainScreen.vue'
             },
         }
       },
+      methods: {
+        changeColor (newTheme) {
+            this.theme = newTheme;
+        }
+      }
     }
     
 </script>
@@ -121,7 +126,7 @@ import MainStage from './components/MainScreen.vue'
   <div id="app"> 
     <open-screen @next-stage="currentStage++" v-if="currentStage === 0"></open-screen>
     <instructions v-else-if="currentStage === 1"></instructions>
-    <main-stage v-else-if="currentStage === 2" :theme="theme" :subjectArray="Object.keys(this.cardsData)"></main-stage>
+    <main-stage v-else-if="currentStage === 2" :theme="theme" :subjectArray="Object.keys(this.cardsData)" @change-color="changeColor"></main-stage>
     <!-- <div>{{ cardsData }}</div> -->
     <!-- <div>{{Object.keys(this.cardsData)}}</div> -->
   </div>
@@ -139,6 +144,10 @@ import MainStage from './components/MainScreen.vue'
   * {
     font-family: Rubik;
     direction: rtl;
+  }
+
+  *:not(input) {
+    user-select: none;
   }
 </style>
 
