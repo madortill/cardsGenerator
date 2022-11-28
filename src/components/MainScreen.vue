@@ -8,16 +8,13 @@
             </div>
             <div class="cardsContainer">
                 <div class="learningCard" v-for="(value, index) in subjectArray" :key="'title' + index" @click="$emit('go-to-subject', value)">
-                    <learningCardSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></learningCardSvg>
+                    <LearningCardSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></LearningCardSvg>
                     <div class="subject">{{ value }}</div>
                 </div>
                 <div class="learningCard"  @click="$emit('go-to-subject', 'newSubject')">
-                    <learningCardSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></learningCardSvg>
+                    <LearningCardSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></LearningCardSvg>
                     <div class="subject">הוספת נושא</div>
-                    <div :style="{ backgroundImage: 'url(src/assets/cardsAssets/colors/' + theme.name + '/images/learning/Artboard_4.svg)' }"
-                        class="icon">
-                        <img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus" />
-                    </div>
+                    <CircleSvg class="icon" :textColor="theme.textColor"></CircleSvg>
                 </div>
                 <div class="button-container">
                     <span class="button"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" /> הוספת מבחן</span>
@@ -31,7 +28,8 @@
 
 <script>
 import ColorPicker from './ColorPicker.vue';
-import learningCardSvg from './svg/learningCardSvg.vue';
+import LearningCardSvg from './svg/learningCardSvg.vue';
+import CircleSvg from './svg/CircleSvg.vue'
 
 export default {
     name: "main-stage",
@@ -48,7 +46,7 @@ export default {
         }
     },
     computed: {},
-    components: { ColorPicker, learningCardSvg },
+    components: { ColorPicker, LearningCardSvg, CircleSvg },
 }
 
 </script>
@@ -147,6 +145,7 @@ export default {
     border-radius: 0.7rem;
     padding: 0.5rem 3rem 1rem;
     margin: 1rem 1rem;
+    cursor: pointer;
 }
 
 .plus-button {
@@ -188,7 +187,7 @@ export default {
 }
 
 .cardsContainer::-webkit-scrollbar-thumb:hover {
-    background-color: rgb(136, 134, 134); 
+    background-color: rgba(136, 134, 134, 0.658); 
 }
 
 .svg {

@@ -2,7 +2,7 @@
   <div class="container">
     <h1 class="title">בחרו צבע ללומדה</h1>
     <div class="image-flex">
-      <div class="color-div" v-for="color, index in colorArray" :key="color.name" :id="'color' + index" @click="changeTheme" :ref="'color' + index">
+      <div :class="['color-div', currentColorIndex === index ? 'chosen': '']" v-for="color, index in colorArray" :key="color.name" :id="'color' + index" @click="changeTheme" :ref="'color' + index">
         <Bg_svg class="background-sample" :primaryColor="color.primaryColor"></Bg_svg>
       </div>
     </div>
@@ -18,7 +18,7 @@ export default {
   props: ["theme"],
   data() {
     return {
-      currentColorEl: "",
+      currentColorIndex: 0,
       colorArray: [
         {
           name: "lightBlue",
@@ -41,7 +41,7 @@ export default {
         },{
           name: "lightPurple",
           primaryColor: "#9E7FAD",
-          secondaryColor: "#9B6BAE",
+          secondaryColor: "#562d66", //previous color: "#9B6BAE",
           textColor:"#414042",
           gradient: "#3D2768"
         },{
@@ -75,23 +75,10 @@ export default {
   },
   methods: {
     changeTheme(event) {
-      console.log("color " + this.currentColorEl);
-      if (this.currentColorEl) {
-        this.currentColorEl.style.border = "none";
-        this.currentColorEl.style.boxShadow = "none";
-        this.currentColorEl.style.margin = "0.5em";
-      }
-      console.log(event.currentTarget.id.slice(5));
-      this.currentColorEl = event.currentTarget;
-      event.currentTarget.style.border = "3.5px solid white"
-      event.currentTarget.style.boxShadow =  `${this.colorArray[event.currentTarget.id.slice(5)].primaryColor}c6 0px 0px 6px 3px` /* "rgb(110 110 110 / 82%) 4px 5px 6px -1px, rgb(191 191 191 / 76%) -6px -3px 12px -1px" */
-      event.currentTarget.style.margin = "calc(0.5em - 3.5px)"
-      this.$emit("change-color", this.colorArray[event.currentTarget.id.slice(5)])
+      this.currentColorIndex = Number(event.currentTarget.id.slice(5));
+      this.$emit("change-color", this.colorArray[event.currentTarget.id.slice(5)]);
     }
   },
-  mounted() {
-    this.currentColorEl = document.getElementById("color0")
-  }
 }
 </script>
 
@@ -127,9 +114,9 @@ export default {
       width: 6rem;
     }
 
-    #color0 {
+    .chosen {
       border: 3.5px solid white;
-      box-shadow:  #20c5f2c6 0px 0px 6px 3px;
+      box-shadow:  v-bind("colorArray[currentColorIndex].primaryColor + 'c6'") 0px 0px 6px 3px; 
       margin: calc(0.5em - 3.5px);
     }
 </style>
