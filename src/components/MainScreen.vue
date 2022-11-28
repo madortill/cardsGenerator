@@ -169,6 +169,7 @@ export default {
     align-self: center;
     justify-self: flex-end;
     width: fit-content;
+    cursor: pointer;
 }
 
 .cardsContainer::-webkit-scrollbar {

@@ -48,7 +48,7 @@ export default {
           name: "darkBlue",
           primaryColor: "#223D6D",
           secondaryColor: "#516FA5 ",
-          textColor:"#223d6d",
+          textColor:"#031520", // "#223d6d",
           gradient: "#516FA5"
         },{
           name: "brown",

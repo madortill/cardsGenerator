@@ -3,6 +3,11 @@
   $repoName = ((($repoURL -split "/")[4]) -split ("\."))[0]  
   write-output "Your repository name:  $repoName"
 
+# enter correct repo name to vite.config.js
+$data = Get-Content ".\vite.config.js"
+$data = $data.Replace("<REPO_NAME>", "$repoName")
+$data | Out-File -encoding ASCII ".\vite.config.js"
+
 # catch git errors function
   function Invoke-Utility {
     $exe, $argsForExe = $Args
@@ -15,7 +20,7 @@
   }
   Set-Alias iu Invoke-Utility
 
-
+  (Get-Content ./vite.config.js).replace('<REPO_NANE>'), $repoName | Set-Content ./vite.config.js
   npm i
   iu git init
   # make sure there isn't any registered remote
