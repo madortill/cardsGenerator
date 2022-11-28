@@ -17,6 +17,12 @@ iu git add -A
 iu git commit -m $commitMessage
 iu git push
 npm run build
+
+# delete uneccessary /
+$data = Get-Content ".\dist\index.html"
+$data = $data.Replace("/assets", "assets")
+$data | Out-File -encoding ASCII ".\dist\index.html"
+
 iu git add dist -f
 # -m specifies the commit message
 git commit -m 'adding dist subtree' 

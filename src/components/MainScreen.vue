@@ -8,11 +8,11 @@
             </div>
             <div class="cardsContainer">
                 <div class="learningCard" v-for="(value, index) in subjectArray" :key="'title' + index" @click="$emit('go-to-subject', value)">
-                    <LearningCardSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></LearningCardSvg>
+                    <SubjectBtnSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></SubjectBtnSvg>
                     <div class="subject">{{ value }}</div>
                 </div>
                 <div class="learningCard"  @click="$emit('go-to-subject', 'newSubject')">
-                    <LearningCardSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></LearningCardSvg>
+                    <SubjectBtnSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></SubjectBtnSvg>
                     <div class="subject">הוספת נושא</div>
                     <CircleSvg class="icon" :textColor="theme.textColor"></CircleSvg>
                 </div>
@@ -28,7 +28,7 @@
 
 <script>
 import ColorPicker from './ColorPicker.vue';
-import LearningCardSvg from './svg/learningCardSvg.vue';
+import SubjectBtnSvg from './svg/SubjectBtnSvg.vue';
 import CircleSvg from './svg/CircleSvg.vue'
 
 export default {
@@ -46,7 +46,7 @@ export default {
         }
     },
     computed: {},
-    components: { ColorPicker, LearningCardSvg, CircleSvg },
+    components: { ColorPicker, SubjectBtnSvg, CircleSvg },
 }
 
 </script>
