@@ -23,9 +23,17 @@ $data | Out-File -encoding ASCII ".\vite.config.js"
   (Get-Content ./vite.config.js).replace('<REPO_NANE>'), $repoName | Set-Content ./vite.config.js
   npm i
   iu git init
-  # make sure there isn't any registered remote
-  iu git add -A
+  
+  # add remote only if origin is not already defined
   git remote add origin $repoURL
+
+  # enter correct repo name to vite.config.js
+  $data = Get-Content ".\vite.config.js"
+  $data = $data.Replace("<REPO_NAME>", "$repoName")
+  $data | Out-File -encoding ASCII ".\vite.config.js"
+
+  # continue git workflow
+  iu git add -A
   git checkout -b master
   iu git commit -m 'first' 
   iu git push -u origin master
