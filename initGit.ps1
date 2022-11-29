@@ -15,7 +15,6 @@
   }
   Set-Alias iu Invoke-Utility
 
-  (Get-Content ./vite.config.js).replace('<REPO_NANE>'), $repoName | Set-Content ./vite.config.js
   npm i
   iu git init
 
