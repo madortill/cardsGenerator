@@ -1,8 +1,8 @@
 <template>
     <div>
         <ColorPicker :theme="theme" @change-color="changeColor"></ColorPicker>
-        <div class="grid-container"
-            :style="{ backgroundImage: 'url(src/assets/cardsAssets/colors/' + theme.name + '/images/general/bg.svg)' }">
+        <div class="grid-container">
+            <Bg_svg class="background" :primaryColor="theme.primaryColor"></Bg_svg>
             <div class="input-container">
                 <input v-model="title" class="title-input" type="text" placeholder="שם הלומדה" @input="$emit('titleChange', this.title)" />
             </div>
@@ -30,6 +30,7 @@
 import ColorPicker from './ColorPicker.vue';
 import SubjectBtnSvg from './svg/SubjectBtnSvg.vue';
 import CircleSvg from './svg/CircleSvg.vue';
+import Bg_svg from './svg/Bg_svg.vue';
 
 export default {
     name: "main-stage",
@@ -46,7 +47,7 @@ export default {
         }
     },
     computed: {},
-    components: { ColorPicker, SubjectBtnSvg, CircleSvg },
+    components: { ColorPicker, SubjectBtnSvg, CircleSvg, Bg_svg },
 }
 
 </script>
@@ -59,6 +60,13 @@ export default {
     left: 0;
     display: grid;
     grid-template-rows: 1fr 7.3fr 0.7fr;
+}
+
+.background {
+    position: absolute;
+    z-index: -1;
+    height: 100vh;
+    width: 66.67vw;
 }
 
 .title-input {
