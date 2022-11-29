@@ -15,20 +15,22 @@
   }
   Set-Alias iu Invoke-Utility
 
-  npm i
-  iu git init
+# check if connected to remote repo
+if ((git remote -v) -ne $null) {
+  Throw "This repository already exists in github! (has a remote)"
+}
 
-  # add remote only if origin is not already defined
-  git remote add origin $repoURL
-
-  # enter correct repo name to vite.config.js
+# replace <REPO_NAME> value in vite.config.js
   $data = Get-Content ".\vite.config.js"
   $data = $data.Replace("<REPO_NAME>", "$repoName")
   $data | Out-File -encoding ASCII ".\vite.config.js"
+  # (Get-Content ./vite.config.js).Replace('<REPO_NANE>', $repoName) | Set-Content ./vite.config.js
 
-  # continue git workflow
+  npm i
+  iu git init
+  iu git remote add origin $repoURL
   iu git add -A
-  git checkout -b master
+  iu git checkout -b master
   iu git commit -m 'first' 
   iu git push -u origin master
   write-output ""
