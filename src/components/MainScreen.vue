@@ -29,14 +29,14 @@
 <script>
 import ColorPicker from './ColorPicker.vue';
 import SubjectBtnSvg from './svg/SubjectBtnSvg.vue';
-import CircleSvg from './svg/CircleSvg.vue'
+import CircleSvg from './svg/CircleSvg.vue';
 
 export default {
     name: "main-stage",
     data() {
         return {
             title: "",
-            color: "#000"
+            // color: "#000",
         };
     },
     props: {"subjectArray": Array, "theme": Object},
@@ -72,7 +72,7 @@ export default {
 }
 
 .input-container {
-    background-image: url("src/assets/colorNeutralAssets/home_header.svg");
+    background-image: url("@/assets/colorNeutralAssets/home_header.svg");
     background-repeat: no-repeat;
     background-size: 100% 100%;
     padding: 2rem 0rem 1rem 2rem;
