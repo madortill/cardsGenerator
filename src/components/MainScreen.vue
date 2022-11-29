@@ -4,7 +4,7 @@
         <div class="grid-container">
             <Bg_svg class="background" :primaryColor="theme.primaryColor"></Bg_svg>
             <div class="input-container">
-                <input v-model="title" class="title-input" type="text" placeholder="שם הלומדה" @input="$emit('titleChange', this.title)" />
+                <input v-model="title" class="title-input" type="text" placeholder="שם הלומדה" @input="$emit('titleChange', title)" @focus="inputFocus" @focusout="inputFocus"/>
             </div>
             <div class="cardsContainer">
                 <div class="learningCard" v-for="(value, index) in subjectArray" :key="'title' + index" @click="$emit('go-to-subject', value)">
@@ -17,8 +17,8 @@
                     <CircleSvg class="icon" :textColor="theme.textColor"></CircleSvg>
                 </div>
                 <div class="button-container">
-                    <span class="button"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" /> הוספת מבחן</span>
-                    <span class="button"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" />הוספת תרגול</span>
+                    <span class="button" @click="$emit('to-exam')"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" /> הוספת מבחן</span>
+                    <span class="button" @click="$emit('to-practice')"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" />הוספת תרגול</span>
                 </div>
             </div>
             <div class="save-and-continue">שמירה והמשך</div>
@@ -44,6 +44,9 @@ export default {
     methods: {
         changeColor(theme) {
             this.$emit("change-color", theme);
+        },
+        inputFocus(event) {
+            event.currentTarget.getAttribute('placeholder') ?  event.currentTarget.setAttribute('placeholder', '') : event.currentTarget.setAttribute('placeholder', 'שם הלומדה');
         }
     },
     computed: {},
@@ -151,7 +154,7 @@ export default {
     color: white;
     border: white solid 0.1rem;
     border-radius: 0.7rem;
-    padding: 0.5rem 3rem 1rem;
+    padding: 0.1rem 2rem 0.7rem;
     margin: 1rem 1rem;
     cursor: pointer;
 }

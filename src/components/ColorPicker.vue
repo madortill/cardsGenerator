@@ -99,7 +99,7 @@ export default {
       display: flex;
       flex-wrap: wrap;
       margin: auto;
-      width: 21em;
+      max-width: 21em;
     }
 
     .background-sample {
@@ -110,8 +110,8 @@ export default {
 
     .color-div {
       margin: 0.5em;
-      height: 6rem;
-      width: 6rem;
+      height: 6em;
+      width: 6em;
     }
 
     .chosen {
