@@ -11,7 +11,6 @@
 
 <script>
 import Bg_svg from './svg/Bg_svg.vue'
-
 export default {
   components: { Bg_svg },
   name: "colorPicker",
@@ -42,8 +41,8 @@ export default {
           name: "lightPurple",
           primaryColor: "#9E7FAD",
           secondaryColor: "#562d66", //previous color: "#9B6BAE",
-          textColor:"#414042",
-          gradient: "#3D2768"
+          textColor:"#180926",
+          gradient: "#683f91" // previous color:  "#3D2768"
         },{
           name: "darkBlue",
           primaryColor: "#223D6D",
@@ -53,7 +52,7 @@ export default {
         },{
           name: "brown",
           primaryColor: "#a7603b",
-          secondaryColor: "#8f4e2c",
+          secondaryColor: "#5c321c",
           textColor:"#361d10",
           gradient: "#602003"
         },{

@@ -1,10 +1,10 @@
 <template>
     <div>
         <ColorPicker :theme="theme" @change-color="changeColor"></ColorPicker>
-        <div class="grid-container">
-            <Bg_svg class="background" :primaryColor="theme.primaryColor"></Bg_svg>
-            <div class="input-container">
-                <input v-model="title" class="title-input" type="text" placeholder="שם הלומדה" @input="$emit('titleChange', title)" @focus="inputFocus" @focusout="inputFocus"/>
+        <div class="grid subj-container">
+            <Bg_svg class="background svg" :primaryColor="theme.primaryColor"></Bg_svg>
+            <div class="paper-clip-title first-paper-clip">
+                <input v-model="title" class="paper-clip-content title-input" type="text" placeholder="הכניסו שם ללומדה" @input="$emit('title-change', title)" @focus="inputFocus" @focusout="inputFocus"/>
             </div>
             <div class="cardsContainer">
                 <div class="learningCard" v-for="(value, index) in subjectArray" :key="'title' + index" @click="$emit('go-to-subject', value)">
@@ -37,7 +37,6 @@ export default {
     data() {
         return {
             title: "",
-            // color: "#000",
         };
     },
     props: {"subjectArray": Array, "theme": Object},
@@ -46,7 +45,7 @@ export default {
             this.$emit("change-color", theme);
         },
         inputFocus(event) {
-            event.currentTarget.getAttribute('placeholder') ?  event.currentTarget.setAttribute('placeholder', '') : event.currentTarget.setAttribute('placeholder', 'שם הלומדה');
+            event.currentTarget.getAttribute('placeholder') ?  event.currentTarget.setAttribute('placeholder', '') : event.currentTarget.setAttribute('placeholder', "הכניסו שם ללומדה");
         }
     },
     computed: {},
@@ -56,41 +55,23 @@ export default {
 </script>
 
 <style scoped>
-.grid-container {
+.subj-container {
     height: 100vh;
     width: 66.67vw;
-    position: absolute;
-    left: 0;
-    display: grid;
-    grid-template-rows: 1fr 7.3fr 0.7fr;
 }
 
 .background {
-    position: absolute;
-    z-index: -1;
     height: 100vh;
     width: 66.67vw;
 }
 
 .title-input {
-    font-size: 1.7rem;
-    border: none;
-    background-color: transparent;
-    text-align: center;
-    padding: 0.6rem 1.3rem 0.8rem;
-    margin-top: 0.5rem;
-    border-radius: 0.8rem;
+    width: 24rem; 
 }
 
-.input-container {
-    background-image: url("@/assets/colorNeutralAssets/home_header.svg");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    padding: 2rem 0rem 1rem 2rem;
-    width: 20rem;
-    height: fit-content;
+.first-paper-clip {
+    width: 24rem;
     grid-area: 1/ 1/ span 1 / span 1;
-    justify-self: center;
 }
 
 .cardsContainer {
@@ -98,6 +79,7 @@ export default {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    align-content: flex-start;
     grid-area: 2 / 1 / span 1 / span 1;
     width: 100%;
     gap: 1rem;
@@ -119,6 +101,7 @@ export default {
     font-size: 2rem;
     text-align: center;
     position: relative;
+    cursor: pointer;
 }
 
 .subject {
@@ -136,10 +119,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.plus {
-    width: 1.5em;
 }
 
 .button-container {
@@ -200,10 +179,5 @@ export default {
 
 .cardsContainer::-webkit-scrollbar-thumb:hover {
     background-color: rgba(136, 134, 134, 0.658); 
-}
-
-.svg {
-    position: absolute;
-    z-index: -1;
 }
 </style>
