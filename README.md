@@ -1,4 +1,11 @@
 # Cards Lomda Generator
+clarity of code:
+    > theme = color set
+    > title = the name of the site as written in chrome tab (`<title>` tag)
+    > subject = main subject (נושא ראשי)
+    > secondary = secondary subject (תת-נושא)
+    > topic = card title 
+# deployment instructions
 This template should help get you started developing with Vue 2 in Vite.  
 It is a boilerplate create by the command "npm init@vue2".
 
