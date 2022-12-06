@@ -37,7 +37,6 @@ import EditStage from './components/EditStage.vue'
   <div id="app"> 
     <open-screen @next-stage="currentStage++" v-if="currentStage === 0"></open-screen>
     <instructions v-else-if="currentStage === 1"></instructions>
-    <!-- <main-stage v-else-if="currentStage === 2" :theme="theme" :subjectArray="Object.keys(this.cardsData)" @change-color="changeColor" @change-title="changeTitle"></main-stage> -->
     <edit-stage v-else-if="currentStage === 2"></edit-stage>
     <!-- <div>{{ cardsData }}</div> -->
     <!-- <div>{{Object.keys(this.cardsData)}}</div> -->

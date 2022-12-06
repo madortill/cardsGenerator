@@ -33,7 +33,7 @@
 <script>
 export default {
     name: "CircleSvg",
-    props: ["textColor"]
+    props: ["color"]
 }
 </script>
 
@@ -47,7 +47,7 @@ export default {
 }
 
 .cls-3 {
-    fill: v-bind("textColor");
+    fill: v-bind("color");
 }
 
 .cls-4 {
