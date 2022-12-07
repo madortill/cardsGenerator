@@ -7,10 +7,10 @@
                 <input v-model="newSubjName" class="subj-input paper-clip-content" type="text" placeholder="הכניסו את שם הנושא" @focus="inputFocus" @focusout="inputFocus"/>
             </div>
             <div class="secondary-container">
-                <Secondary  v-for="(secondary, index) in subjData['learningContent']" :key="('little-sbj-' + index)"></Secondary>
+                <Secondary  v-for="(secondaryData, secondaryKey, index) in subjData['learningContent']" :key="('secondary-' + index)" :secondaryName = "secondaryKey" :secondaryData = "secondaryData" :theme="theme"></Secondary>
                 <div class="button-container">
                     <span :class="[dynamicDisabled, 'button']" @click="addSecondary"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" /> הוספת תת נושא</span>
-                    <span class="button" @click="$emit('to-practice')" v-if="(subjData['learningContent'].length > 1)"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" />הוספת תרגול</span>
+                    <span class="button" @click="$emit('to-practice')" v-if="(Object.keys(subjData['learningContent']).length > 0)"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" />הוספת תרגול</span>
                 </div>
             </div>       
             <div class="save-and-exit">חזרה לדף הבית</div>
@@ -33,17 +33,13 @@ export default {
     },
     props: ["subjData", "chosenSubject", "theme"],
     methods: {
-        changeColor(theme) {
-            this.$emit("change-color", theme);
-        },
         inputFocus(event) {
             event.currentTarget.getAttribute('placeholder') ?  event.currentTarget.setAttribute('placeholder', '') : event.currentTarget.setAttribute('placeholder', "הכניסו את שם הנושא");
         },
         addSecondary () {
             if (this.dynamicDisabled !== "disabled") {
-                this.subjData["learningContent"]["הכנס תת-נושא"] =  {};
+                this.subjData["learningContent"][""] =  {};
                 this.dynamicDisabled = "disabled";
-                console.log(this.subjData);
             }
         },
     },
@@ -53,12 +49,14 @@ export default {
 <style scoped>
 .background {
     width: 100vw;
-    height: 100vh;
+    /* height: v-bind("Math.max(document.documentElement.scrollHeight)"); */
+    height: 100%;
 }
 
 .info-container {
-    height: 100vh;
     width: 100vw;
+    height: 100%;
+
 }
 
 .input-container {
@@ -70,9 +68,8 @@ export default {
     display: flex;
     flex-direction: column;
     grid-area: 2/ 1/ span 1 / span 1;
-    margin-top: 1rem;
+    margin: 1rem 10rem;
 }
-
 
 .button-container {
     display: block;
@@ -101,7 +98,7 @@ export default {
 }
 
 .save-and-exit {
-    background-color: v-bind('theme.textColor');
+    background-color: v-bind('theme.buttonsColor');
     color: white;
     z-index: 2;
     padding: 0.5rem 1rem;

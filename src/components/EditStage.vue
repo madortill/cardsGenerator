@@ -22,10 +22,11 @@ export default {
         primaryColor: "#20c5f2",
         secondaryColor: "#1de8f7",
         textColor: "#1c3f55",
-        gradient: "#27c5f2"
+        gradient: "#27c5f2",
+        buttonsColor: "#1c3f55"
       },
       cardsData: {
-        "הכנס שם של נושא": {
+        "נושא 1": {
           "icon": "../assets/images/learning/Artboard 4.svg",
           "amountOfQuestions": 2,
           "questionsExam": [

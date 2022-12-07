@@ -14,7 +14,7 @@
                 <div class="learningCard"  @click="$emit('go-to-subject', 'newSubject')">
                     <SubjectBtnSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></SubjectBtnSvg>
                     <div class="subject">הוספת נושא</div>
-                    <CircleSvg class="icon" :textColor="theme.textColor"></CircleSvg>
+                    <CircleSvg class="icon" :color="theme.buttonsColor"></CircleSvg>
                 </div>
                 <div class="button-container">
                     <span class="button" @click="$emit('to-exam')"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" /> הוספת מבחן</span>
@@ -90,8 +90,6 @@ export default {
 }
 
 .learningCard {
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
     height: 16rem;
     width: 24rem;
     display: flex;
@@ -148,7 +146,7 @@ export default {
 }
 
 .save-and-continue {
-    background-color: v-bind('theme.textColor');
+    background-color: v-bind('theme.buttonsColor');
     color: white;
     z-index: 2;
     padding: 0.5rem 1rem;
