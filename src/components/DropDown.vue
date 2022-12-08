@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div id="choose-btn" class="dropdown-btn" @click="toggleOptions"> {{ chosenOption }} <svg :class= "[arrowDirection, 'triangle', 'arrow']"> <!-- Add arrow --></svg></div>
+        <div id="choose-btn" class="dropdown-btn" @click="toggleOptions"> <span>{{ chosenOption }}</span> <svg :class= "[arrowDirection, 'triangle', 'arrow']"> <!-- Add arrow --></svg></div>
         <div class="options-container" v-show="showOptions">
-            <div class="disabled dropdown-btn option" v-show="placeholder"> {{ placeholder }}</div>
-            <div v-for="(value, key) in optionList" :key="key" @click="choosenOption" class="option dropdown-btn" :data-proper-name="key"> {{ value }}</div>
+            <div class="disabled option" v-show="placeholder"> {{ placeholder }}</div>
+            <div v-for="(value, key) in optionList" :key="key" @click="choosenOption" class="option" :data-proper-name="key"> {{ value }}</div>
         </div>
     </div>
 </template>
@@ -50,24 +50,40 @@ export default {
     display: flex;
     align-items: center;
     padding-right: 1rem;
+    padding-left: 1rem;
+    border-radius: 0.7rem;
+}
+
+#choose-btn span{
+    /* truncate */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .dropdown-btn {
-    min-width: 16rem;
+    width: 15rem;
     min-height: 3rem;
-    border-radius: 0.7rem;
 }
 
 .options-container {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    justify-content: space-around;
+    gap: 0.7rem;
     position: absolute;
     background-color: white;
+    border: solid black 2px;
+    border-radius: 0.7rem;
+    margin-top: 0.5rem;
+    padding: 0.4rem 0;
 }
 
 .option {
-    background-color: white;
+    color: rgb(59, 58, 58);
+    font-size: 0.9em;
+    height: fit-content;
+    width: 17rem;
 }
 
 .triangle {
@@ -91,9 +107,10 @@ export default {
 }
 
 .arrow {
-    position: absolute;
+    /* position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    left: 01rem;
+    left: 01rem; */
+    margin-right: auto;
 }
 </style>
