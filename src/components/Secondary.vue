@@ -8,9 +8,9 @@
       <div class="add-card-button">
         <CardSvg :color="theme.secondaryColor" class="svg learningCard"></CardSvg>
         <div class="text bold">איזו כרטיסיה תרצו להוסיף?</div>
-        <dropDown @choice="log" :optionList = "{'video': 'וידיאו מהמחשב', 'youtube': 'וידיאו מהיוטיוב', 'text': 'טקסט', 'pic-and-text': 'תמונה וכיתוב'}"></dropDown>
+        <dropDown @choice="saveChoice" :optionList = "{'video': 'וידיאו מהמחשב', 'youtube': 'וידיאו מהיוטיוב', 'text': 'טקסט', 'pic-and-text': 'תמונה וכיתוב'}"></dropDown>
         <!-- youtube, video-and-text, pic-and-text, text -->
-        <div class="button">הוספת כרטיסיה</div>
+        <div :class="['button', choice ? '' : 'invisible']" @click="addCard">הוספת כרטיסיה</div>
       </div>
     </div>
     <div class="flex-container"></div>
@@ -26,6 +26,8 @@ export default {
   data() {
     return {
       secondary: this.secondaryName,
+      data: this.secondaryData,
+      choice: ""
     }
   },
   props: ["subjData", "secondaryName", "secondaryData", "theme"],
@@ -33,8 +35,11 @@ export default {
     inputFocus(event) {
       event.currentTarget.getAttribute('placeholder') ? event.currentTarget.setAttribute('placeholder', '') : event.currentTarget.setAttribute('placeholder', "הכניסו תת-נושא");
     },
-    log(output) {
-      console.log(output);
+    saveChoice(cardType) {
+      this.choice = cardType;
+    },
+    addCard() {
+      this.secondaryData[""] = []
     }
   },
 }
@@ -67,7 +72,6 @@ input.secondary-name:focus {
   outline: none;
   outline: white solid 1px;
   padding: 0.2rem;
-  /* background-color: white; */
 }
 
 .cards-container {
@@ -108,4 +112,8 @@ input.secondary-name:focus {
     cursor: pointer;
 }
 
+.invisible {
+  visibility: hidden;
+  pointer-events: none;
+}
 </style>

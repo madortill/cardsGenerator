@@ -1,7 +1,6 @@
 <template>
     <div>
-        <!-- <Bg_svg class="background" :primaryColor="theme.primaryColor"></Bg_svg> -->
-        <div class="info-container grid">
+        <div class="info-container scrollStyle" ref="infoContainer">
             <Bg_svg class="background svg" :primaryColor="theme.primaryColor"></Bg_svg>
             <div class="input-container paper-clip-title">
                 <input v-model="newSubjName" class="subj-input paper-clip-content" type="text" placeholder="הכניסו את שם הנושא" @focus="inputFocus" @focusout="inputFocus"/>
@@ -12,8 +11,10 @@
                     <span :class="[dynamicDisabled, 'button']" @click="addSecondary"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" /> הוספת תת נושא</span>
                     <span class="button" @click="$emit('to-practice')" v-if="(Object.keys(subjData['learningContent']).length > 0)"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" />הוספת תרגול</span>
                 </div>
+            </div>
+            <div class="save-container">
+                <div class="save-and-exit">חזרה לדף הבית</div>
             </div>       
-            <div class="save-and-exit">חזרה לדף הבית</div>
         </div>
     </div>
 </template>
@@ -28,7 +29,8 @@ export default {
     data() {
         return {
             newSubjName: this.chosenSubject,
-            dynamicDisabled: "enabled"
+            dynamicDisabled: "enabled",
+            // scrollHeight: this.$el.querySelector('.info-container').scrollHeight,
         }
     },
     props: ["subjData", "chosenSubject", "theme"],
@@ -49,26 +51,33 @@ export default {
 <style scoped>
 .background {
     width: 100vw;
-    /* height: v-bind("Math.max(document.documentElement.scrollHeight)"); */
     height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 .info-container {
-    width: 100vw;
-    height: 100%;
-
+    width: 99.5vw;
+    height: 99.2vh;
+    overflow-x: hidden;
+    position: relative;
+    top: 0.4vh;
+    right: 0.25vw;
+    /* direction: ltr; */
 }
 
 .input-container {
     width: 24rem;
-    grid-area: 1/ 1/ span 1 / span 1;
+    margin: auto;
+
 }
 
 .secondary-container {
     display: flex;
     flex-direction: column;
-    grid-area: 2/ 1/ span 1 / span 1;
     margin: 1rem 10rem;
+    direction: rtl;
 }
 
 .button-container {
@@ -104,17 +113,21 @@ export default {
     padding: 0.5rem 1rem;
     margin-left: 2rem;
     border-radius: 0.4rem;
-    font-size: 1.3rem;
-    grid-area: 3/ 1/ span 1/ span 1;
-    align-self: center;
-    justify-self: flex-end;
+    font-size: 1.3rem;     
     width: fit-content;
     cursor: pointer;
+}
+
+.save-container {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
 }
 
 .disabled {
   background-color: #a6a6a6; 
   cursor: default;
 }
+
 
 </style>

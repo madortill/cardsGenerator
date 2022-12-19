@@ -6,7 +6,7 @@
             <div class="paper-clip-title first-paper-clip">
                 <input v-model="title" class="paper-clip-content title-input" type="text" placeholder="הכניסו שם ללומדה" @input="$emit('title-change', title)" @focus="inputFocus" @focusout="inputFocus"/>
             </div>
-            <div class="cardsContainer">
+            <div class="cardsContainer scrollStyle">
                 <div class="learningCard" v-for="(value, index) in subjectArray" :key="'title' + index" @click="$emit('go-to-subject', value)">
                     <SubjectBtnSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></SubjectBtnSvg>
                     <div class="subject">{{ value }}</div>
@@ -81,12 +81,11 @@ export default {
     justify-content: center;
     align-content: flex-start;
     grid-area: 2 / 1 / span 1 / span 1;
-    width: 100%;
+    width: 94.4%;
     gap: 1rem;
     overflow-y: auto;
     transform: translateX(0%);
-    scrollbar-color: rgba(211, 211, 211, 0.685) darkgrey;
-    scrollbar-width: 15px;
+    justify-self: center;
 }
 
 .learningCard {
@@ -158,24 +157,5 @@ export default {
     justify-self: flex-end;
     width: fit-content;
     cursor: pointer;
-}
-
-.cardsContainer::-webkit-scrollbar {
-  width: 15px;
-}
- 
-.cardsContainer::-webkit-scrollbar-track {
-  border-radius: 0.4rem;
-  background-color: rgba(211, 211, 211, 0.686);
-}
-
- 
-.cardsContainer::-webkit-scrollbar-thumb {
-    background-color: #e5e5e5;
-    border-radius: 0.4rem;
-}
-
-.cardsContainer::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(136, 134, 134, 0.658); 
 }
 </style>

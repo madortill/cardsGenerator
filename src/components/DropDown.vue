@@ -34,7 +34,6 @@ export default {
         choosenOption (event) {
             this.toggleOptions();
             this.chosenOption = event.currentTarget.innerHTML;
-            console.log(typeof(this.optionList))
             this.$emit("choice", typeof(this.optionList) === "object" ? event.currentTarget.dataset.properName: event.currentTarget.innerHTML)
         }
     },

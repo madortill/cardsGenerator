@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <div> hi {{ cardData }}</div>
   </div>
 </template>
 
@@ -10,7 +10,10 @@ export default {
     data() {
         return {}
     },
-    props: ["isQuestion", "topic", "cardData"]
+    props: ["isQuestion", "topic", "cardData"],
+    mounted() {
+      console.log("cardData: " + this.cardData)
+    }
 }
 </script>
 
