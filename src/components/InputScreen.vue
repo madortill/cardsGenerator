@@ -33,7 +33,7 @@ export default {
             // scrollHeight: this.$el.querySelector('.info-container').scrollHeight,
         }
     },
-    props: ["subjData", "chosenSubject", "theme"],
+    props: {"subjData": Object, "chosenSubject": String, "theme": Object},
     methods: {
         inputFocus(event) {
             event.currentTarget.getAttribute('placeholder') ?  event.currentTarget.setAttribute('placeholder', '') : event.currentTarget.setAttribute('placeholder', "הכניסו את שם הנושא");
@@ -45,6 +45,10 @@ export default {
             }
         },
     },
+    mounted () {
+        console.log(`theme:`);
+        console.log(this.theme);
+    }
 }
 </script>
 
@@ -116,6 +120,7 @@ export default {
     font-size: 1.3rem;     
     width: fit-content;
     cursor: pointer;
+    margin-bottom: 1rem;
 }
 
 .save-container {
