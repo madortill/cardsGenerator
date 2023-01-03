@@ -15,7 +15,7 @@ export default {
         return {
             showOptions: false,
             chosenOption: this.placeholder,
-            arrowDirection: "up-triangle"
+            arrowDirection: "down-triangle"
         }
     },
     props: {
@@ -29,7 +29,7 @@ export default {
     methods: {
         toggleOptions () {
             this.showOptions = !this.showOptions;
-            this.arrowDirection === "up-triangle" ? this.arrowDirection = "down-triangle" : this.arrowDirection = "up-triangle";
+            this.arrowDirection === "down-triangle" ? this.arrowDirection = "up-triangle" : this.arrowDirection = "down-triangle";
         },
         choosenOption (event) {
             this.toggleOptions();
@@ -90,14 +90,14 @@ export default {
     width: 0;
     height: 0;
 }
-.up-triangle {
+.down-triangle {
     border-top: solid black calc(var(--triangle-size) * 49.4/28.5);
     border-left: solid transparent var(--triangle-size);
     border-bottom: solid transparent 0;
     border-right: solid transparent var(--triangle-size);
     line-height: 0px;
 }
-.down-triangle {
+.up-triangle {
     border-top: solid transparent 0;
     border-left: solid transparent var(--triangle-size);
     border-bottom: solid black calc(var(--triangle-size) * 49.4/28.5);

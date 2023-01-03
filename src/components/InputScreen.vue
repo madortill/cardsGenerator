@@ -3,18 +3,32 @@
         <div class="info-container scrollStyle" ref="infoContainer">
             <Bg_svg class="background svg" :primaryColor="theme.primaryColor"></Bg_svg>
             <div class="input-container paper-clip-title">
-                <input v-model="newSubjName" class="subj-input paper-clip-content" type="text" placeholder="הכניסו את שם הנושא" @focus="inputFocus" @focusout="inputFocus"/>
+                <input v-model="newSubjName" class="subj-input paper-clip-content" type="text"
+                    placeholder="הכניסו את שם הנושא" @focus="inputFocus" @focusout="inputFocus"
+                    @input="checkValidity" />
+                    <div class="error-message error-message-position" ref="errorMessage">
+                        <div class="up-error-triangle triangle-position"></div>
+                        <div class="message">
+                            <img src="@/assets/colorNeutralAssets/triangle-warning.svg" alt="warning symbol" class="warning" />
+                            <span class="text">יש למלא את השדה</span>
+                        </div>
+                    </div>
             </div>
             <div class="secondary-container">
-                <Secondary  v-for="(secondaryData, secondaryKey, index) in subjData['learningContent']" :key="('secondary-' + index)" :secondaryName = "secondaryKey" :secondaryData = "secondaryData" :theme="theme"></Secondary>
+                <Secondary v-for="(secondaryData, secondaryKey, index) in subjData['learningContent']"
+                    :key="('secondary-' + index)" :secondaryName="secondaryKey" :secondaryData="secondaryData"
+                    :theme="theme"></Secondary>
                 <div class="button-container">
-                    <span :class="[dynamicDisabled, 'button']" @click="addSecondary"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" /> הוספת תת נושא</span>
-                    <span class="button" @click="$emit('to-practice')" v-if="(Object.keys(subjData['learningContent']).length > 0)"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" />הוספת תרגול</span>
+                    <span :class="['button', dynamicDisabled]" @click="addSecondary"><img src="@/assets/colorNeutralAssets/plus-small.svg"
+                            class="plus-button" /> הוספת תת נושא</span>
+                    <span class="button" @click="$emit('to-practice')"
+                        v-if="(Object.keys(subjData['learningContent']).length > 0)"><img
+                            src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" />הוספת תרגול</span>
                 </div>
             </div>
             <div class="save-container">
                 <div class="save-and-exit">חזרה לדף הבית</div>
-            </div>       
+            </div>
         </div>
     </div>
 </template>
@@ -24,31 +38,40 @@ import Bg_svg from './svg/Bg_svg.vue'
 import Secondary from './Secondary.vue'
 
 export default {
-  components: { Bg_svg, Secondary },
+    components: { Bg_svg, Secondary },
     name: "InputScreen",
     data() {
         return {
-            newSubjName: this.chosenSubject,
             dynamicDisabled: "enabled",
-            // scrollHeight: this.$el.querySelector('.info-container').scrollHeight,
+            newSubjName: this.chosenSubject,
         }
     },
-    props: {"subjData": Object, "chosenSubject": String, "theme": Object},
+    props: { "subjData": Object, "chosenSubject": String, "theme": Object },
     methods: {
         inputFocus(event) {
-            event.currentTarget.getAttribute('placeholder') ?  event.currentTarget.setAttribute('placeholder', '') : event.currentTarget.setAttribute('placeholder', "הכניסו את שם הנושא");
-        },
-        addSecondary () {
-            if (this.dynamicDisabled !== "disabled") {
-                this.subjData["learningContent"][""] =  {};
-                this.dynamicDisabled = "disabled";
+            if (event.currentTarget.getAttribute('placeholder')) {
+                event.currentTarget.setAttribute('placeholder', '')
+            } else {
+                event.currentTarget.setAttribute('placeholder', "הכניסו את שם הנושא");
+                if (!event.currentTarget.value) {
+                    console.log(document.querySelector(".error-message"));
+                    this.$refs.errorMessage.style.display = "block";
+                }
             }
         },
+        addSecondary() { 
+                console.log(this.subjData["learningContent"]);
+                console.log("key name " +  "secondary" + Object.keys(this.subjData["learningContent"]).length);
+                this.$set(this.subjData["learningContent"], ("secondary" + Object.keys(this.subjData["learningContent"]).length), {});
+                this.dynamicDisabled = "disabled";
+                // It only works when dynamicDisabled chsnges. Why?
+        }, 
+        checkValidity(event) {
+            if (event.currentTarget.value) {
+                this.$refs.errorMessage.style.display = "none";
+            }
+        }
     },
-    mounted () {
-        console.log(`theme:`);
-        console.log(this.theme);
-    }
 }
 </script>
 
@@ -107,7 +130,7 @@ export default {
     border-radius: 50%;
     position: relative;
     top: 0.5rem;
-    margin-left: 0.4rem; 
+    margin-left: 0.4rem;
 }
 
 .save-and-exit {
@@ -117,10 +140,12 @@ export default {
     padding: 0.5rem 1rem;
     margin-left: 2rem;
     border-radius: 0.4rem;
-    font-size: 1.3rem;     
+    font-size: 1.3rem;
     width: fit-content;
     cursor: pointer;
     margin-bottom: 1rem;
+    position: fixed;
+    bottom: 1vh;
 }
 
 .save-container {
@@ -129,10 +154,16 @@ export default {
     justify-content: flex-end;
 }
 
-.disabled {
-  background-color: #a6a6a6; 
-  cursor: default;
+.error-message-position {
+    right: 44vw;
+    top: 6.5rem;
 }
 
-
+.triangle-position {
+    right: 5rem;
+}
+.disabled {
+    background-color: #a6a6a6;
+    cursor: default;
+}
 </style>

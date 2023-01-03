@@ -1,15 +1,20 @@
 <template>
   <div>
     <span class="arrow">></span>
-    <input class="secondary-name" type="text" placeholder="הכניסו תת-נושא" @focus="inputFocus" @focusout="inputFocus"
-      v-model="secondary">
+    <input class="secondary-name" type="text" placeholder="הכניסו תת-נושא" @focus="inputFocus" @focusout="inputFocus" @input="checkValidity" v-model="secondary">
+      <div class="error-message error-message-position" ref="errorMessage">
+        <div class="up-error-triangle triangle-position"></div>
+        <div class="message">
+          <img src="@/assets/colorNeutralAssets/triangle-warning.svg" alt = "warning symbol" class="warning"/>
+          <span class="text">יש למלא את השדה</span>
+        </div>
+      </div>
     <div class="cards-container">
       <card v-for="(topic, data) in subjData" :key="topic" :topic="topic" :cardData="data" :isQuestion="false"></card>
       <div class="add-card-button">
         <CardSvg :color="theme.secondaryColor" class="svg learningCard"></CardSvg>
         <div class="text bold">איזו כרטיסיה תרצו להוסיף?</div>
         <dropDown @choice="saveChoice" :optionList = "{'video': 'וידיאו מהמחשב', 'youtube': 'וידיאו מהיוטיוב', 'text': 'טקסט', 'pic-and-text': 'תמונה וכיתוב'}"></dropDown>
-        <!-- youtube, video-and-text, pic-and-text, text -->
         <div :class="['button', choice ? '' : 'invisible']" @click="addCard">הוספת כרטיסיה</div>
       </div>
     </div>
@@ -25,7 +30,7 @@ export default {
   name: "Secondary",
   data() {
     return {
-      secondary: this.secondaryName,
+      secondary: this.secondaryName.includes("secondary") ? "" : this.secondaryName,
       data: this.secondaryData,
       choice: ""
     }
@@ -33,18 +38,30 @@ export default {
   props: ["subjData", "secondaryName", "secondaryData", "theme"],
   methods: {
     inputFocus(event) {
-      event.currentTarget.getAttribute('placeholder') ? event.currentTarget.setAttribute('placeholder', '') : event.currentTarget.setAttribute('placeholder', "הכניסו תת-נושא");
+      if (event.currentTarget.getAttribute('placeholder')) {
+          event.currentTarget.setAttribute('placeholder', '') ;
+      } else {
+        event.currentTarget.setAttribute('placeholder', "הכניסו תת-נושא");
+        if (!event.currentTarget.value) {
+          console.log(document.querySelector(".error-message"));
+          this.$refs.errorMessage.style.display = "block";
+        }
+      }
     },
     saveChoice(cardType) {
       this.choice = cardType;
     },
     addCard() {
       this.secondaryData[""] = []
+    },
+    checkValidity(event) {
+      if (event.currentTarget.value) {
+        this.$refs.errorMessage.style.display = "none";
+      }
     }
   },
 }
 </script>
-
 <style scoped>
 .arrow, .secondary-name {
   color: white;
@@ -56,6 +73,7 @@ export default {
   border: none;
   box-sizing: border-box;
   margin-right: 1rem;
+  padding: 0.2rem;
 }
 
 .secondary-name::placeholder {
@@ -71,7 +89,6 @@ input.secondary-name:focus {
   border-radius: 0.2rem;
   outline: none;
   outline: white solid 1px;
-  padding: 0.2rem;
 }
 
 .cards-container {
@@ -115,5 +132,13 @@ input.secondary-name:focus {
 .invisible {
   visibility: hidden;
   pointer-events: none;
+}
+
+.error-message-position {
+  right: 12.5rem;
+}
+
+.triangle-position {
+  right: 2.5rem;
 }
 </style>
