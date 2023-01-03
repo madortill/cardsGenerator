@@ -15,11 +15,11 @@
                     </div>
             </div>
             <div class="secondary-container">
-                <Secondary v-for="(secondaryData, secondaryKey, index) in subjData['learningContent']"
-                    :key="('secondary-' + index)" :secondaryName="secondaryKey" :secondaryData="secondaryData"
+                <Secondary v-for="(secondaryData, secondaryKey) in subjData['learningContent']"
+                    :key="secondaryKey" :secondaryName="secondaryKey" :secondaryData="secondaryData"
                     :theme="theme"></Secondary>
                 <div class="button-container">
-                    <span :class="['button', dynamicDisabled]" @click="addSecondary"><img src="@/assets/colorNeutralAssets/plus-small.svg"
+                    <span :class="['button', changesCounter]" @click="addSecondary"><img src="@/assets/colorNeutralAssets/plus-small.svg"
                             class="plus-button" /> הוספת תת נושא</span>
                     <span class="button" @click="$emit('to-practice')"
                         v-if="(Object.keys(subjData['learningContent']).length > 0)"><img
@@ -42,7 +42,7 @@ export default {
     name: "InputScreen",
     data() {
         return {
-            dynamicDisabled: "enabled",
+            changesCounter: 0,
             newSubjName: this.chosenSubject,
         }
     },
@@ -60,11 +60,10 @@ export default {
             }
         },
         addSecondary() { 
-                console.log(this.subjData["learningContent"]);
-                console.log("key name " +  "secondary" + Object.keys(this.subjData["learningContent"]).length);
-                this.$set(this.subjData["learningContent"], ("secondary" + Object.keys(this.subjData["learningContent"]).length), {});
-                this.dynamicDisabled = "disabled";
-                // It only works when dynamicDisabled chsnges. Why?
+                let newKey = `secondary ${Object.keys(this.subjData["learningContent"]).length}`;
+                console.log("learning content length: " + newKey);
+                    this.$set(this.subjData["learningContent"], newKey, {});
+                    console.log(this.subjData["learningContent"]);
         }, 
         checkValidity(event) {
             if (event.currentTarget.value) {
@@ -72,6 +71,10 @@ export default {
             }
         }
     },
+    mounted () {
+        console.log("mounted")
+        console.log(this.subjData["learningContent"]);
+    }
 }
 </script>
 
