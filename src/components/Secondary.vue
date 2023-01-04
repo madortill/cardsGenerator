@@ -9,33 +9,39 @@
           <span class="text">יש למלא את השדה</span>
         </div>
       </div>
-    <div class="cards-container">
-      <card v-for="(topic, data) in subjData" :key="topic" :topic="topic" :cardData="data" :isQuestion="false"></card>
-      <div class="add-card-button">
-        <CardSvg :color="theme.secondaryColor" class="svg learningCard"></CardSvg>
-        <div class="text bold">איזו כרטיסיה תרצו להוסיף?</div>
-        <dropDown @choice="saveChoice" :optionList = "{'video': 'וידיאו מהמחשב', 'youtube': 'וידיאו מהיוטיוב', 'text': 'טקסט', 'pic-and-text': 'תמונה וכיתוב'}"></dropDown>
-        <div :class="['button', choice ? '' : 'invisible']" @click="addCard">הוספת כרטיסיה</div>
+      <div class="overflow-container scrollStyle" @mousedown="detectSwipe" ref="overflowContainer" @wheel="wheel">
+        <div class="cards-container">
+          <!-- <div v-for="(cardsArray, topic) in secondaryData" :key="topic"> -->
+            <card v-for="(pageArray, topic) in secondaryData" :key="topic" :topic="topic" :pageArray="pageArray" :isQuestion="false" :theme = "theme"></card>
+          <!-- </div> -->
+          <div class="add-card-button">
+            <CardSvg :color="theme.secondaryColor" class="svg learningCard"></CardSvg>
+            <div class="text bold">איזו כרטיסיה תרצו להוסיף?</div>
+            <dropDown @choice="saveChoice" :optionList = "{'video': 'וידיאו מהמחשב', 'youtube': 'וידיאו מהיוטיוב', 'text': 'טקסט', 'pic-and-text': 'תמונה וכיתוב'}" :key="reRenderCounter"></dropDown>
+            <div :class="['button', choice ? '' : 'invisible']" @click="addCard">הוספת כרטיסיה</div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="flex-container"></div>
+    <!-- <div class="flex-container"></div> -->
   </div>
 </template>
 
 <script>
-import CardSvg from "./svg/CardSvg.vue"
-import dropDown from "./DropDown.vue"
+import CardSvg from "./svg/CardSvg.vue";
+import dropDown from "./DropDown.vue";
+import card from "./Card.vue";
+
 export default {
-  components: { CardSvg, dropDown },
+  components: { CardSvg, dropDown, card },
   name: "Secondary",
   data() {
     return {
       secondary: this.secondaryName.includes("secondary") ? "" : this.secondaryName,
-      data: this.secondaryData,
-      choice: ""
+      choice: "",
+      reRenderCounter: 0
     }
   },
-  props: ["subjData", "secondaryName", "secondaryData", "theme"],
+  props: ["secondaryName", "secondaryData", "theme"],
   methods: {
     inputFocus(event) {
       if (event.currentTarget.getAttribute('placeholder')) {
@@ -52,14 +58,42 @@ export default {
       this.choice = cardType;
     },
     addCard() {
-      this.secondaryData[""] = []
+      console.log("add card");
+      this.$set(this.secondaryData, `card${Object.keys(this.secondaryData).length}`, [{
+        cardType: this.choice,
+        content: ""
+      }]);
+      this.choice = "";
+      this.reRenderCounter++;
+      this.scrollToHorizontalEnd();
     },
     checkValidity(event) {
       if (event.currentTarget.value) {
         this.$refs.errorMessage.style.display = "none";
       }
+    },
+    async scrollToHorizontalEnd () {
+      await this.$nextTick() 
+      this.$refs.overflowContainer.scrollLeft = -this.$refs.overflowContainer.scrollWidth;
+      console.log(this.$refs.overflowContainer.scrollWidth);
+    },
+    detectSwipe (event) {
+
+    },
+    wheel (event) {
+      console.log(event.currentTarget.clientWidth)
+      if (event.currentTarget.scrollWidth > event.currentTarget.clientWidth) {
+        event.preventDefault()
+        event.currentTarget.scrollLeft = event.currentTarget.scrollLeft - 5 * event.deltaY;
+      }
+    },
+    scroll () {
+      console.log("scroll")
     }
   },
+  mounted () {
+    document.addEventListener("keydown", this.shiftListener);
+  }
 }
 </script>
 <style scoped>
@@ -95,6 +129,9 @@ input.secondary-name:focus {
   display: flex;
   flex-direction: row;
   margin-bottom: 2rem;
+  gap: 1.5rem;
+  width: fit-content;
+  height: fit-content;
 }
 
 .add-card-button {
@@ -140,5 +177,18 @@ input.secondary-name:focus {
 
 .triangle-position {
   right: 2.5rem;
+}
+
+.overflow-container {
+  width: 80vw;
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: 29rem;
+  margin-bottom: 1rem;
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 7px;
 }
 </style>
