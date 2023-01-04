@@ -1022,7 +1022,7 @@ export default {
           "amountOfQuestions": {},
           "questionsExam": {},
           "questionsPractice": {},
-          "learningContent": {"secondary0" : {}},
+          "learningContent": {},
         });
         subjName = "";
       }

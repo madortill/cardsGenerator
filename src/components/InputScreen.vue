@@ -60,10 +60,8 @@ export default {
             }
         },
         addSecondary() { 
-                let newKey = `secondary ${Object.keys(this.subjData["learningContent"]).length}`;
-                console.log("learning content length: " + newKey);
-                    this.$set(this.subjData["learningContent"], newKey, {});
-                    console.log(this.subjData["learningContent"]);
+            let newKey = `secondary ${Object.keys(this.subjData["learningContent"]).length}`;
+            this.$set(this.subjData["learningContent"], newKey, {});
         }, 
         checkValidity(event) {
             if (event.currentTarget.value) {
@@ -71,10 +69,6 @@ export default {
             }
         }
     },
-    mounted () {
-        console.log("mounted")
-        console.log(this.subjData["learningContent"]);
-    }
 }
 </script>
 

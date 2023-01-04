@@ -5,6 +5,7 @@ clarity of code:
     > subject = main subject (נושא ראשי)
     > secondary = secondary subject (תת-נושא)
     > topic = card title
+    > page = the part of the card we see (and can switch between)
 
 
 

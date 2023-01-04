@@ -9,7 +9,7 @@
           <span class="text">יש למלא את השדה</span>
         </div>
       </div>
-      <div class="overflow-container scrollStyle" @mousedown="detectSwipe" ref="overflowContainer" @wheel="wheel">
+      <div class="overflow-container scrollStyle" v-touch:swipe="handleSwipe" ref="overflowContainer">
         <div class="cards-container">
           <!-- <div v-for="(cardsArray, topic) in secondaryData" :key="topic"> -->
             <card v-for="(pageArray, topic) in secondaryData" :key="topic" :topic="topic" :pageArray="pageArray" :isQuestion="false" :theme = "theme"></card>
@@ -77,24 +77,13 @@ export default {
       this.$refs.overflowContainer.scrollLeft = -this.$refs.overflowContainer.scrollWidth;
       console.log(this.$refs.overflowContainer.scrollWidth);
     },
-    detectSwipe (event) {
-
+    handleSwipe (direction, event) {
+      console.log("swipe")
+      let pixelsToMove = direction === "right" ? 600 : -600;
+      event.currentTarget.scrollLeft = event.currentTarget.scrollLeft - pixelsToMove;
     },
-    wheel (event) {
-      console.log(event.currentTarget.clientWidth)
-      if (event.currentTarget.scrollWidth > event.currentTarget.clientWidth) {
-        event.preventDefault()
-        event.currentTarget.scrollLeft = event.currentTarget.scrollLeft - 5 * event.deltaY;
-      }
-    },
-    scroll () {
-      console.log("scroll")
-    }
-  },
-  mounted () {
-    document.addEventListener("keydown", this.shiftListener);
   }
-}
+} 
 </script>
 <style scoped>
 .arrow, .secondary-name {
