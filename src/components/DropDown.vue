@@ -83,6 +83,7 @@ export default {
     font-size: 0.9em;
     height: fit-content;
     width: 17rem;
+    cursor: pointer;
 }
 
 .triangle {
