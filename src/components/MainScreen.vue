@@ -2,9 +2,16 @@
     <div>
         <ColorPicker :theme="theme" @change-color="changeColor"></ColorPicker>
         <div class="grid subj-container">
-            <Bg_svg class="background svg" :primaryColor="theme.primaryColor"></Bg_svg>
+            <Bg_svg class="background svg" :color="theme.primaryColor"></Bg_svg>
             <div class="paper-clip-title first-paper-clip">
-                <input v-model="title" class="paper-clip-content title-input" type="text" placeholder="הכניסו שם ללומדה" @input="$emit('title-change', title)" @focus="inputFocus" @focusout="inputFocus"/>
+                <input v-model="title" class="paper-clip-content title-input" type="text" placeholder="הכניסו שם ללומדה" @input="checkValidity" @focus="inputFocus" @focusout="inputFocus"/>
+            </div>
+            <div class="error-message error-message-position" ref="errorMessage">
+                <div class="up-error-triangle triangle-position"></div>
+                <div class="message">
+                    <img src="@/assets/colorNeutralAssets/triangle-warning.svg" alt="warning symbol" class="warning" />
+                    <span class="text">יש למלא את השדה</span>
+                </div>
             </div>
             <div class="cardsContainer scrollStyle">
                 <div class="learningCard" v-for="(value, index) in subjectArray" :key="'title' + index" @click="$emit('go-to-subject', value)">
@@ -45,7 +52,20 @@ export default {
             this.$emit("change-color", theme);
         },
         inputFocus(event) {
-            event.currentTarget.getAttribute('placeholder') ?  event.currentTarget.setAttribute('placeholder', '') : event.currentTarget.setAttribute('placeholder', "הכניסו שם ללומדה");
+            if (event.currentTarget.getAttribute('placeholder')) {
+                event.currentTarget.setAttribute('placeholder', '')
+            } else {
+                event.currentTarget.setAttribute('placeholder', "הכניסו את שם הנושא");
+                if (!event.currentTarget.value) {
+                    this.$refs.errorMessage.style.display = "block";
+                }
+            }
+        },
+        checkValidity(event) {
+            if (event.currentTarget.value) {
+                this.$refs.errorMessage.style.display = "none";
+                this.$emit('title-change', this.title);
+            }
         }
     },
     computed: {},
@@ -157,5 +177,15 @@ export default {
     justify-self: flex-end;
     width: fit-content;
     cursor: pointer;
+}
+
+/* error message */
+.error-message-position {
+    right: 27.5vw;
+    top: 6.6rem;
+}
+
+.triangle-position {
+    right: 5rem;
 }
 </style>

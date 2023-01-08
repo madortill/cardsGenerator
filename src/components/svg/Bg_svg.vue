@@ -49,7 +49,7 @@
 <script>
 export default {
     name: "Bg_svg",
-    props: ["primaryColor"]
+    props: ["color"]
 }
 </script>
 
@@ -65,7 +65,7 @@ export default {
       }
 
       .cls-2 {
-        fill: v-bind("primaryColor");
+        fill: v-bind("color");
       }
 
       .cls-3 {

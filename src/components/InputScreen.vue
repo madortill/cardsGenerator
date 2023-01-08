@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="info-container scrollStyle" ref="infoContainer">
-            <Bg_svg class="background svg" :primaryColor="theme.primaryColor"></Bg_svg>
+            <Bg_svg class="background svg" :color="theme.primaryColor"></Bg_svg>
             <div class="input-container paper-clip-title">
                 <input v-model="newSubjName" class="subj-input paper-clip-content" type="text"
                     placeholder="הכניסו את שם הנושא" @focus="inputFocus" @focusout="inputFocus"
@@ -54,7 +54,6 @@ export default {
             } else {
                 event.currentTarget.setAttribute('placeholder', "הכניסו את שם הנושא");
                 if (!event.currentTarget.value) {
-                    console.log(document.querySelector(".error-message"));
                     this.$refs.errorMessage.style.display = "block";
                 }
             }
@@ -151,6 +150,7 @@ export default {
     justify-content: flex-end;
 }
 
+/* error message */
 .error-message-position {
     right: 44vw;
     top: 6.5rem;
