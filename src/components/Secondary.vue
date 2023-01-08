@@ -49,7 +49,6 @@ export default {
       } else {
         event.currentTarget.setAttribute('placeholder', "הכניסו תת-נושא");
         if (!event.currentTarget.value) {
-          console.log(document.querySelector(".error-message"));
           this.$refs.errorMessage.style.display = "block";
         }
       }
@@ -58,7 +57,6 @@ export default {
       this.choice = cardType;
     },
     addCard() {
-      console.log("add card");
       this.$set(this.secondaryData, `card${Object.keys(this.secondaryData).length}`, [{
         cardType: this.choice,
         content: ""
@@ -75,10 +73,8 @@ export default {
     async scrollToHorizontalEnd () {
       await this.$nextTick() 
       this.$refs.overflowContainer.scrollLeft = -this.$refs.overflowContainer.scrollWidth;
-      console.log(this.$refs.overflowContainer.scrollWidth);
     },
     handleSwipe (direction, event) {
-      console.log("swipe")
       let pixelsToMove = direction === "right" ? 600 : -600;
       event.currentTarget.scrollLeft = event.currentTarget.scrollLeft - pixelsToMove;
     },

@@ -86,6 +86,7 @@ body {
 .error-message {
   position: absolute;
   display: none;
+  z-index: 2;
 }
 
 .up-error-triangle {
