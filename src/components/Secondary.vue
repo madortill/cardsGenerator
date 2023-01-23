@@ -11,13 +11,11 @@
       </div>
       <div class="overflow-container scrollStyle" v-touch:swipe="handleSwipe" ref="overflowContainer">
         <div class="cards-container">
-          <!-- <div v-for="(cardsArray, topic) in secondaryData" :key="topic"> -->
             <card v-for="(pageArray, topic) in secondaryData" :key="topic" :topic="topic" :pageArray="pageArray" :isQuestion="false" :theme = "theme"></card>
-          <!-- </div> -->
           <div class="add-card-button">
             <CardSvg :color="theme.secondaryColor" class="svg learningCard"></CardSvg>
-            <div class="text bold">איזו כרטיסיה תרצו להוסיף?</div>
-            <dropDown @choice="saveChoice" :optionList = "{'video': 'וידיאו מהמחשב', 'youtube': 'וידיאו מהיוטיוב', 'text': 'טקסט', 'pic-and-text': 'תמונה וכיתוב'}" :key="reRenderCounter"></dropDown>
+            <div>איזו כרטיסיה תרצו להוסיף?</div>
+            <dropDown @choice="saveChoice" :optionList = "{'video': 'וידיאו מהמחשב', 'youtube': 'וידיאו מהיוטיוב', 'text': 'טקסט', 'picAndText': 'תמונה וכיתוב'}" :key="reRenderCounter"></dropDown>
             <div :class="['button', choice ? '' : 'invisible']" @click="addCard">הוספת כרטיסיה</div>
           </div>
         </div>

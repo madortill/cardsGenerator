@@ -132,7 +132,7 @@ export default {
 .save-and-exit {
     background-color: v-bind('theme.buttonsColor');
     color: white;
-    z-index: 2;
+    z-index: 1;
     padding: 0.5rem 1rem;
     margin-left: 2rem;
     border-radius: 0.4rem;
@@ -159,8 +159,8 @@ export default {
 .triangle-position {
     right: 5rem;
 }
-.disabled {
+/* .disabled {
     background-color: #a6a6a6;
     cursor: default;
-}
+} */
 </style>

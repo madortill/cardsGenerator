@@ -21,7 +21,7 @@
 
 <script>
 export default {
-    name: "learningCardSvg",
+    name: "CardSvg",
     props: ["color"]
 }
 </script>
