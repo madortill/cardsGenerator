@@ -85,7 +85,6 @@ body {
 /* Error message styling */
 .error-message {
   position: absolute;
-  display: none;
   z-index: 2;
 }
 
@@ -123,4 +122,8 @@ body {
 
 .message .text {
   padding-right: 0.5em;
+}
+
+.none {
+  display: none;
 }

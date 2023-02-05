@@ -3,7 +3,7 @@
         <CardSvg :color="theme.secondaryColor" class="svg learningCard"></CardSvg>
         <div>איזו כרטיסיה תרצו להוסיף?</div>
         <dropDown @choice="saveChoice"
-            :optionList="{ 'video': 'וידיאו מהמחשב', 'youtube': 'וידיאו מהיוטיוב', 'text': 'טקסט', 'picAndText': 'תמונה וכיתוב' }"
+            :optionList="{ 'videoAndText': 'וידיאו מהמחשב', 'youtube': 'וידיאו מהיוטיוב', 'text': 'טקסט', 'picAndText': 'תמונה וכיתוב' }"
             :key="reRenderCounter"></dropDown>
         <div :class="['add-card-button', choice ? '' : 'invisible']" @click="addCard">הוספת כרטיסיה</div>
     </div>
