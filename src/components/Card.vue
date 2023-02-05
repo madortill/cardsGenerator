@@ -7,7 +7,7 @@
         <div class="buttons-container">
           <page-button :class="['button', currentPage === 0 ? 'invisible' : '']" type="back" :color="theme.textColor" @btn-pressed="handleBtn"></page-button>
           <button class="remove-btn">הסרת עמוד</button>
-          <page-button class="button" v-if="currentPage === pageArray.length - 1" type="add" :color="theme.textColor" @btn-pressed="handleBtn"></page-button>
+          <page-button class="button" v-if="currentPage === pageArray.length - 1" type="add" :color="theme.textColor" @btn-pressed="handleBtn" title="הוספת עמוד"></page-button>
           <page-button class="button" type="next" :color="theme.textColor" @btn-pressed = "handleBtn" v-else></page-button>
         </div>
         <!-- dropdown -->

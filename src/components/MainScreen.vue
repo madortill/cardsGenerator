@@ -6,7 +6,7 @@
             <div class="paper-clip-title first-paper-clip">
                 <input v-model="title" class="paper-clip-content title-input" type="text" placeholder="הכניסו שם ללומדה" @input="checkValidity" @focus="inputFocus" @focusout="inputFocus"/>
             </div>
-            <div class="error-message error-message-position" ref="errorMessage">
+            <div :class="['error-message', 'error-message-position', showErrorMessage ? '': 'none']" ref="errorMessage">
                 <div class="up-error-triangle triangle-position"></div>
                 <div class="message">
                     <img src="@/assets/colorNeutralAssets/triangle-warning.svg" alt="warning symbol" class="warning" />
@@ -44,6 +44,7 @@ export default {
     data() {
         return {
             title: "",
+            showErrorMessage: false
         };
     },
     props: {"subjectArray": Array, "theme": Object},
@@ -57,13 +58,13 @@ export default {
             } else {
                 event.currentTarget.setAttribute('placeholder', "הכניסו את שם הנושא");
                 if (!event.currentTarget.value) {
-                    this.$refs.errorMessage.style.display = "block";
+                    this.showErrorMessage = true;
                 }
             }
         },
         checkValidity(event) {
             if (event.currentTarget.value) {
-                this.$refs.errorMessage.style.display = "none";
+                this.showErrorMessage = false;
                 this.$emit('title-change', this.title);
             }
         }

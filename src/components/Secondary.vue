@@ -1,25 +1,29 @@
 <template>
   <div>
     <span class="arrow">></span>
-    <input class="secondary-name" type="text" placeholder="הכניסו תת-נושא" @focus="inputFocus" @focusout="inputFocus" @input="checkValidity" v-model="secondary">
-      <div class="error-message error-message-position" ref="errorMessage">
-        <div class="up-error-triangle triangle-position"></div>
-        <div class="message">
-          <img src="@/assets/colorNeutralAssets/triangle-warning.svg" alt = "warning symbol" class="warning"/>
-          <span class="text">יש למלא את השדה</span>
+    <input class="secondary-name" type="text" placeholder="הכניסו תת-נושא" @focus="inputFocus" @focusout="inputFocus"
+      @input="checkValidity" v-model="secondary">
+    <div :class="['error-message', 'error-message-position', showErrorMessage ? '' : 'none']" ref="errorMessage">
+      <div class="up-error-triangle triangle-position"></div>
+      <div class="message">
+        <img src="@/assets/colorNeutralAssets/triangle-warning.svg" alt="warning symbol" class="warning" />
+        <span class="text">יש למלא את השדה</span>
+      </div>
+    </div>
+    <div class="overflow-container scrollStyle" v-touch:swipe="handleSwipe" ref="overflowContainer">
+      <div class="cards-container">
+        <card v-for="(pageArray, topic) in secondaryData" :key="topic" :topic="topic" :pageArray="pageArray"
+          :isQuestion="false" :theme="theme"></card>
+        <div class="add-card-button">
+          <CardSvg :color="theme.secondaryColor" class="svg learningCard"></CardSvg>
+          <div>איזו כרטיסיה תרצו להוסיף?</div>
+          <dropDown @choice="saveChoice"
+            :optionList="{ 'videoAndText': 'וידיאו מהמחשב', 'youtube': 'וידיאו מהיוטיוב', 'text': 'טקסט', 'picAndText': 'תמונה וכיתוב' }"
+            :key="reRenderCounter"></dropDown>
+          <div :class="['button', choice ? '' : 'invisible']" @click="addCard">הוספת כרטיסיה</div>
         </div>
       </div>
-      <div class="overflow-container scrollStyle" v-touch:swipe="handleSwipe" ref="overflowContainer">
-        <div class="cards-container">
-            <card v-for="(pageArray, topic) in secondaryData" :key="topic" :topic="topic" :pageArray="pageArray" :isQuestion="false" :theme = "theme"></card>
-          <div class="add-card-button">
-            <CardSvg :color="theme.secondaryColor" class="svg learningCard"></CardSvg>
-            <div>איזו כרטיסיה תרצו להוסיף?</div>
-            <dropDown @choice="saveChoice" :optionList = "{'videoAndText': 'וידיאו מהמחשב', 'youtube': 'וידיאו מהיוטיוב', 'text': 'טקסט', 'picAndText': 'תמונה וכיתוב'}" :key="reRenderCounter"></dropDown>
-            <div :class="['button', choice ? '' : 'invisible']" @click="addCard">הוספת כרטיסיה</div>
-          </div>
-        </div>
-      </div>
+    </div>
     <!-- <div class="flex-container"></div> -->
   </div>
 </template>
@@ -36,18 +40,19 @@ export default {
     return {
       secondary: this.secondaryName.includes("secondary") ? "" : this.secondaryName,
       choice: "",
-      reRenderCounter: 0
+      reRenderCounter: 0,
+      showErrorMessage: false
     }
   },
   props: ["secondaryName", "secondaryData", "theme"],
   methods: {
     inputFocus(event) {
       if (event.currentTarget.getAttribute('placeholder')) {
-          event.currentTarget.setAttribute('placeholder', '') ;
+        event.currentTarget.setAttribute('placeholder', '');
       } else {
         event.currentTarget.setAttribute('placeholder', "הכניסו תת-נושא");
         if (!event.currentTarget.value) {
-          this.$refs.errorMessage.style.display = "block";
+          this.showErrorMessage = true;
         }
       }
     },
@@ -65,14 +70,14 @@ export default {
     },
     checkValidity(event) {
       if (event.currentTarget.value) {
-        this.$refs.errorMessage.style.display = "none";
+        this.showErrorMessage = false;
       }
     },
-    async scrollToHorizontalEnd () {
-      await this.$nextTick() 
+    async scrollToHorizontalEnd() {
+      await this.$nextTick()
       this.$refs.overflowContainer.scrollLeft = -this.$refs.overflowContainer.scrollWidth;
     },
-    handleSwipe (direction, event) {
+    handleSwipe(direction, event) {
       let pixelsToMove = direction === "right" ? 600 : -600;
       event.currentTarget.scrollLeft = event.currentTarget.scrollLeft - pixelsToMove;
     },
@@ -80,7 +85,8 @@ export default {
 } 
 </script>
 <style scoped>
-.arrow, .secondary-name {
+.arrow,
+.secondary-name {
   color: white;
   font-size: 1.4rem;
 }
@@ -121,7 +127,7 @@ input.secondary-name:focus {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;  
+  justify-content: center;
   align-items: center;
   gap: 1rem;
   height: 27.2rem;
@@ -142,11 +148,11 @@ input.secondary-name:focus {
 
 .button {
   color: black;
-    border: black solid 0.1rem;
-    border-radius: 0.7rem;
-    padding: 0.5rem 1rem;
-    margin: 1rem 1rem;
-    cursor: pointer;
+  border: black solid 0.1rem;
+  border-radius: 0.7rem;
+  padding: 0.5rem 1rem;
+  margin: 1rem 1rem;
+  cursor: pointer;
 }
 
 .invisible {

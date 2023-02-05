@@ -6,7 +6,7 @@
                 <input v-model="newSubjName" class="subj-input paper-clip-content" type="text"
                     placeholder="הכניסו את שם הנושא" @focus="inputFocus" @focusout="inputFocus"
                     @input="checkValidity" />
-                    <div class="error-message error-message-position" ref="errorMessage">
+                    <div :class="['error-message', 'error-message-position', showErrorMessage ? '': 'none']" ref="errorMessage">
                         <div class="up-error-triangle triangle-position"></div>
                         <div class="message">
                             <img src="@/assets/colorNeutralAssets/triangle-warning.svg" alt="warning symbol" class="warning" />
@@ -44,6 +44,7 @@ export default {
         return {
             changesCounter: 0,
             newSubjName: this.chosenSubject,
+            showErrorMessage: false
         }
     },
     props: { "subjData": Object, "chosenSubject": String, "theme": Object },
@@ -54,7 +55,7 @@ export default {
             } else {
                 event.currentTarget.setAttribute('placeholder', "הכניסו את שם הנושא");
                 if (!event.currentTarget.value) {
-                    this.$refs.errorMessage.style.display = "block";
+                    this.showErrorMessage = true;
                 }
             }
         },
@@ -64,7 +65,7 @@ export default {
         }, 
         checkValidity(event) {
             if (event.currentTarget.value) {
-                this.$refs.errorMessage.style.display = "none";
+                this.showErrorMessage = false;
             }
         }
     },
