@@ -1,7 +1,7 @@
 <template>
   <div>
     <div  v class="card">
-      <CardSvg :color="theme.secondaryColor" class="svg learningCard"></CardSvg>
+      <CardSvg :color="theme.secondaryColor"></CardSvg>
         <div v-if="currentPageObj.cardType === 'text'"> I recognize </div>
         <card-input :cardType="currentPageObj.cardType"></card-input>
         <div class="buttons-container">
@@ -80,12 +80,6 @@ export default {
   width: 20rem;
   font-size: 1.6rem;
   text-align: center;
-}
-
-.learningCard {
-  height: 100%;
-  width: 100%;
-  right: 0.4rem;
 }
 
 .remove-btn {

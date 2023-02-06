@@ -24,7 +24,7 @@ export default {
                 {type: [Array, Object],
                     required: true,
                 },
-            "placeholder": String
+            "placeholder": String,
         },
     methods: {
         toggleOptions () {

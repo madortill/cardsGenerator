@@ -3,7 +3,7 @@
         <div class="black-screen" v-if="cancelable"></div>
         <div :class="['card', cancelable ? 'dropdown': '']">
             <CloseBtnSvg alt='cancel' :color="theme.textColor" class="close-btn" @click.native="$emit('cancel')" v-if="cancelable"></CloseBtnSvg>
-            <CardSvg :color="theme.secondaryColor" class="svg learningCard"></CardSvg>
+            <CardSvg :color="theme.secondaryColor"></CardSvg>
             <div>איזו כרטיסיה תרצו להוסיף?</div>
             <DropDown @choice="saveChoice"
                 :optionList="{ 'videoAndText': 'וידיאו מהמחשב', 'youtube': 'וידיאו מהיוטיוב', 'text': 'טקסט', 'picAndText': 'תמונה וכיתוב' }"></DropDown>
@@ -52,11 +52,6 @@ export default {
   text-align: center;
 }
 
-.learningCard {
-  height: 100%;
-  width: 100%;
-  right: 0.4rem;
-}
 
 .button {
   color: black;

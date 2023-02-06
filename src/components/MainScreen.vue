@@ -14,11 +14,11 @@
                 </div>
             </div>
             <div class="cardsContainer scrollStyle">
-                <div class="learningCard" v-for="(value, index) in subjectArray" :key="'title' + index" @click="$emit('go-to-subject', value)">
+                <div class="subjCard" v-for="(value, index) in subjectArray" :key="'title' + index" @click="$emit('go-to-subject', value)">
                     <SubjectBtnSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></SubjectBtnSvg>
                     <div class="subject">{{ value }}</div>
                 </div>
-                <div class="learningCard"  @click="$emit('go-to-subject', 'newSubject')">
+                <div class="subjCard"  @click="$emit('go-to-subject', 'newSubject')">
                     <SubjectBtnSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></SubjectBtnSvg>
                     <div class="subject">הוספת נושא</div>
                     <CircleSvg class="icon" :color="theme.buttonsColor"></CircleSvg>
@@ -109,7 +109,7 @@ export default {
     justify-self: center;
 }
 
-.learningCard {
+.subjCard {
     height: 16rem;
     width: 24rem;
     display: flex;
