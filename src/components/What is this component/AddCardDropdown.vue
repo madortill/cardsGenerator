@@ -46,9 +46,4 @@ export default {
   text-align: center;
 }
 
-.learningCard {
-  height: 100%;
-  width: 100%;
-  right: 0.4rem;
-}
 </style>

@@ -1,16 +1,16 @@
 <template>
     <div id="DropDownCard">
-        <div class="black-screen"></div>
-        <div class="card dropdown">
-            <CloseBtnSvg alt='cancel' :color="theme.textColor" class="close-btn" @click.native="$emit('cancel')"></CloseBtnSvg>
+        <div class="black-screen" v-if="cancelable"></div>
+        <div :class="['card', cancelable ? 'dropdown': '']">
+            <CloseBtnSvg alt='cancel' :color="theme.textColor" class="close-btn" @click.native="$emit('cancel')" v-if="cancelable"></CloseBtnSvg>
             <CardSvg :color="theme.secondaryColor" class="svg learningCard"></CardSvg>
             <div>איזו כרטיסיה תרצו להוסיף?</div>
             <DropDown @choice="saveChoice"
-                :optionList="{ 'videovideoAndText': 'וידיאו מהמחשב', 'youtube': 'וידיאו מהיוטיוב', 'text': 'טקסט', 'picAndText': 'תמונה וכיתוב' }"></DropDown>
+                :optionList="{ 'videoAndText': 'וידיאו מהמחשב', 'youtube': 'וידיאו מהיוטיוב', 'text': 'טקסט', 'picAndText': 'תמונה וכיתוב' }"></DropDown>
             <div>
-                <div :class="['button', 'btn-bg', choice ? '' : 'disabled']" @click="$emit('add-page', choice)" id="add-page">הוספת עמוד
+                <div :class="['button', 'btn-bg', choice ? '' : 'disabled']" @click="$emit('add-page', choice)" id="add-page" v-show="choice || cancelable">הוספת עמוד
                 </div>
-                <div class="button" @click="$emit('cancel')" id="cancel">ביטול הוספה</div>
+                <div class="button" @click="$emit('cancel')" id="cancel" v-if="cancelable">ביטול הוספה</div>
             </div>
         </div>
     </div>
@@ -24,7 +24,7 @@ import CloseBtnSvg from "./svg/CloseBtnSvg.vue";
 export default {
     name: "DropDownCard",
     components: { DropDown, CardSvg, CloseBtnSvg },
-    props: ["theme"],
+    props: {"theme": Object, "cancelable": Boolean},
     data() {
         return {
             choice: ""

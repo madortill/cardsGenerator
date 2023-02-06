@@ -14,34 +14,27 @@
       <div class="cards-container">
         <card v-for="(pageArray, topic) in secondaryData" :key="topic" :topic="topic" :pageArray="pageArray"
           :isQuestion="false" :theme="theme"></card>
-        <div class="add-card-button">
-          <CardSvg :color="theme.secondaryColor" class="svg learningCard"></CardSvg>
-          <div>איזו כרטיסיה תרצו להוסיף?</div>
-          <dropDown @choice="saveChoice"
-            :optionList="{ 'videoAndText': 'וידיאו מהמחשב', 'youtube': 'וידיאו מהיוטיוב', 'text': 'טקסט', 'picAndText': 'תמונה וכיתוב' }"
-            :key="reRenderCounter"></dropDown>
-          <div :class="['button', choice ? '' : 'invisible']" @click="addCard">הוספת כרטיסיה</div>
+        <div>
+          <DropDownCard :theme="theme" @add-page="addCard" :key="reRenderCounter"></DropDownCard>
         </div>
       </div>
     </div>
-    <!-- <div class="flex-container"></div> -->
   </div>
 </template>
 
 <script>
 import CardSvg from "./svg/CardSvg.vue";
-import dropDown from "./DropDown.vue";
+import DropDownCard from "./DropDownCard.vue";
 import card from "./Card.vue";
 
 export default {
-  components: { CardSvg, dropDown, card },
+  components: { CardSvg, DropDownCard, card },
   name: "Secondary",
   data() {
     return {
       secondary: this.secondaryName.includes("secondary") ? "" : this.secondaryName,
-      choice: "",
-      reRenderCounter: 0,
-      showErrorMessage: false
+      showErrorMessage: false,
+      reRenderCounter: 0
     }
   },
   props: ["secondaryName", "secondaryData", "theme"],
@@ -56,15 +49,11 @@ export default {
         }
       }
     },
-    saveChoice(cardType) {
-      this.choice = cardType;
-    },
-    addCard() {
+    addCard(choice) {
       this.$set(this.secondaryData, `card${Object.keys(this.secondaryData).length}`, [{
-        cardType: this.choice,
+        cardType: choice,
         content: ""
       }]);
-      this.choice = "";
       this.reRenderCounter++;
       this.scrollToHorizontalEnd();
     },
@@ -123,42 +112,6 @@ input.secondary-name:focus {
   height: fit-content;
 }
 
-.add-card-button {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  height: 27.2rem;
-  width: 20rem;
-  font-size: 1.6rem;
-  text-align: center;
-}
-
-.add-card-button select {
-  width: 50%;
-}
-
-.learningCard {
-  height: 100%;
-  width: 100%;
-  right: 0.4rem;
-}
-
-.button {
-  color: black;
-  border: black solid 0.1rem;
-  border-radius: 0.7rem;
-  padding: 0.5rem 1rem;
-  margin: 1rem 1rem;
-  cursor: pointer;
-}
-
-.invisible {
-  visibility: hidden;
-  pointer-events: none;
-}
 
 .error-message-position {
   right: 12.5rem;

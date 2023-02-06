@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div id="choose-btn" class="dropdown-btn" @click="toggleOptions"> <span>{{ chosenOption }}</span> <svg :class= "[arrowDirection, 'triangle', 'arrow']"> <!-- Add arrow --></svg></div>
+        <div id="choose-btn" class="dropdown-btn" @click="toggleOptions"> <span>{{ chosenOption }}</span> <svg :class= "[arrowDirection, 'triangle', 'arrow']"></svg></div>
         <div class="options-container" v-show="showOptions">
             <div class="disabled option" v-show="placeholder"> {{ placeholder }}</div>
             <div v-for="(value, key) in optionList" :key="key" @click="choosenOption" class="option" :data-proper-name="key"> {{ value }}</div>
@@ -107,10 +107,6 @@ export default {
 }
 
 .arrow {
-    /* position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 01rem; */
     margin-right: auto;
 }
 </style>

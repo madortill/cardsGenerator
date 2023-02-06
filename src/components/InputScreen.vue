@@ -21,9 +21,8 @@
                 <div class="button-container">
                     <span :class="['button', changesCounter]" @click="addSecondary"><img src="@/assets/colorNeutralAssets/plus-small.svg"
                             class="plus-button" /> הוספת תת נושא</span>
-                    <span class="button" @click="$emit('to-practice')"
-                        v-if="(Object.keys(subjData['learningContent']).length > 0)"><img
-                            src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" />הוספת תרגול</span>
+                    <span class="button" @click="$emit('to-practice')" v-if="(Object.keys(subjData['learningContent']).length > 0)">
+                        <img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" />הוספת תרגול</span>
                 </div>
             </div>
             <div class="save-container">

@@ -11,7 +11,7 @@
           <page-button-svg class="button" type="next" :color="theme.textColor" @btn-pressed = "handleBtn" v-else></page-button-svg>
         </div>
         
-        <DropDownCard v-if="isPopupShown" :theme="theme" @add-page="addCard" @cancel="closePopup"></DropDownCard>
+        <DropDownCard v-if="isPopupShown" :theme="theme" @add-page="addCard" @cancel="closePopup" cancelable></DropDownCard>
     </div>
   </div>
 </template>
@@ -29,7 +29,6 @@ export default {
     return {
       currentPage: 0,
       isPopupShown: false,
-      reRenderCounter: 0,
       choice: ""
     }
   },
@@ -63,7 +62,6 @@ export default {
     closePopup() {
       console.log("closed");
       this.choice = "";
-      this.reRenderCounter++;
       this.isPopupShown = false;
     }
   }

@@ -1,7 +1,7 @@
 <template>
 <!-- Generator: Adobe Illustrator 23.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg preserveAspectRatio="none" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 884.9 1412.1" style="enable-background:new 0 0 884.9 1412.1;" xml:space="preserve" class="svg size">
+	 viewBox="0 0 884.9 1412.1" style="enable-background:new 0 0 884.9 1412.1;" xml:space="preserve" class="svg learningCard">
 <g id="Group_561" transform="translate(52.67 3.969)">
 	<line id="Line_103" class="st0" x1="78.9" y1="43.7" x2="86.7" y2="78.8"/>
 	<path id="Path_459" class="st0" d="M85.7,74.3l1.9,8.3c1.3,5.8-1.9,11.7-7,13.1l0,0c-5.2,1.5-10.4-2.1-11.7-7.9l-1.9-8.3l-9.2-41"
@@ -31,4 +31,13 @@ export default {
 	.st1{fill:#FFFFFF;}
 	.st2{fill:v-bind("color");}
 	.st3{fill:none;stroke:#B3B3B3;stroke-width:8;stroke-miterlimit:10;}
+	.svg {
+  		position: absolute;
+  		z-index: -1;
+	}
+	.learningCard {
+		height: 100%;
+		width: 100%;
+		right: 0.4rem;
+	}
 </style>
