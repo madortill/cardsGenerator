@@ -1,0 +1,107 @@
+<template>
+    <div id="DropDownCard">
+        <div class="black-screen"></div>
+        <div class="card dropdown">
+            <CloseBtnSvg alt='cancel' :color="theme.textColor" class="close-btn" @click.native="$emit('cancel')"></CloseBtnSvg>
+            <CardSvg :color="theme.secondaryColor" class="svg learningCard"></CardSvg>
+            <div>איזו כרטיסיה תרצו להוסיף?</div>
+            <DropDown @choice="saveChoice"
+                :optionList="{ 'videovideoAndText': 'וידיאו מהמחשב', 'youtube': 'וידיאו מהיוטיוב', 'text': 'טקסט', 'picAndText': 'תמונה וכיתוב' }"></DropDown>
+            <div>
+                <div :class="['button', 'btn-bg', choice ? '' : 'disabled']" @click="$emit('add-page', choice)" id="add-page">הוספת עמוד
+                </div>
+                <div class="button" @click="$emit('cancel')" id="cancel">ביטול הוספה</div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import DropDown from "./DropDown.vue";
+import CardSvg from "./svg/CardSvg.vue";
+import CloseBtnSvg from "./svg/CloseBtnSvg.vue";
+
+export default {
+    name: "DropDownCard",
+    components: { DropDown, CardSvg, CloseBtnSvg },
+    props: ["theme"],
+    data() {
+        return {
+            choice: ""
+        }
+    },
+    methods: {
+        saveChoice(cardType) {
+            this.choice = cardType;
+        },
+    }
+}
+</script>
+
+<style scoped>
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  
+  align-items: center;
+  gap: 1rem;
+  height: 27.2rem;
+  width: 20rem;
+  font-size: 1.6rem;
+  text-align: center;
+}
+
+.learningCard {
+  height: 100%;
+  width: 100%;
+  right: 0.4rem;
+}
+
+.button {
+  color: black;
+    border: black solid 0.1rem;
+    border-radius: 0.7rem;
+    padding: 0.5rem 1.5rem;
+    margin: 1rem 1rem;
+    cursor: pointer;
+}
+
+.black-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.767);
+  z-index: 2;
+  /* pointer-events: none; */
+  cursor: default;
+}
+
+.btn-bg {
+  background: v-bind("theme.secondaryColor");
+}
+
+.dropdown {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+}
+
+.disabled {
+    background-color: #a6a6a6;
+    cursor: default;
+    pointer-events: none;
+}
+
+.close-btn {
+  max-width: 7%;
+  position: relative;
+  margin: 0;
+  top: -6%;
+  left: 38%;
+  cursor: pointer;
+}
+</style>
