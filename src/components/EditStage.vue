@@ -1,7 +1,7 @@
 <template>
   <div>
-    <mainStage v-if="(currentStage === 'main')" :theme="theme" :subjectArray="Object.keys(this.cardsData)"
-      @change-color="changeColor" @change-title="updateThings(newValue, 'title')" @go-to-subject="goToSubj"></mainStage>
+    <mainScreen v-if="(currentStage === 'main')" :theme="theme" :subjectArray="Object.keys(this.cardsData)"
+      @change-color="changeColor" @change-title="updateThings(newValue, 'title')" @go-to-subject="goToSubj"></mainScreen>
     <Input-screen v-else-if="(currentStage === 'input')" :subjData="this.cardsData[chosenSubject]" :chosenSubject="chosenSubject" :theme="theme"></Input-screen>
     <!-- <add-questions type = "test" v-else-if="(currentStage === 'test')"></add-questions> -->
     <!-- <add-questions type = "practice" v-else-if="(currentStage === 'practice')"></add-questions> -->
@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import MainStage from './MainScreen.vue'
+import MainScreen from './MainScreen.vue'
 import InputScreen from './InputScreen.vue'
 export default {
-  components: { MainStage, InputScreen },
+  components: { MainScreen, InputScreen },
   data() {
     return {
       currentStage: 'main',
