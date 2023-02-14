@@ -1018,12 +1018,12 @@ export default {
     },
     goToSubj(subjName) {
       if (subjName === "newSubject") {
-        this.$set(this.cardsData, "", {
+        this.cardsData[""] = {
           "amountOfQuestions": {},
           "questionsExam": {},
           "questionsPractice": {},
           "learningContent": {},
-        });
+        };
         subjName = "";
       }
       this.currentStage = "input";

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="Secondary">
     <span class="arrow">></span>
     <input class="secondary-name" type="text" placeholder="הכניסו תת-נושא" @focus="inputFocus" @focusout="inputFocus"
       @input="checkValidity" v-model="secondary">
@@ -50,10 +50,10 @@ export default {
       }
     },
     addCard(choice) {
-      this.$set(this.secondaryData, `card${Object.keys(this.secondaryData).length}`, [{
+      this.secondaryData[`card${Object.keys(this.secondaryData).length}`] = [{
         cardType: choice,
         content: ""
-      }]);
+      }];
       this.reRenderCounter++;
       this.scrollToHorizontalEnd();
     },

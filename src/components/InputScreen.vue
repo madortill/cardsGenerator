@@ -60,7 +60,7 @@ export default {
         },
         addSecondary() { 
             let newKey = `secondary ${Object.keys(this.subjData["learningContent"]).length}`;
-            this.$set(this.subjData["learningContent"], newKey, {});
+            this.subjData["learningContent"][newKey] =  {};
         }, 
         checkValidity(event) {
             if (event.currentTarget.value) {

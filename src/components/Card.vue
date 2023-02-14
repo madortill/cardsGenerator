@@ -52,7 +52,7 @@ export default {
       this.choice = cardType;
     },
     addCard(choice) {
-      this.$set(this.pageArray, this.pageArray.length, {
+      this.pageArray.push({
         cardType: choice,
         content: ""
       });
