@@ -34,13 +34,11 @@ import EditStage from './components/EditStage.vue'
 </script>
 
 <template>
-  <div id="app"> 
+  <!-- <div id="app">  -->
     <open-screen @next-stage="currentStage++" v-if="currentStage === 0"></open-screen>
     <instructions v-else-if="currentStage === 1"></instructions>
     <edit-stage v-else-if="currentStage === 2"></edit-stage>
-    <!-- <div>{{ cardsData }}</div> -->
-    <!-- <div>{{Object.keys(this.cardsData)}}</div> -->
-  </div>
+  <!-- </div> -->
 </template>
 
 

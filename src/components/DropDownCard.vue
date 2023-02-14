@@ -2,7 +2,7 @@
     <div id="DropDownCard">
         <div class="black-screen" v-if="cancelable"></div>
         <div :class="['card', cancelable ? 'dropdown': '']">
-            <CloseBtnSvg alt='cancel' :color="theme.textColor" class="close-btn" @click.native="$emit('cancel')" v-if="cancelable"></CloseBtnSvg>
+            <CloseBtnSvg :color="theme.textColor" class="close-btn" @click="$emit('cancel')" v-if="cancelable"></CloseBtnSvg>
             <CardSvg :color="theme.secondaryColor"></CardSvg>
             <div>איזו כרטיסיה תרצו להוסיף?</div>
             <DropDown @choice="saveChoice"
@@ -25,6 +25,7 @@ export default {
     name: "DropDownCard",
     components: { DropDown, CardSvg, CloseBtnSvg },
     props: {"theme": Object, "cancelable": Boolean},
+    emits: ['cancel', 'add-page'],
     data() {
         return {
             choice: ""
@@ -98,5 +99,6 @@ export default {
   top: -6%;
   left: 38%;
   cursor: pointer;
+  z-index: 99;
 }
 </style>

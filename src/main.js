@@ -1,12 +1,12 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 import './assets/main.css'
-import Vue2TouchEvents from 'vue2-touch-events'
+import Vue3TouchEvents from 'vue3-touch-events'
 
-Vue.use(Vue2TouchEvents, {
+const app = createApp(App)
+
+app.use(Vue3TouchEvents, {
   swipeTolerance: 75,
 })
 
-new Vue({
-  render: (h) => h(App)
-}).$mount('#app')
+app.mount('#app')
