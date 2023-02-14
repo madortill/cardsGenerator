@@ -3,6 +3,7 @@
     <span class="arrow">></span>
     <input class="secondary-name" type="text" placeholder="הכניסו תת-נושא" @focus="inputFocus" @focusout="inputFocus"
       @input="checkValidity" v-model="secondary">
+      <!-- Error message -->
     <div :class="['error-message', 'error-message-position', showErrorMessage ? '' : 'none']" ref="errorMessage">
       <div class="up-error-triangle triangle-position"></div>
       <div class="message">
@@ -10,6 +11,7 @@
         <span class="text">יש למלא את השדה</span>
       </div>
     </div>
+
     <div class="overflow-container scrollStyle" v-touch:swipe="handleSwipe" ref="overflowContainer">
       <div class="cards-container">
         <card v-for="(pageArray, topic) in secondaryData" :key="topic" :topic="topic" :pageArray="pageArray"
@@ -114,11 +116,11 @@ input.secondary-name:focus {
 
 
 .error-message-position {
-  right: 12.5rem;
+  right: 11.5rem;
 }
 
 .triangle-position {
-  right: 2.5rem;
+  right: 5.5rem;
 }
 
 .overflow-container {
