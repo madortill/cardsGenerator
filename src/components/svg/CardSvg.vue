@@ -1,6 +1,5 @@
 <template>
-<!-- Generator: Adobe Illustrator 23.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg preserveAspectRatio="none" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+<svg preserveAspectRatio="none" version="1.1" id="CardSvg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 884.9 1412.1" style="enable-background:new 0 0 884.9 1412.1;" xml:space="preserve" class="svg learningCard">
 <g id="Group_561" transform="translate(52.67 3.969)">
 	<line id="Line_103" class="st0" x1="78.9" y1="43.7" x2="86.7" y2="78.8"/>

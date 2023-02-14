@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="InputScreen">
         <div class="info-container scrollStyle" ref="infoContainer">
             <Bg_svg class="background svg" :color="theme.primaryColor"></Bg_svg>
             <div class="input-container paper-clip-title">

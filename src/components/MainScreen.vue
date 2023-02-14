@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="MainScreen">
         <ColorPicker :theme="theme" @change-color="changeColor"></ColorPicker>
         <div class="grid subj-container">
             <Bg_svg class="background svg" :color="theme.primaryColor"></Bg_svg>

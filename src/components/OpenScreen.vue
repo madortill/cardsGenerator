@@ -1,5 +1,5 @@
 <template>
-    <div class="open-screen">
+    <div class="open-screen" id="OpenScreen">
         <div class="content">
             <div class="title">ברוכים הבאים למחולל לומדת כרטיסיות</div>
             <div class="text">בעזרת המחולל אתם תוכלו ליצור לומדה חדשה בעצמכם, עם תוכן שמותאם לקורס שאתם מעבירים.​

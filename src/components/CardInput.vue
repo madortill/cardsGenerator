@@ -1,5 +1,5 @@
 <template>
-    <div class="card-input">
+    <div class="card-input" id="CardInput">
         <div v-if="cardType === 'text'">
             <textarea type="text" ref="input"></textarea>
         </div>

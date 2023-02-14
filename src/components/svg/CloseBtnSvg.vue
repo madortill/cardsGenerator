@@ -1,5 +1,5 @@
 <template>
-        <svg alt='cancel' version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+        <svg alt='cancel' version="1.1" id="CloseBtnSvg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
             x="0px" y="0px" viewBox="0 0 38.2 38.2" style="enable-background:new 0 0 38.2 38.2;" xml:space="preserve">
             <g id="Group_470" transform="translate(-827.729 -473.706)">
                 <g id="Group_440" transform="translate(635.21 575.488)">

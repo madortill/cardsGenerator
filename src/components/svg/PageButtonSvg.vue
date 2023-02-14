@@ -1,5 +1,5 @@
 <template>
-        <svg xmlns="http://www.w3.org/2000/svg" width="104" height="88.526" viewBox="0 0 104 88.526" :class="type" @click="$emit('btn-pressed', type)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="104" height="88.526" viewBox="0 0 104 88.526" :class="type" @click="$emit('btn-pressed', type)" id="PageButtonSvg">
             <g v-if="type === 'next'" id="Group_361" data-name="Group 361" transform="translate(-332.686 -1002.877)">
                 <rect id="Rectangle_47" data-name="Rectangle 47" class="cls-1" width="98" height="82.526" rx="27"
                     transform="translate(335.686 1005.877)" />

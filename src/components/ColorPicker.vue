@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" id="ColorPicker">
     <h1 class="title">בחרו צבע ללומדה</h1>
     <div class="image-flex">
       <div :class="['color-div', currentColorIndex === index ? 'chosen': '']" v-for="color, index in colorArray" :key="color.name" :id="'color' + index" @click="changeTheme" :ref="'color' + index">

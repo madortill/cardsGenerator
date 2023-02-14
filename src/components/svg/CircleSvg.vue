@@ -1,5 +1,5 @@
 <template>
-    <svg id="a2fef945-8ab9-446e-a895-61ff21b8686e" xmlns="http://www.w3.org/2000/svg"
+    <svg id="CircleSvg" xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 94 94">
         <defs>
             <clipPath id="clip-path">

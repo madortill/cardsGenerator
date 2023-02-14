@@ -1,5 +1,5 @@
 <template>
-  <svg preserveAspectRatio="none" id="Component_1_23" data-name="Component 1 – 23" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080.11" height="1920.44" viewBox="0 0 1080.11 1920.44">
+  <svg preserveAspectRatio="none" id="BgSvg" data-name="Component 1 – 23" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1080.11" height="1920.44" viewBox="0 0 1080.11 1920.44">
   <defs>
     <clipPath id="clip-path">
       <rect id="Rectangle_2" data-name="Rectangle 2" class="cls-1" width="1080" height="1920" transform="translate(1080.11 -1996.931)"/>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="EditStage">
     <mainScreen v-if="(currentStage === 'main')" :theme="theme" :subjectArray="Object.keys(this.cardsData)"
       @change-color="changeColor" @change-title="updateThings(newValue, 'title')" @go-to-subject="goToSubj"></mainScreen>
     <Input-screen v-else-if="(currentStage === 'input')" :subjData="this.cardsData[chosenSubject]" :chosenSubject="chosenSubject" :theme="theme"></Input-screen>

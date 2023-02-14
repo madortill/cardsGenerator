@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="DropDown">
         <div id="choose-btn" class="dropdown-btn" @click="toggleOptions"> <span>{{ chosenOption }}</span> <svg :class= "[arrowDirection, 'triangle', 'arrow']"></svg></div>
         <div class="options-container" v-show="showOptions">
             <div class="disabled option" v-show="placeholder"> {{ placeholder }}</div>

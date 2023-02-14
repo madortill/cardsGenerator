@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div  v class="card">
+  <div id="Card">
+    <div class="card">
       <CardSvg :color="theme.secondaryColor"></CardSvg>
         <div v-if="currentPageObj.cardType === 'text'"> I recognize </div>
         <card-input :cardType="currentPageObj.cardType"></card-input>
