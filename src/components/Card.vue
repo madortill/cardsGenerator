@@ -2,6 +2,11 @@
   <div id="Card">
     <div class="card">
       <CardSvg :color="theme.secondaryColor"></CardSvg>
+      <div id="delete-btn" class="delete-btn">
+        <img src="@/assets/colorNeutralAssets/trash-gray.svg" alt="פח אשפה" class="trash-can">
+      </div>
+      <input class="topic"  @focus="inputFocus" @focusout="inputFocus"
+      @input="checkValidity" placeholder="הכניסו נושא לכרטיסיה" />
         <div v-if="currentPageObj.cardType === 'text'"> I recognize </div>
         <card-input :cardType="currentPageObj.cardType"></card-input>
         <div class="buttons-container">
@@ -63,6 +68,21 @@ export default {
       console.log("closed");
       this.choice = "";
       this.isPopupShown = false;
+    },
+    inputFocus(event) {
+      if (event.currentTarget.getAttribute('placeholder')) {
+        event.currentTarget.setAttribute('placeholder', '');
+      } else {
+        event.currentTarget.setAttribute('placeholder', "הכניסו נושא לכרטיסיה");
+        if (!event.currentTarget.value) {
+          this.showErrorMessage = true;
+        }
+      }
+    },
+    checkValidity(event) {
+      if (event.currentTarget.value) {
+        this.showErrorMessage = false;
+      }
     }
   }
 }
@@ -97,6 +117,7 @@ export default {
   display: flex;
   width: 90%;
   justify-content: space-around;
+  margin-top: auto;
 }
 
 .button {
@@ -107,5 +128,44 @@ export default {
 .invisible {
   visibility: hidden;
   pointer-events: none;
+}
+
+.topic {
+  font-size: 1.7rem;
+  border: none;
+  font-weight: 800;
+  /* color: v-bind("theme.textColor"); */
+  outline: gray 2px dashed;
+  background-color: transparent;
+  text-align: center;
+  padding: 0rem 0rem 0.2rem;
+  border-radius: 0.8rem;
+  box-sizing: border-box;
+  width: 85%;
+  text-overflow: ellipsis;
+  padding-right: 0.5rem;
+}
+
+input.topic:focus {
+  outline: gray 2px dashed;
+}
+
+input.topic::placeholder {
+  color: #949494;
+  font-size: 0.7em;
+}
+
+.delete-btn {
+  min-height: 3.5rem;
+  width: 85%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  top: 1.3rem;
+}
+
+.trash-can {
+  height: 1.5rem;
+  cursor: pointer;
 }
 </style>

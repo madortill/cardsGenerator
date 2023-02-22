@@ -1,2 +1,3 @@
 Make component for error message?
-
+make v-model so the input will be two sided like the demo (use error message and change text!)
+make inputFocus a composable?
