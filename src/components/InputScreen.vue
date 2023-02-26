@@ -3,16 +3,7 @@
         <div class="info-container scrollStyle" ref="infoContainer">
             <Bg_svg class="background svg" :color="theme.primaryColor"></Bg_svg>
             <div class="input-container paper-clip-title">
-                <input v-model="newSubjName" class="subj-input paper-clip-content" type="text"
-                    placeholder="הכניסו את שם הנושא" @focus="inputFocus" @focusout="inputFocus"
-                    @input="checkValidity" />
-                    <div :class="['error-message', 'error-message-position', showErrorMessage ? '': 'none']" ref="errorMessage">
-                        <div class="up-error-triangle triangle-position"></div>
-                        <div class="message">
-                            <img src="@/assets/colorNeutralAssets/triangle-warning.svg" alt="warning symbol" class="warning" />
-                            <span class="text">יש למלא את השדה</span>
-                        </div>
-                    </div>
+                <CustomInput v-model="newSubjName" placeholder="הכניסו את שם הנושא" class="paper-clip-content"></CustomInput>
             </div>
             <div class="secondary-container">
                 <Secondary v-for="(secondaryData, secondaryKey) in subjData['learningContent']"
@@ -35,9 +26,10 @@
 <script>
 import Bg_svg from './svg/Bg_svg.vue'
 import Secondary from './Secondary.vue'
+import CustomInput from './CustomInput.vue'
 
 export default {
-    components: { Bg_svg, Secondary },
+    components: { Bg_svg, Secondary, CustomInput },
     name: "InputScreen",
     data() {
         return {
@@ -48,25 +40,10 @@ export default {
     },
     props: { "subjData": Object, "chosenSubject": String, "theme": Object },
     methods: {
-        inputFocus(event) {
-            if (event.currentTarget.getAttribute('placeholder')) {
-                event.currentTarget.setAttribute('placeholder', '')
-            } else {
-                event.currentTarget.setAttribute('placeholder', "הכניסו את שם הנושא");
-                if (!event.currentTarget.value) {
-                    this.showErrorMessage = true;
-                }
-            }
-        },
         addSecondary() { 
             let newKey = `secondary ${Object.keys(this.subjData["learningContent"]).length}`;
             this.subjData["learningContent"][newKey] =  {};
         }, 
-        checkValidity(event) {
-            if (event.currentTarget.value) {
-                this.showErrorMessage = false;
-            }
-        }
     },
 }
 </script>
@@ -87,13 +64,11 @@ export default {
     position: relative;
     top: 0.4vh;
     right: 0.25vw;
-    /* direction: ltr; */
 }
 
 .input-container {
     width: 24rem;
     margin: auto;
-
 }
 
 .paper-clip-title {
@@ -117,6 +92,10 @@ export default {
   margin-top: 0.5rem;
   border-radius: 0.8rem;
   box-sizing: border-box;
+}
+
+.paper-clip-content:focus-within { 
+    outline: black solid 2px;
 }
 
 .secondary-container {
@@ -172,18 +151,4 @@ export default {
     width: 100%;
     justify-content: flex-end;
 }
-
-/* error message */
-.error-message-position {
-    right: 44vw;
-    top: 6.5rem;
-}
-
-.triangle-position {
-    right: 5rem;
-}
-/* .disabled {
-    background-color: #a6a6a6;
-    cursor: default;
-} */
 </style>

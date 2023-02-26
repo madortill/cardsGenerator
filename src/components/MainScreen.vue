@@ -4,14 +4,7 @@
         <div class="grid subj-container">
             <Bg_svg class="background svg" :color="theme.primaryColor"></Bg_svg>
             <div class="paper-clip-title first-paper-clip">
-                <input v-model="title" class="paper-clip-content title-input" type="text" placeholder="הכניסו שם ללומדה" @input="checkValidity" @focus="inputFocus" @focusout="inputFocus"/>
-            </div>
-            <div :class="['error-message', 'error-message-position', showErrorMessage ? '': 'none']" ref="errorMessage">
-                <div class="up-error-triangle triangle-position"></div>
-                <div class="message">
-                    <img src="@/assets/colorNeutralAssets/triangle-warning.svg" alt="warning symbol" class="warning" />
-                    <span class="text">יש למלא את השדה</span>
-                </div>
+                <CustomInput v-model="title" placeholder="הכניסו שם ללומדה" class="paper-clip-content"></CustomInput>
             </div>
             <div class="cardsContainer scrollStyle">
                 <div class="subjCard" v-for="(value, index) in subjectArray" :key="'title' + index" @click="$emit('go-to-subject', value)">
@@ -38,6 +31,7 @@ import ColorPicker from './ColorPicker.vue';
 import SubjectBtnSvg from './svg/SubjectBtnSvg.vue';
 import CircleSvg from './svg/CircleSvg.vue';
 import Bg_svg from './svg/Bg_svg.vue';
+import CustomInput from './CustomInput.vue';
 
 export default {
     name: "main-stage",
@@ -52,25 +46,9 @@ export default {
         changeColor(theme) {
             this.$emit("change-color", theme);
         },
-        inputFocus(event) {
-            if (event.currentTarget.getAttribute('placeholder')) {
-                event.currentTarget.setAttribute('placeholder', '')
-            } else {
-                event.currentTarget.setAttribute('placeholder', "הכניסו את שם הנושא");
-                if (!event.currentTarget.value) {
-                    this.showErrorMessage = true;
-                }
-            }
-        },
-        checkValidity(event) {
-            if (event.currentTarget.value) {
-                this.showErrorMessage = false;
-                this.$emit('title-change', this.title);
-            }
-        }
     },
     computed: {},
-    components: { ColorPicker, SubjectBtnSvg, CircleSvg, Bg_svg },
+    components: { ColorPicker, SubjectBtnSvg, CircleSvg, Bg_svg, CustomInput },
 }
 
 </script>
@@ -90,10 +68,6 @@ export default {
 .background {
     height: 100vh;
     width: 66.67vw;
-}
-
-.title-input {
-    width: 24rem; 
 }
 
 .first-paper-clip {
@@ -122,6 +96,10 @@ export default {
   margin-top: 0.5rem;
   border-radius: 0.8rem;
   box-sizing: border-box;
+}
+
+.paper-clip-content:focus-within { 
+    outline: black solid 2px;
 }
 
 .cardsContainer {
@@ -209,13 +187,4 @@ export default {
     cursor: pointer;
 }
 
-/* error message */
-.error-message-position {
-    right: 27.5vw;
-    top: 6.6rem;
-}
-
-.triangle-position {
-    right: 5rem;
-}
 </style>

@@ -5,8 +5,7 @@
       <div id="delete-btn" class="delete-btn">
         <img src="@/assets/colorNeutralAssets/trash-gray.svg" alt="פח אשפה" class="trash-can">
       </div>
-      <input class="topic"  @focus="inputFocus" @focusout="inputFocus"
-      @input="checkValidity" placeholder="הכניסו נושא לכרטיסיה" />
+      <CustomInput placeholder="הכניסו נושא לכרטיסיה" class="topic" :placeholderStyle="placeholderStyle" v-model="topic"></CustomInput>
         <div v-if="currentPageObj.cardType === 'text'"> I recognize </div>
         <card-input :cardType="currentPageObj.cardType"></card-input>
         <div class="buttons-container">
@@ -26,18 +25,21 @@ import CardSvg from "./svg/CardSvg.vue";
 import PageButtonSvg from "./svg/PageButtonSvg.vue";
 import CardInput from "./CardInput.vue";
 import DropDownCard from "./DropDownCard.vue";
+import CustomInput from "./CustomInput.vue";
 
 export default {
-  components: { CardSvg, PageButtonSvg, CardInput, DropDownCard },
+  components: { CardSvg, PageButtonSvg, CardInput, DropDownCard, CustomInput },
   name: "card",
   data() {
     return {
       currentPage: 0,
       isPopupShown: false,
-      choice: ""
+      choice: "",
+      placeholderStyle: { "color": "#808080", "font-size": "0.7em",},
+      topic: this.cardTopic.includes("card") ? "" : this.cardTopic
     }
   },
-  props: ["isQuestion", "topic", "pageArray", "theme"],
+  props: ["isQuestion", "cardTopic", "pageArray", "theme"],
   computed: {
     currentPageObj () {
       return (this.pageArray[this.currentPage])
@@ -69,21 +71,6 @@ export default {
       this.choice = "";
       this.isPopupShown = false;
     },
-    inputFocus(event) {
-      if (event.currentTarget.getAttribute('placeholder')) {
-        event.currentTarget.setAttribute('placeholder', '');
-      } else {
-        event.currentTarget.setAttribute('placeholder', "הכניסו נושא לכרטיסיה");
-        if (!event.currentTarget.value) {
-          this.showErrorMessage = true;
-        }
-      }
-    },
-    checkValidity(event) {
-      if (event.currentTarget.value) {
-        this.showErrorMessage = false;
-      }
-    }
   }
 }
 </script>
@@ -131,10 +118,9 @@ export default {
 }
 
 .topic {
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   border: none;
   font-weight: 800;
-  /* color: v-bind("theme.textColor"); */
   outline: gray 2px dashed;
   background-color: transparent;
   text-align: center;
@@ -144,15 +130,6 @@ export default {
   width: 85%;
   text-overflow: ellipsis;
   padding-right: 0.5rem;
-}
-
-input.topic:focus {
-  outline: gray 2px dashed;
-}
-
-input.topic::placeholder {
-  color: #949494;
-  font-size: 0.7em;
 }
 
 .delete-btn {

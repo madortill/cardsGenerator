@@ -1,20 +1,21 @@
 <template>
   <div id="Secondary">
     <span class="arrow">></span>
-    <input class="secondary-name" type="text" placeholder="הכניסו תת-נושא" @focus="inputFocus" @focusout="inputFocus"
-      @input="checkValidity" v-model="secondary">
-      <!-- Error message -->
-    <div :class="['error-message', 'error-message-position', showErrorMessage ? '' : 'none']" ref="errorMessage">
+    <CustomInput class="secondary-name" placeholder="הכניסו תת-נושא" v-model="secondary" :placeholderStyle="{color: '#ffffffC7'}"></CustomInput>
+    <!-- <input class="secondary-name" type="text" placeholder="הכניסו תת-נושא" @focus="inputFocus" @focusout="inputFocus"
+      @input="checkValidity" v-model="secondary"> -->
+
+    <!-- <div :class="['error-message', 'error-message-position', showErrorMessage ? '' : 'none']" ref="errorMessage">
       <div class="up-error-triangle triangle-position"></div>
       <div class="message">
         <img src="@/assets/colorNeutralAssets/triangle-warning.svg" alt="warning symbol" class="warning" />
         <span class="text">יש למלא את השדה</span>
       </div>
-    </div>
+    </div> -->
 
     <div class="overflow-container scrollStyle" v-touch:swipe="handleSwipe" ref="overflowContainer">
       <div class="cards-container">
-        <card v-for="(pageArray, topic) in secondaryData" :key="topic" :topic="topic" :pageArray="pageArray"
+        <card v-for="(pageArray, topic) in secondaryData" :key="topic" :cardTopic="topic" :pageArray="pageArray"
           :isQuestion="false" :theme="theme"></card>
         <div>
           <DropDownCard :theme="theme" @add-page="addCard" :key="reRenderCounter"></DropDownCard>
@@ -28,9 +29,10 @@
 import CardSvg from "./svg/CardSvg.vue";
 import DropDownCard from "./DropDownCard.vue";
 import card from "./Card.vue";
+import CustomInput from "./CustomInput.vue";
 
 export default {
-  components: { CardSvg, DropDownCard, card },
+  components: { CardSvg, DropDownCard, card, CustomInput },
   name: "Secondary",
   data() {
     return {
@@ -80,6 +82,7 @@ export default {
 .secondary-name {
   color: white;
   font-size: 1.4rem;
+  width: 17rem;
 }
 
 .secondary-name {
@@ -88,18 +91,10 @@ export default {
   box-sizing: border-box;
   margin-right: 1rem;
   padding: 0.2rem;
+  display: inline-block;
 }
 
-.secondary-name::placeholder {
-  color: rgba(255, 255, 255, 0.781)
-}
-
-::-ms-input-placeholder {
-  /* Microsoft Edge */
-  color: rgba(255, 255, 255, 0.781)
-}
-
-input.secondary-name:focus {
+.secondary-name:focus-within {
   border-radius: 0.2rem;
   outline: none;
   outline: white solid 1px;
