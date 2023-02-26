@@ -76,6 +76,12 @@ export default {
 </script>
 
 <style scoped>
+.grid {
+  position: absolute;
+  left: 0;
+  display: grid;
+  grid-template-rows: 1fr 7.3fr 0.7fr;
+}
 .subj-container {
     height: 100vh;
     width: 66.67vw;
@@ -93,6 +99,29 @@ export default {
 .first-paper-clip {
     width: 24rem;
     grid-area: 1/ 1/ span 1 / span 1;
+}
+
+.paper-clip-title {
+  background-image: url("@/assets/colorNeutralAssets/home_header.svg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  padding: 2rem 0rem 1rem 2rem;
+  height: fit-content;
+  justify-self: center;
+  box-sizing: border-box;
+  width: 24rem;
+}
+
+.paper-clip-content {
+  width: 24rem;
+  font-size: 1.7rem;
+  border: none;
+  background-color: transparent;
+  text-align: center;
+  padding: 0.6rem 1.3rem 0.8rem;
+  margin-top: 0.5rem;
+  border-radius: 0.8rem;
+  box-sizing: border-box;
 }
 
 .cardsContainer {
