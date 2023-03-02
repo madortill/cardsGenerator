@@ -2,21 +2,10 @@
   <div id="Secondary">
     <span class="arrow">></span>
     <CustomInput class="secondary-name" placeholder="הכניסו תת-נושא" v-model="secondary" :placeholderStyle="{color: '#ffffffC7'}"></CustomInput>
-    <!-- <input class="secondary-name" type="text" placeholder="הכניסו תת-נושא" @focus="inputFocus" @focusout="inputFocus"
-      @input="checkValidity" v-model="secondary"> -->
-
-    <!-- <div :class="['error-message', 'error-message-position', showErrorMessage ? '' : 'none']" ref="errorMessage">
-      <div class="up-error-triangle triangle-position"></div>
-      <div class="message">
-        <img src="@/assets/colorNeutralAssets/triangle-warning.svg" alt="warning symbol" class="warning" />
-        <span class="text">יש למלא את השדה</span>
-      </div>
-    </div> -->
-
     <div class="overflow-container scrollStyle" v-touch:swipe="handleSwipe" ref="overflowContainer">
       <div class="cards-container">
         <card v-for="(pageArray, topic) in secondaryData" :key="topic" :cardTopic="topic" :pageArray="pageArray"
-          :isQuestion="false" :theme="theme"></card>
+          :isQuestion="false" :theme="theme" @update:cardTopic="log"></card>
         <div>
           <DropDownCard :theme="theme" @add-page="addCard" :key="reRenderCounter"></DropDownCard>
         </div>
@@ -43,28 +32,30 @@ export default {
   },
   props: ["secondaryName", "secondaryData", "theme"],
   methods: {
-    inputFocus(event) {
-      if (event.currentTarget.getAttribute('placeholder')) {
-        event.currentTarget.setAttribute('placeholder', '');
-      } else {
-        event.currentTarget.setAttribute('placeholder', "הכניסו תת-נושא");
-        if (!event.currentTarget.value) {
-          this.showErrorMessage = true;
-        }
-      }
+    log (topic) {
+      console.log(topic);
     },
     addCard(choice) {
-      this.secondaryData[`card${Object.keys(this.secondaryData).length}`] = [{
+      let newCard = {
         cardType: choice,
         content: ""
-      }];
+      }
+      switch (choice) {
+        case ("youtube"): {
+          newCard.youtube = "";
+          break;
+        } case ("videoAndText"): {
+          newCard.video = "";
+          break;
+        } case ("picAndText"): {
+          newCard.pic = [];
+          break;
+        }
+      }
+      console.log(newCard);
+      this.secondaryData[`card${Object.keys(this.secondaryData).length}`] = [newCard];
       this.reRenderCounter++;
       this.scrollToHorizontalEnd();
-    },
-    checkValidity(event) {
-      if (event.currentTarget.value) {
-        this.showErrorMessage = false;
-      }
     },
     async scrollToHorizontalEnd() {
       await this.$nextTick()

@@ -17,7 +17,7 @@ export default {
 	name: "CustomInput",
 	data() {
 		return {
-			errorMessage: "",
+			isEmptyErrorMessage: "",
 		};
 	},
 	props: {
@@ -28,7 +28,8 @@ export default {
 			validator: function (obj) {
 				return (obj.color || obj["font-size"]);
 			}
-		}
+		},
+		"parentErrorMessage": String
 	},
 	emits: ["update:modelValue"],
 	methods: {
@@ -38,17 +39,22 @@ export default {
 			} else {
 				event.currentTarget.setAttribute("placeholder", this.placeholder);
 				if (!event.currentTarget.value) {
-					this.errorMessage = "יש למלא את השדה";
+					this.isEmptyErrorMessage = "יש למלא את השדה";
 				}
 			}
 		},
 		checkValidity(event) {
 			this.$emit("update:modelValue", event.target.value);
 			if (event.currentTarget.value) {
-				this.errorMessage = "";
+				this.isEmptyErrorMessage = "";
 			}
 		},
 	},
+	computed: {
+		errorMessage() {
+			return (this.isEmptyErrorMessage === "" ? this.parentErrorMessage : this.isEmptyErrorMessage);
+		}
+	}
 };
 </script>
 

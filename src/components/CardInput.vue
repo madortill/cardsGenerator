@@ -1,15 +1,14 @@
 <template>
     <div class="card-input" id="CardInput">
         <div> {{  }} </div>
-        <div v-if="cardType === 'text'">
-            <textarea type="text" ref="input"></textarea>
+        <div v-if="cardInfo.cardType === 'text'">
+            <textarea type="text" ref="input" v-model="cardInfo.content"></textarea>
         </div>
-        <div v-else-if="cardType === 'picAndText'" class="input-container">
-            <!-- <input type="file" id="pic1" name="pic1" accept="image/*" /> -->
+        <div v-else-if="cardInfo.cardType === 'picAndText'" class="input-container">
             <div>
                 <label for="image-input">איזו תמונה תרצו לצרף? <br> (PNG, JPG, SVG)</label>
                 <input type="file" class="no-opacity" id="image-input" name="image-input"
-                    accept=".jpg, .jpeg, .png, .svg" @change="updateImageDisplay" ref="input" />
+                    accept=".jpg, .jpeg, .png, .svg" @change="updateImageDisplay" ref="input"/>
                 <!-- .apng, .bmp, .gif, .jpeg, .pjpeg, .png, .svg+xml, .tiff, .webp, .x-icon -->
             </div>
             <div class="preview" ref="preview">
@@ -22,8 +21,9 @@
                     <p>הקובץ {{ this.currFiles[0].name }} לא תואם לסוג הקובץ המצופה. נסו לבחור קובץ אחר.</p>
                 </div>
             </div>
+            <input type="text" v-model="cardInfo.content" />
         </div>
-        <div v-else> {{ cardType }}</div>
+        <div v-else> {{ cardInfo.cardType }}</div>
     </div>
 </template>
 
@@ -31,26 +31,27 @@
 export default {
     name: "CardInput",
     props: {
-        "cardType": {
-            type: String,
+        "cardInfo": {
+            type: Object,
             required: true,
             validator(value) {
-                // The value must match one of these strings
-                return ['videoAndText', 'youtube', 'text', 'picAndText'].includes(value);
+                return ['videoAndText', 'youtube', 'text', 'picAndText'].includes(value.cardType);
             }
         }
     },
     data() {
         return {
-            currFiles: [],
+            currFiles: this.cardInfo.pic ?? this.cardInfo.video,
             chosenImageURL: ""
         }
     },
     methods: {
         updateImageDisplay() {
+            console.log(this.$refs.input.files);
             this.currFiles = this.$refs.input.files;
             if (this.isFileValid(this.currFiles[0], "image")) {
                 this.chosenImageURL = URL.createObjectURL(this.currFiles[0]);
+                this.cardInfo.pic = this.currFiles[0];
             } else {
                 this.currFiles = "";
             }

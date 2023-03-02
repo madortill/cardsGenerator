@@ -3,19 +3,21 @@
     <div class="card">
       <CardSvg :color="theme.secondaryColor"></CardSvg>
       <div id="delete-btn" class="delete-btn">
-        <img src="@/assets/colorNeutralAssets/trash-gray.svg" alt="פח אשפה" class="trash-can">
+        <img src="@/assets/colorNeutralAssets/trash-gray.svg" alt="פח אשפה" class="trash-can" @click="deleteCard">
       </div>
       <CustomInput placeholder="הכניסו נושא לכרטיסיה" class="topic" :placeholderStyle="placeholderStyle" v-model="topic"></CustomInput>
-        <div v-if="currentPageObj.cardType === 'text'"> I recognize </div>
-        <card-input :cardType="currentPageObj.cardType"></card-input>
-        <div class="buttons-container">
-          <page-button-svg :class="['button', currentPage === 0 ? 'invisible' : '']" type="back" :color="theme.textColor" @btn-pressed="handleBtn"></page-button-svg>
-          <button class="remove-btn">הסרת עמוד</button>
-          <page-button-svg class="button" v-if="currentPage === pageArray.length - 1" type="add" :color="theme.textColor" @btn-pressed="handleBtn" title="הוספת עמוד"></page-button-svg>
-          <page-button-svg class="button" type="next" :color="theme.textColor" @btn-pressed = "handleBtn" v-else></page-button-svg>
-        </div>
-        
-        <DropDownCard v-if="isPopupShown" :theme="theme" @add-page="addCard" @cancel="closePopup" cancelable></DropDownCard>
+      <card-input :cardInfo="currentPageObj"></card-input>
+      <div class="buttons-container">
+        <page-button-svg :class="['button', currentPage === 0 ? 'invisible' : '']" type="back" :color="theme.textColor"
+          @btn-pressed="handleBtn"></page-button-svg>
+        <button class="remove-btn">הסרת עמוד</button>
+        <page-button-svg class="button" v-if="currentPage === pageArray.length - 1" type="add" :color="theme.textColor"
+          @btn-pressed="handleBtn" title="הוספת עמוד"></page-button-svg>
+        <page-button-svg class="button" type="next" :color="theme.textColor" @btn-pressed="handleBtn"
+          v-else></page-button-svg>
+      </div>
+
+      <DropDownCard v-if="isPopupShown" :theme="theme" @add-page="addCard" @cancel="closePopup" cancelable></DropDownCard>
     </div>
   </div>
 </template>
@@ -35,14 +37,24 @@ export default {
       currentPage: 0,
       isPopupShown: false,
       choice: "",
-      placeholderStyle: { "color": "#808080", "font-size": "0.7em",},
-      topic: this.cardTopic.includes("card") ? "" : this.cardTopic
+      placeholderStyle: { "color": "#808080", "font-size": "0.7em", },
+      // topic: this.cardTopic.includes("card") ? "" : this.cardTopic
     }
   },
   props: ["isQuestion", "cardTopic", "pageArray", "theme"],
   computed: {
-    currentPageObj () {
+    currentPageObj() {
       return (this.pageArray[this.currentPage])
+    },
+    topic: {
+      get() {
+        console.log("get");
+        return (this.cardTopic.includes("card") ? "" : this.cardTopic);
+      },
+      set(value) {
+        console.log("set");
+        this.$emit('update:cardTopic', value)
+      }
     }
   },
   methods: {
@@ -59,10 +71,23 @@ export default {
       this.choice = cardType;
     },
     addCard(choice) {
-      this.pageArray.push({
+      let newCard = {
         cardType: choice,
         content: ""
-      });
+      }
+      switch (choice) {
+        case ("youtube"): {
+          newCard.youtube = "";
+          break;
+        } case ("videoAndText"): {
+          newCard.video = "";
+          break;
+        } case ("picAndText"): {
+          newCard.pic = "";
+          break;
+        }
+      }
+      this.pageArray.push(newCard);
       this.closePopup();
       this.currentPage = this.pageArray.length - 1;
     },
@@ -80,7 +105,7 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;  
+  justify-content: center;
   align-items: center;
   gap: 1rem;
   height: 27.2rem;
@@ -144,5 +169,4 @@ export default {
 .trash-can {
   height: 1.5rem;
   cursor: pointer;
-}
-</style>
+}</style>

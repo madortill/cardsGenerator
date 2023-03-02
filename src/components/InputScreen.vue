@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="save-container">
-                <div class="save-and-exit">חזרה לדף הבית</div>
+                <div class="save-and-exit" @click="$emit('back-to-main')">חזרה לדף הבית</div>
             </div>
         </div>
     </div>
