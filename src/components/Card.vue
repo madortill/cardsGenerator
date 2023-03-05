@@ -48,11 +48,9 @@ export default {
     },
     topic: {
       get() {
-        console.log("get");
         return (this.cardTopic.includes("card") ? "" : this.cardTopic);
       },
       set(value) {
-        console.log("set");
         this.$emit('update:cardTopic', value)
       }
     }
@@ -92,7 +90,6 @@ export default {
       this.currentPage = this.pageArray.length - 1;
     },
     closePopup() {
-      console.log("closed");
       this.choice = "";
       this.isPopupShown = false;
     },
