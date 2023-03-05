@@ -1,7 +1,7 @@
 <template>
 	<div style="position: relative">
 		<input :class="{'input': true, 'placeholder-custom-style' : placeholderStyle}" type="text" :placeholder="placeholder" @focus="inputFocus" @focusout="inputFocus"
-			@input="checkValidity" :value="modelValue" />
+			@input="checkValidity" :value="modelValue" @change="passEvent"/>
 		<div class="error-message error-message-position" v-show="errorMessage">
 			<div class="up-error-triangle"></div>
 			<div class="message">
@@ -38,17 +38,23 @@ export default {
 				event.currentTarget.setAttribute("placeholder", "");
 			} else {
 				event.currentTarget.setAttribute("placeholder", this.placeholder);
-				if (!event.currentTarget.value) {
-					this.isEmptyErrorMessage = "יש למלא את השדה";
-				}
+				// if (!event.currentTarget.value) {
+				// 	this.isEmptyErrorMessage = "יש למלא את השדה";
+				// }
 			}
 		},
 		checkValidity(event) {
-			this.$emit("update:modelValue", event.target.value);
+			// this.$emit("update:modelValue", event.target.value);
 			if (event.currentTarget.value) {
 				this.isEmptyErrorMessage = "";
 			}
 		},
+		passEvent (event) {
+			this.$emit("update:modelValue", event.target.value);
+			if (!event.currentTarget.value) {
+					this.isEmptyErrorMessage = "יש למלא את השדה";
+			}
+		}
 	},
 	computed: {
 		errorMessage() {

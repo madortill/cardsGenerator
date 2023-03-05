@@ -5,7 +5,8 @@
       <div id="delete-btn" class="delete-btn">
         <img src="@/assets/colorNeutralAssets/trash-gray.svg" alt="פח אשפה" class="trash-can" @click="deleteCard">
       </div>
-      <CustomInput placeholder="הכניסו נושא לכרטיסיה" class="topic" :placeholderStyle="placeholderStyle" v-model="topic"></CustomInput>
+      <CustomInput placeholder="הכניסו נושא לכרטיסיה" class="topic" :placeholderStyle="placeholderStyle" 
+      :modelValue="topic" @update:modelValue="updateTopic" :parentErrorMessage="errorMessage"></CustomInput>
       <card-input :cardInfo="currentPageObj"></card-input>
       <div class="buttons-container">
         <page-button-svg :class="['button', currentPage === 0 ? 'invisible' : '']" type="back" :color="theme.textColor"
@@ -32,28 +33,29 @@ import CustomInput from "./CustomInput.vue";
 export default {
   components: { CardSvg, PageButtonSvg, CardInput, DropDownCard, CustomInput },
   name: "card",
+  emits: ['update:cardTopic'],
   data() {
     return {
       currentPage: 0,
       isPopupShown: false,
       choice: "",
       placeholderStyle: { "color": "#808080", "font-size": "0.7em", },
-      // topic: this.cardTopic.includes("card") ? "" : this.cardTopic
+      topic: this.cardTopic.includes("card") ? "" : this.cardTopic
     }
   },
-  props: ["isQuestion", "cardTopic", "pageArray", "theme"],
+  props: ["isQuestion", "cardTopic", "pageArray", "theme", "errorMessage"],
   computed: {
     currentPageObj() {
       return (this.pageArray[this.currentPage])
     },
-    topic: {
-      get() {
-        return (this.cardTopic.includes("card") ? "" : this.cardTopic);
-      },
-      set(value) {
-        this.$emit('update:cardTopic', value)
-      }
-    }
+    // topic: {
+    //   get() {
+    //     return (this.cardTopic.includes("card") ? "" : this.cardTopic);
+    //   },
+    //   set(value) {
+    //     this.$emit('update:cardTopic', value)
+    //   }
+    // }
   },
   methods: {
     handleBtn(btnType) {
@@ -93,6 +95,13 @@ export default {
       this.choice = "";
       this.isPopupShown = false;
     },
+    updateTopic (value) {
+      this.topic = value;
+      this.$emit('update:cardTopic', value);
+    }
+  },
+  mounted () {
+    console.log(this.pageArray);
   }
 }
 </script>

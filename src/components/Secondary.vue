@@ -4,8 +4,9 @@
     <CustomInput class="secondary-name" placeholder="הכניסו תת-נושא" v-model="secondary" :placeholderStyle="{color: '#ffffffC7'}"></CustomInput>
     <div class="overflow-container scrollStyle" v-touch:swipe="handleSwipe" ref="overflowContainer">
       <div class="cards-container">
-        <card v-for="(pageArray, topic) in secondaryData" :key="topic" :cardTopic="topic" :pageArray="pageArray"
-          :isQuestion="false" :theme="theme" @update:cardTopic="log"></card>
+        <card v-for="(topic, index) in indexedKeys" :key="index" :cardTopic="topic" :pageArray="secondaryData[topic]"
+          :isQuestion="false" :theme="theme" @update:cardTopic="(value) => {updateKeyName(topic, value, index)}" ref="card"
+          errorMessage=""></card>
         <div>
           <DropDownCard :theme="theme" @add-page="addCard" :key="reRenderCounter"></DropDownCard>
         </div>
@@ -27,14 +28,12 @@ export default {
     return {
       secondary: this.secondaryName.includes("secondary") ? "" : this.secondaryName,
       showErrorMessage: false,
-      reRenderCounter: 0
+      reRenderCounter: 0,
+      indexedKeys: Object.keys(this.secondaryData),
     }
   },
   props: ["secondaryName", "secondaryData", "theme"],
   methods: {
-    log (topic) {
-      console.log(topic);
-    },
     addCard(choice) {
       let newCard = {
         cardType: choice,
@@ -52,8 +51,8 @@ export default {
           break;
         }
       }
-      console.log(newCard);
-      this.secondaryData[`card${Object.keys(this.secondaryData).length}`] = [newCard];
+      this.secondaryData[`card${this.indexedKeys.length}`] = [newCard];
+      this.indexedKeys.push(`card${this.indexedKeys.length}`);
       this.reRenderCounter++;
       this.scrollToHorizontalEnd();
     },
@@ -65,6 +64,28 @@ export default {
       let pixelsToMove = direction === "right" ? 600 : -600;
       event.currentTarget.scrollLeft = event.currentTarget.scrollLeft - pixelsToMove;
     },
+
+    updateKeyName (key ,newKey, itemIndex) {
+      if (!this.isDuplicateKey(this.secondaryData, newKey)) {
+          this.secondaryData[newKey] =  [...this.secondaryData[key]];
+          let index = this.indexedKeys.indexOf(key);
+          this.indexedKeys[index] = newKey;
+          delete this.secondaryData[key];
+          // target.style.backgroundColor = "transparent";
+      } else {
+          // target.style.backgroundColor = "red";
+          // console.log(`card${itemIndex}`);
+          // alert("Duplicate key");
+      }
+    },
+    isDuplicateKey (object, newKey) {
+        for (const keyName in object) {
+            if (keyName === newKey) {
+                return true;
+            }
+        }
+        return false;
+    }
   }
 } 
 </script>
