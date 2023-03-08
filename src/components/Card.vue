@@ -6,7 +6,7 @@
         <img src="@/assets/colorNeutralAssets/trash-gray.svg" alt="פח אשפה" class="trash-can" @click="deleteCard">
       </div>
       <CustomInput placeholder="הכניסו נושא לכרטיסיה" class="topic" :placeholderStyle="placeholderStyle" 
-      :modelValue="topic" @update:modelValue="updateTopic" :parentErrorMessage="errorMessage"></CustomInput>
+      :modelValue="topic" @update:modelValue="updateTopic" :parentErrorMessage="currentPageObj.errorMessage"></CustomInput>
       <card-input :cardInfo="currentPageObj"></card-input>
       <div class="buttons-container">
         <page-button-svg :class="['button', currentPage === 0 ? 'invisible' : '']" type="back" :color="theme.textColor"
@@ -43,7 +43,7 @@ export default {
       topic: this.cardTopic.includes("card") ? "" : this.cardTopic
     }
   },
-  props: ["isQuestion", "cardTopic", "pageArray", "theme", "errorMessage"],
+  props: ["isQuestion", "cardTopic", "pageArray", "theme"],
   computed: {
     currentPageObj() {
       return (this.pageArray[this.currentPage])
@@ -73,7 +73,7 @@ export default {
     addCard(choice) {
       let newCard = {
         cardType: choice,
-        content: ""
+        content: "",
       }
       switch (choice) {
         case ("youtube"): {
@@ -101,7 +101,7 @@ export default {
     }
   },
   mounted () {
-    console.log(this.pageArray);
+    // console.log(this.pageArray);
   }
 }
 </script>

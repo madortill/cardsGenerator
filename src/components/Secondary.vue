@@ -37,7 +37,7 @@ export default {
     addCard(choice) {
       let newCard = {
         cardType: choice,
-        content: ""
+        content: "",
       }
       switch (choice) {
         case ("youtube"): {
@@ -73,6 +73,7 @@ export default {
           delete this.secondaryData[key];
           // target.style.backgroundColor = "transparent";
       } else {
+        console.log(key, this.secondaryData[key]);
           // target.style.backgroundColor = "red";
           // console.log(`card${itemIndex}`);
           // alert("Duplicate key");
