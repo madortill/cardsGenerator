@@ -1,6 +1,6 @@
 <template>
 	<div style="position: relative">
-		<input :class="{'input': true, 'placeholder-custom-style' : placeholderStyle}" type="text" :placeholder="placeholder" :value="modelValue"
+		<input :class="{'input': true, 'placeholder-custom-style' : placeholderStyle}" type="text" :placeholder="placeholder" :value="inputValue"
 		@focus="inputFocus" @focusout="inputFocus" @input="onInput" @change="passEvent"/>
 		<div class="error-message error-message-position" v-show="parentErrorMessage">
 			<div class="up-error-triangle"></div>
@@ -27,28 +27,36 @@ export default {
 		"parentErrorMessage": String
 	},
 	emits: ["update:modelValue", "input", "focusout"],
+	data () {
+		return {
+			inputValue: this.modelValue,
+		}
+	},
 	methods: {
 		inputFocus(event) {
 			if (event.currentTarget.getAttribute("placeholder")) {
 				event.currentTarget.setAttribute("placeholder", "");
 			} else {
 				event.currentTarget.setAttribute("placeholder", this.placeholder);
-				// if (!event.currentTarget.value) {
-				// 	this.isEmptyErrorMessage = "יש למלא את השדה";
-				// }
 				this.$emit("focusout", event.currentTarget.value);
 			}
 		},
 		onInput(event) {
 			this.$emit("input", event.currentTarget.value);
+			this.updateValue(event.currentTarget.value);
 		},
 		passEvent (event) {
+			this.inputValue = event.target.value;
 			this.$emit("update:modelValue", event.target.value);
-		}
+		},
+		async updateValue (value) {
+      		await this.$nextTick();
+			console.log("update input value")
+      		if (this.modelValue !== this.inputValue) {
+        		this.inputValue = value;
+      		} 
+    	}
 	},
-	updated () {
-		console.log('%cCustomInput updated', 'background-color: #f2b8ee; font-size: 1.5em;');
-	}
 };
 </script>
 

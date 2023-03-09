@@ -42,7 +42,7 @@ export default {
       isPopupShown: false,
       choice: "",
       placeholderStyle: { "color": "#808080", "font-size": "0.7em", },
-      topic: this.cardTopic.includes("card") ? "" : this.cardTopic
+      // topic: this.cardTopic.includes("card") ? "" : this.cardTopic
     }
   },
   methods: {
@@ -84,25 +84,32 @@ export default {
       this.isPopupShown = false;
     },
     updateTopic (value) {
-      this.topic = value;
+      // this.topic = value;
       this.$emit('update:cardTopic', value);
     },
     onTopicInput (value) {
       this.$emit('topic-input', value);
-      this.updateValue(value);
+      // this.updateValue(value);
     },
-    async updateValue (value) {
-      await this.$nextTick();
-      console.log("update value");
-      if (this.cardTopic !== this.topic) {
-        this.topic = value;
-      }
-    }
+    // async updateValue (value) {
+    //   await this.$nextTick();
+    //   console.log(`topic: ${this.topic}, parent topic: ${this.cardTopic}, is equal: ${this.cardTopic === this.topic}`);
+    //   if (this.cardTopic !== this.topic) {
+    //     this.topic = value;
+    //   }
+    // }
   },
   computed: {
     currentPageObj() {
       return (this.pageArray[this.currentPage])
     },
+    topic () {
+      if (this.cardTopic.includes("card")) {
+        return("");
+      } else {
+        return(this.cardTopic);
+      }
+    }
   },
 }
 </script>

@@ -67,7 +67,8 @@ export default {
       event.currentTarget.scrollLeft = event.currentTarget.scrollLeft - pixelsToMove;
     },
 
-    updateKeyName (key ,newKey, itemIndex) { 
+    updateKeyName (key ,newKey, itemIndex) {
+      // debugger 
      if (!this.isDuplicateKey(this.secondaryData, newKey)) {
           this.secondaryData[newKey] =  [...this.secondaryData[key]];
           let index = this.indexedKeys.indexOf(key);
@@ -86,12 +87,9 @@ export default {
         return false;
     },
     hideErrorMessages (value, index) {
-      console.log("input event - hide error message");
       if ((value !== "" || !this.isDuplicateKey(this.secondaryData, value)) && this.errorList[index] !== "") {
-        console.log(this.indexedKeys);
-        console.log(`key: ${this.indexedKeys[index]}, new key: ${value}, index: ${index}`);
-        console.log(this.indexedKeys);
         this.errorList[index] = "";
+        this.updateKeyName(this.indexedKeys[index], value, index);
       }
     },
     checkIfEmpty (value, index) {
