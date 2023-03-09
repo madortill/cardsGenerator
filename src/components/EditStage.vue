@@ -89,6 +89,10 @@ export default {
                 {
                   cardType: "text",
                   content: "g"
+                },
+                {
+                  cardType: "text",
+                  content: "g"
                 }
               ]
             },

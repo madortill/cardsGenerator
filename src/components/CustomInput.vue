@@ -2,11 +2,11 @@
 	<div style="position: relative">
 		<input :class="{'input': true, 'placeholder-custom-style' : placeholderStyle}" type="text" :placeholder="placeholder" :value="modelValue"
 		@focus="inputFocus" @focusout="inputFocus" @input="onInput" @change="passEvent"/>
-		<div class="error-message error-message-position" v-show="errorMessage">
+		<div class="error-message error-message-position" v-show="parentErrorMessage">
 			<div class="up-error-triangle"></div>
 			<div class="message">
 				<img src="@/assets/colorNeutralAssets/triangle-warning.svg" alt="warning symbol" class="warning" />
-				<span class="text"> {{ errorMessage }} </span>
+				<span class="text"> {{ parentErrorMessage }} </span>
 			</div>
 		</div>
 	</div>
@@ -15,11 +15,6 @@
 <script>
 export default {
 	name: "CustomInput",
-	data() {
-		return {
-			isEmptyErrorMessage: "",
-		};
-	},
 	props: {
 		"placeholder": String,
 		"modelValue": null,
@@ -51,10 +46,8 @@ export default {
 			this.$emit("update:modelValue", event.target.value);
 		}
 	},
-	computed: {
-		errorMessage() {
-			return (this.isEmptyErrorMessage === "" ? this.parentErrorMessage : this.isEmptyErrorMessage);
-		}
+	updated () {
+		console.log('%cCustomInput updated', 'background-color: #f2b8ee; font-size: 1.5em;');
 	}
 };
 </script>

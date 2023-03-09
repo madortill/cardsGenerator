@@ -6,7 +6,8 @@
         <img src="@/assets/colorNeutralAssets/trash-gray.svg" alt="פח אשפה" class="trash-can" @click="deleteCard">
       </div>
       <CustomInput placeholder="הכניסו נושא לכרטיסיה" class="topic" :placeholderStyle="placeholderStyle" 
-      :modelValue="topic" @update:modelValue="updateTopic" :parentErrorMessage="currentPageObj.errorMessage"></CustomInput>
+      :modelValue="topic" @update:modelValue="updateTopic" :parentErrorMessage="errorMessage" @input="(value) => {onTopicInput(value)}"
+      @focusout = "(value) => {this.$emit('topic-focusout', value)}"></CustomInput>
       <card-input :cardInfo="currentPageObj"></card-input>
       <div class="buttons-container">
         <page-button-svg :class="['button', currentPage === 0 ? 'invisible' : '']" type="back" :color="theme.textColor"
@@ -33,7 +34,8 @@ import CustomInput from "./CustomInput.vue";
 export default {
   components: { CardSvg, PageButtonSvg, CardInput, DropDownCard, CustomInput },
   name: "card",
-  emits: ['update:cardTopic'],
+  props: ["isQuestion", "cardTopic", "pageArray", "theme","errorMessage"],
+  emits: ['update:cardTopic', "topic-input", "topic-focusout"],
   data() {
     return {
       currentPage: 0,
@@ -42,20 +44,6 @@ export default {
       placeholderStyle: { "color": "#808080", "font-size": "0.7em", },
       topic: this.cardTopic.includes("card") ? "" : this.cardTopic
     }
-  },
-  props: ["isQuestion", "cardTopic", "pageArray", "theme"],
-  computed: {
-    currentPageObj() {
-      return (this.pageArray[this.currentPage])
-    },
-    // topic: {
-    //   get() {
-    //     return (this.cardTopic.includes("card") ? "" : this.cardTopic);
-    //   },
-    //   set(value) {
-    //     this.$emit('update:cardTopic', value)
-    //   }
-    // }
   },
   methods: {
     handleBtn(btnType) {
@@ -98,11 +86,24 @@ export default {
     updateTopic (value) {
       this.topic = value;
       this.$emit('update:cardTopic', value);
+    },
+    onTopicInput (value) {
+      this.$emit('topic-input', value);
+      this.updateValue(value);
+    },
+    async updateValue (value) {
+      await this.$nextTick();
+      console.log("update value");
+      if (this.cardTopic !== this.topic) {
+        this.topic = value;
+      }
     }
   },
-  mounted () {
-    // console.log(this.pageArray);
-  }
+  computed: {
+    currentPageObj() {
+      return (this.pageArray[this.currentPage])
+    },
+  },
 }
 </script>
 

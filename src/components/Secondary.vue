@@ -6,7 +6,8 @@
       <div class="cards-container">
         <card v-for="(topic, index) in indexedKeys" :key="index" :cardTopic="topic" :pageArray="secondaryData[topic]"
           :isQuestion="false" :theme="theme" @update:cardTopic="(value) => {updateKeyName(topic, value, index)}" ref="card"
-          errorMessage=""></card>
+          :errorMessage="errorList[index]" @topic-input="(value) => hideErrorMessages(value, index)"
+          @topic-focusout="(value) => checkIfEmpty(value, index)"></card>
         <div>
           <DropDownCard :theme="theme" @add-page="addCard" :key="reRenderCounter"></DropDownCard>
         </div>
@@ -30,6 +31,7 @@ export default {
       showErrorMessage: false,
       reRenderCounter: 0,
       indexedKeys: Object.keys(this.secondaryData),
+      errorList: new Array(Object.keys(this.secondaryData).length),
     }
   },
   props: ["secondaryName", "secondaryData", "theme"],
@@ -65,18 +67,14 @@ export default {
       event.currentTarget.scrollLeft = event.currentTarget.scrollLeft - pixelsToMove;
     },
 
-    updateKeyName (key ,newKey, itemIndex) {
-      if (!this.isDuplicateKey(this.secondaryData, newKey)) {
+    updateKeyName (key ,newKey, itemIndex) { 
+     if (!this.isDuplicateKey(this.secondaryData, newKey)) {
           this.secondaryData[newKey] =  [...this.secondaryData[key]];
           let index = this.indexedKeys.indexOf(key);
           this.indexedKeys[index] = newKey;
           delete this.secondaryData[key];
-          // target.style.backgroundColor = "transparent";
-      } else {
-        console.log(key, this.secondaryData[key]);
-          // target.style.backgroundColor = "red";
-          // console.log(`card${itemIndex}`);
-          // alert("Duplicate key");
+      } else if (this.errorList[itemIndex] !== "יש למלא את השדה") {
+        this.errorList[itemIndex] = "הכותרת מופיעה פעמיים";
       }
     },
     isDuplicateKey (object, newKey) {
@@ -86,6 +84,21 @@ export default {
             }
         }
         return false;
+    },
+    hideErrorMessages (value, index) {
+      console.log("input event - hide error message");
+      if ((value !== "" || !this.isDuplicateKey(this.secondaryData, value)) && this.errorList[index] !== "") {
+        console.log(this.indexedKeys);
+        console.log(`key: ${this.indexedKeys[index]}, new key: ${value}, index: ${index}`);
+        console.log(this.indexedKeys);
+        this.errorList[index] = "";
+      }
+    },
+    checkIfEmpty (value, index) {
+      if (!value) {
+        this.errorList[index] = "יש למלא את השדה";
+        // this.updateKeyName(this.indexedKeys[index], value, index);
+      }
     }
   }
 } 

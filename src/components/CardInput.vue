@@ -8,7 +8,7 @@
             <div>
                 <label for="image-input">איזו תמונה תרצו לצרף? <br> (PNG, JPG, SVG)</label>
                 <input type="file" class="no-opacity" id="image-input" name="image-input"
-                    accept=".jpg, .jpeg, .png, .svg" @change="updateImageDisplay" ref="input"/>
+                    accept=".jpg, .jpeg, .png, .svg" @change="updateImageDisplay" ref="input" required/>
                 <!-- .apng, .bmp, .gif, .jpeg, .pjpeg, .png, .svg+xml, .tiff, .webp, .x-icon -->
             </div>
             <div class="preview" ref="preview">
