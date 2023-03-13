@@ -1,11 +1,14 @@
 <template>
   <div id="Secondary">
     <span class="arrow">></span>
-    <CustomInput class="secondary-name" placeholder="הכניסו תת-נושא" v-model="secondary" :placeholderStyle="{color: '#ffffffC7'}"></CustomInput>
+    <CustomInput class="secondary-name" placeholder="הכניסו תת-נושא" v-model="secondary" :placeholderStyle="{color: '#ffffffC7'}"
+    :modelValue="secondary" @update:modelValue="(value) => this.$emit('update:secondary', value)"
+    :parentErrorMessage="errorMessage" @input="(value) => {this.$emit('secondary-input', value);}"
+    @focusout = "(value) => {this.$emit('secondary-focusout', value)}"></CustomInput>
     <div class="overflow-container scrollStyle" v-touch:swipe="handleSwipe" ref="overflowContainer">
       <div class="cards-container">
         <card v-for="(topic, index) in indexedKeys" :key="index" :cardTopic="topic" :pageArray="secondaryData[topic]"
-          :isQuestion="false" :theme="theme" @update:cardTopic="(value) => {updateKeyName(topic, value, index)}" ref="card"
+          :isQuestion="false" :theme="theme" @update:cardTopic="(value) => {updateKeyName(topic, value, index)}"
           :errorMessage="errorList[index]" @topic-input="(value) => hideErrorMessages(value, index)"
           @topic-focusout="(value) => checkIfEmpty(value, index)"></card>
         <div>
@@ -27,14 +30,13 @@ export default {
   name: "Secondary",
   data() {
     return {
-      secondary: this.secondaryName.includes("secondary") ? "" : this.secondaryName,
       showErrorMessage: false,
       reRenderCounter: 0,
       indexedKeys: Object.keys(this.secondaryData),
       errorList: new Array(Object.keys(this.secondaryData).length),
     }
   },
-  props: ["secondaryName", "secondaryData", "theme"],
+  props: ["secondaryName", "secondaryData", "theme", "errorMessage"],
   methods: {
     addCard(choice) {
       let newCard = {
@@ -66,9 +68,8 @@ export default {
       let pixelsToMove = direction === "right" ? 600 : -600;
       event.currentTarget.scrollLeft = event.currentTarget.scrollLeft - pixelsToMove;
     },
-
+    // handle error messages and customInput events
     updateKeyName (key ,newKey, itemIndex) {
-      // debugger 
       if (key !== newKey) {
         if (!this.isDuplicateKey(this.secondaryData, newKey)) {
              this.secondaryData[newKey] =  [...this.secondaryData[key]];
@@ -102,6 +103,9 @@ export default {
         this.errorList[index] = "יש למלא את השדה";
       }
     }
+  },
+  computed: {
+    secondary()  {return(this.secondaryName.includes("secondary") ? "" : this.secondaryName)}
   }
 } 
 </script>
