@@ -6,7 +6,7 @@
         <img src="@/assets/colorNeutralAssets/trash-gray.svg" alt="פח אשפה" class="trash-can" @click="deleteCard">
       </div>
       <CustomInput placeholder="הכניסו נושא לכרטיסיה" class="topic" :placeholderStyle="placeholderStyle" 
-      :modelValue="topic" @update:modelValue="updateTopic" :parentErrorMessage="errorMessage" @input="(value) => {onTopicInput(value)}"
+      :modelValue="topic" @update:modelValue="(value) => this.$emit('update:cardTopic', value)" :parentErrorMessage="errorMessage" @input="(value) => {this.$emit('topic-input', value);}"
       @focusout = "(value) => {this.$emit('topic-focusout', value)}"></CustomInput>
       <card-input :cardInfo="currentPageObj"></card-input>
       <div class="buttons-container">
@@ -42,7 +42,6 @@ export default {
       isPopupShown: false,
       choice: "",
       placeholderStyle: { "color": "#808080", "font-size": "0.7em", },
-      // topic: this.cardTopic.includes("card") ? "" : this.cardTopic
     }
   },
   methods: {
@@ -83,21 +82,6 @@ export default {
       this.choice = "";
       this.isPopupShown = false;
     },
-    updateTopic (value) {
-      // this.topic = value;
-      this.$emit('update:cardTopic', value);
-    },
-    onTopicInput (value) {
-      this.$emit('topic-input', value);
-      // this.updateValue(value);
-    },
-    // async updateValue (value) {
-    //   await this.$nextTick();
-    //   console.log(`topic: ${this.topic}, parent topic: ${this.cardTopic}, is equal: ${this.cardTopic === this.topic}`);
-    //   if (this.cardTopic !== this.topic) {
-    //     this.topic = value;
-    //   }
-    // }
   },
   computed: {
     currentPageObj() {

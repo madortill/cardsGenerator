@@ -69,17 +69,22 @@ export default {
 
     updateKeyName (key ,newKey, itemIndex) {
       // debugger 
-     if (!this.isDuplicateKey(this.secondaryData, newKey)) {
-          this.secondaryData[newKey] =  [...this.secondaryData[key]];
-          let index = this.indexedKeys.indexOf(key);
-          this.indexedKeys[index] = newKey;
-          delete this.secondaryData[key];
-      } else if (this.errorList[itemIndex] !== "יש למלא את השדה") {
-        this.errorList[itemIndex] = "הכותרת מופיעה פעמיים";
+      if (key !== newKey) {
+        if (!this.isDuplicateKey(this.secondaryData, newKey)) {
+             this.secondaryData[newKey] =  [...this.secondaryData[key]];
+             let index = this.indexedKeys.indexOf(key);
+             this.indexedKeys[index] = newKey;
+             delete this.secondaryData[key];
+         } else if (this.errorList[itemIndex] !== "יש למלא את השדה") {
+           console.log(`Is duplicate: ${this.isDuplicateKey(this.secondaryData, newKey)}, newKey: ${newKey}ת SecondaryData:`)
+           console.log(this.secondaryData);
+           this.errorList[itemIndex] = "הכותרת מופיעה פעמיים";
+         }
       }
     },
     isDuplicateKey (object, newKey) {
         for (const keyName in object) {
+          console.log(`keyName: ${keyName}, newKey: ${newKey}`);
             if (keyName === newKey) {
                 return true;
             }
@@ -95,7 +100,6 @@ export default {
     checkIfEmpty (value, index) {
       if (!value) {
         this.errorList[index] = "יש למלא את השדה";
-        // this.updateKeyName(this.indexedKeys[index], value, index);
       }
     }
   }
