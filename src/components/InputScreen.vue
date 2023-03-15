@@ -6,14 +6,17 @@
                 <CustomInput v-model="newSubjName" placeholder="הכניסו את שם הנושא" class="paper-clip-content"></CustomInput>
             </div>
             <div class="secondary-container">
-                <Secondary v-for="(secondaryData, secondaryKey) in subjData['learningContent']"
-                    :key="secondaryKey" :secondaryName="secondaryKey" :secondaryData="secondaryData"
-                    :theme="theme"></Secondary>
+                <Secondary :secondaryName="secondaryKey" :secondaryData="subjData['learningContent'][secondaryKey]"
+                    :theme="theme" v-for="(secondaryKey, index) in indexedKeys" :key="'secondaryKey: ' + index"
+                    @update:secondary="(value) => { updateKeyName(secondaryKey, value, index) }"
+                    :errorMessage="errorList[index]" @secondary-input="(value) => hideErrorMessages(value, index)"
+                    @secondary-focusout="(value) => checkIfEmpty(value, index)"></Secondary>
                 <div class="button-container">
-                    <span :class="['button', changesCounter]" @click="addSecondary"><img src="@/assets/colorNeutralAssets/plus-small.svg"
-                            class="plus-button" /> הוספת תת נושא</span>
-                    <span class="button" @click="$emit('to-practice')" v-if="(Object.keys(subjData['learningContent']).length > 0)">
-                        <img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" />הוספת תרגול</span>
+                    <span :class="['button', changesCounter]" @click="addSecondary">
+                        <img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button"  alt="plus icon"/> הוספת תת נושא</span>
+                    <span class="button" @click="$emit('to-practice')"
+                        v-if="(Object.keys(subjData['learningContent']).length > 0)">
+                        <img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" alt="plus icon"/>הוספת תרגול</span>
                 </div>
             </div>
             <div class="save-container">
@@ -35,15 +38,66 @@ export default {
         return {
             changesCounter: 0,
             newSubjName: this.chosenSubject,
-            showErrorMessage: false
+            showErrorMessage: false,
+            indexedKeys: Object.keys(this.subjData['learningContent']),
+            errorList: new Array(Object.keys(this.subjData['learningContent']).length),
+            duplicateKey: ""
         }
     },
     props: { "subjData": Object, "chosenSubject": String, "theme": Object },
     methods: {
-        addSecondary() { 
-            let newKey = `secondary ${Object.keys(this.subjData["learningContent"]).length}`;
-            this.subjData["learningContent"][newKey] =  {};
-        }, 
+        addSecondary() {
+            let newKey = `secondary${Object.keys(this.subjData["learningContent"]).length}`;
+            this.subjData["learningContent"][newKey] = {};
+            this.indexedKeys.push(newKey);
+        },
+        // handle error messages and customInput events
+        updateKeyName(key, newKey, itemIndex) {
+            let objectRef = this.subjData["learningContent"];
+            console.log("duplicate key: " + this.duplicateKey);
+            if (key !== newKey) {
+                console.log(this.indexedKeys);
+                if (key === this.duplicateKey) {
+                    let index = this.indexedKeys.indexOf(this.duplicateKey);
+                        this.errorList[index] = "";
+                }
+
+                if (!this.isDuplicateKey(objectRef, newKey)) {
+                    objectRef[newKey] = objectRef[key]; 
+                    let index = this.indexedKeys.indexOf(key);
+                    this.indexedKeys[index] = newKey;
+                    delete objectRef[key];
+                } else if (this.errorList[itemIndex] !== "יש למלא את השדה") {
+                    this.errorList[itemIndex] = "הכותרת כבר בשימוש.";
+                }
+            }
+        },
+        isDuplicateKey(object, newKey) {
+            for (const keyName in object) {
+                if (keyName === newKey) {
+                    this.duplicateKey = newKey;
+                    return true;
+                }
+            }
+            return false;
+        },
+        hideErrorMessages(value, index) {
+            // if (value === this.duplicateKey) {
+            //     let index = this.indexedKeys.indexOf(key);
+            //     if (this.errorList[index] !== "יש למלא את השדה") {
+
+            //     }
+            // }
+            if ((value !== "" || !this.isDuplicateKey(this.subjData["learningContent"], value)) && this.errorList[index] !== "") {
+                this.errorList[index] = "";
+                this.updateKeyName(this.indexedKeys[index], value, index);
+            }
+        },
+        checkIfEmpty(value, index) {
+            if (!value) {
+                this.errorList[index] = "יש למלא את השדה";
+            }
+        }
     },
 }
 </script>
@@ -72,29 +126,29 @@ export default {
 }
 
 .paper-clip-title {
-  background-image: url("@/assets/colorNeutralAssets/home_header.svg");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  padding: 2rem 0rem 1rem 2rem;
-  height: fit-content;
-  justify-self: center;
-  box-sizing: border-box;
-  width: 24rem;
+    background-image: url("@/assets/colorNeutralAssets/home_header.svg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    padding: 2rem 0rem 1rem 2rem;
+    height: fit-content;
+    justify-self: center;
+    box-sizing: border-box;
+    width: 24rem;
 }
 
 .paper-clip-content {
-  width: 24rem;
-  font-size: 1.7rem;
-  border: none;
-  background-color: transparent;
-  text-align: center;
-  padding: 0.6rem 1.3rem 0.8rem;
-  margin-top: 0.5rem;
-  border-radius: 0.8rem;
-  box-sizing: border-box;
+    width: 24rem;
+    font-size: 1.7rem;
+    border: none;
+    background-color: transparent;
+    text-align: center;
+    padding: 0.6rem 1.3rem 0.8rem;
+    margin-top: 0.5rem;
+    border-radius: 0.8rem;
+    box-sizing: border-box;
 }
 
-.paper-clip-content:focus-within { 
+.paper-clip-content:focus-within {
     outline: black solid 2px;
 }
 

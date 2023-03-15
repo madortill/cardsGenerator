@@ -1,7 +1,7 @@
 <template>
   <div id="Secondary">
     <span class="arrow">></span>
-    <CustomInput class="secondary-name" placeholder="הכניסו תת-נושא" v-model="secondary" :placeholderStyle="{color: '#ffffffC7'}"
+    <CustomInput class="secondary-name" placeholder="הכניסו תת-נושא" :placeholderStyle="{color: '#ffffffC7'}"
     :modelValue="secondary" @update:modelValue="(value) => this.$emit('update:secondary', value)"
     :parentErrorMessage="errorMessage" @input="(value) => {this.$emit('secondary-input', value);}"
     @focusout = "(value) => {this.$emit('secondary-focusout', value)}"></CustomInput>
@@ -79,7 +79,7 @@ export default {
          } else if (this.errorList[itemIndex] !== "יש למלא את השדה") {
            console.log(`Is duplicate: ${this.isDuplicateKey(this.secondaryData, newKey)}, newKey: ${newKey}ת SecondaryData:`)
            console.log(this.secondaryData);
-           this.errorList[itemIndex] = "הכותרת מופיעה פעמיים";
+           this.errorList[itemIndex] = "הכותרת כבר בשימוש";
          }
       }
     },
@@ -105,7 +105,7 @@ export default {
     }
   },
   computed: {
-    secondary()  {return(this.secondaryName.includes("secondary") ? "" : this.secondaryName)}
+    secondary() {return(this.secondaryName.includes("secondary") ? "" : this.secondaryName)}
   }
 } 
 </script>

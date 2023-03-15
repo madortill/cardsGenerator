@@ -34,7 +34,7 @@ export default {
 	},
 	methods: {
 		inputFocus(event) {
-			if (event.currentTarget.getAttribute("placeholder")) {
+			if (event.currentTarget === document.activeElement) {
 				event.currentTarget.setAttribute("placeholder", "");
 			} else {
 				event.currentTarget.setAttribute("placeholder", this.placeholder);
