@@ -18,15 +18,7 @@ export default defineConfig({
     }
   },
   plugins: [
-    vue({
-      // template: {
-      //   compilerOptions: {
-      //     compatConfig: {
-      //       MODE: 2
-      //     }
-      //   }
-      // }
-    }),
+    vue({}),
   ],
   base: process.env.NODE_ENV === "production" ? "/cardsGenerator/" : "/",
 

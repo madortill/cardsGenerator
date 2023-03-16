@@ -1,8 +1,10 @@
 <template>
   <div id="EditStage">
-    <mainScreen v-if="(currentStage === 'main')" :theme="theme" :subjectArray="Object.keys(this.cardsData)"
+    <mainScreen v-if="(currentStage === 'main')" :theme="theme" :subjectArray="indexedKeys"
       @change-color="changeColor" @change-title="updateThings(newValue, 'title')" @go-to-subject="goToSubj"></mainScreen>
-    <Input-screen v-else-if="(currentStage === 'input')" :subjData="this.cardsData[chosenSubject]" :chosenSubject="chosenSubject" :theme="theme"></Input-screen>
+    <Input-screen v-else-if="(currentStage === 'input')" :subjData="this.cardsData[chosenSubject]" :chosenSubject="chosenSubject" :theme="theme"
+      @back-to-main="updateThanMain" @subject-input="hideErrorMessages" @subject-focusout="checkIfEmpty" 
+      :subjErrorMessage="subjErrorMessage" ref="input-screen"></Input-screen>
     <!-- <add-questions type = "test" v-else-if="(currentStage === 'test')"></add-questions> -->
     <!-- <add-questions type = "practice" v-else-if="(currentStage === 'practice')"></add-questions> -->
   </div>
@@ -11,6 +13,7 @@
 <script>
 import MainScreen from './MainScreen.vue'
 import InputScreen from './InputScreen.vue'
+import swal from 'sweetalert';
 export default {
   components: { MainScreen, InputScreen },
   data() {
@@ -1007,7 +1010,9 @@ export default {
         //   },
         // },
       },
-      title: ""
+      title: "",
+      indexedKeys: [],
+      subjErrorMessage: ""
     }
   },
   methods: {
@@ -1026,10 +1031,64 @@ export default {
           "learningContent": {},
         };
         subjName = "";
+        // this.indexedKeys.push(subjName)
       }
       this.currentStage = "input";
       this.chosenSubject = subjName;
     },
+    updateThanMain(value) {
+      if (this.updateKeyName(this.chosenSubject, value)) {
+        this.currentStage = 'main';
+      }
+    },
+    updateKeyName(key, newKey) {
+      console.log(`chosenSubject: ${key}, value: ${newKey}`)
+      let objectRef = this.cardsData;
+      if (key !== newKey) {
+          if (!this.isDuplicateKey(objectRef, newKey)) {
+            // changes the key name while recording its index by indexedKeys
+              objectRef[newKey] = objectRef[key];
+              let index = ((key === "") ? this.indexedKeys.length : this.indexedKeys.indexOf(key));
+              console.log(`newKey: ${newKey}`);
+              this.indexedKeys[index] = newKey;
+              delete objectRef[key];
+              this.chosenSubject = newKey;
+              return(true);
+              // Error message about duplicate titles
+          } else if (this.subjErrorMessage !== "יש למלא את השדה") {
+              swal({
+                title: "הנושא כבר נמצא בשימוש",
+                // text: "You clicked the button!",
+                icon: "error",
+                button: "אישור"
+              });
+              return(false);
+          } else {
+            console.log("%clet's see what's going on here", 'background-color: lightpink');
+          }
+      } 
+      return true;
+    },
+    isDuplicateKey(object, newKey) {
+        for (const keyName in object) {
+            if (keyName === newKey) {
+                this.duplicateKey = newKey;
+                return true;
+            }
+        }
+        return false;
+    },
+    hideErrorMessages(value) {
+        if ((value !== "" || !this.isDuplicateKey(this.cardsData, value)) && this.subjErrorMessage !== "") {
+          this.subjErrorMessage = "";
+          this.updateKeyName(this.chosenSubject, value);
+        }
+    },
+    checkIfEmpty(value) {
+        if (value === "") {
+            this.subjErrorMessage = "יש למלא את השדה";
+        }
+    }
     // updateThings(newValue, varName) {
     //   this[varName] = newValue;
     //   console.log(this[varName])
@@ -1044,10 +1103,20 @@ export default {
         "DATA": this.cardsData
       }
     }
+  },
+  mounted () {
+    this.indexedKeys = Object.keys(this.cardsData);
+    console.log(this.theme.secondaryColor)
   }
 }
 </script>
 
 <style>
+.swal-button {
+  background-color: v-bind("theme.secondaryColor");
+}
 
-</style>
+.swal-footer {
+  text-align: left;
+}
+</style>  

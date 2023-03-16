@@ -1,4 +1,1 @@
-make v-model so the input will be two sided like the demo (use error message and change text!)
-
-change the function update:cardTopic calls in order to save cardTopic as a key
-
+לא לתת לעבור לעמוד הבית אם יש אינפוטים ריקים

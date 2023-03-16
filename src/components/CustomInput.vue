@@ -51,7 +51,6 @@ export default {
 		},
 		async updateValue (value) {
       		await this.$nextTick();
-			console.log("update input value")
       		if (this.modelValue !== this.inputValue) {
         		this.inputValue = value;
       		} 

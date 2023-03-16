@@ -68,7 +68,7 @@ export default {
       let pixelsToMove = direction === "right" ? 600 : -600;
       event.currentTarget.scrollLeft = event.currentTarget.scrollLeft - pixelsToMove;
     },
-    // handle error messages and customInput events
+    // handle error messages and customInput events. Happens not on change but when coming back to main screen or after error message
     updateKeyName (key ,newKey, itemIndex) {
       if (key !== newKey) {
         if (!this.isDuplicateKey(this.secondaryData, newKey)) {
@@ -77,15 +77,12 @@ export default {
              this.indexedKeys[index] = newKey;
              delete this.secondaryData[key];
          } else if (this.errorList[itemIndex] !== "יש למלא את השדה") {
-           console.log(`Is duplicate: ${this.isDuplicateKey(this.secondaryData, newKey)}, newKey: ${newKey}ת SecondaryData:`)
-           console.log(this.secondaryData);
            this.errorList[itemIndex] = "הכותרת כבר בשימוש";
          }
       }
     },
     isDuplicateKey (object, newKey) {
         for (const keyName in object) {
-          console.log(`keyName: ${keyName}, newKey: ${newKey}`);
             if (keyName === newKey) {
                 return true;
             }

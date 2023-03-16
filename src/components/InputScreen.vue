@@ -3,7 +3,9 @@
         <div class="info-container scrollStyle" ref="infoContainer">
             <Bg_svg class="background svg" :color="theme.primaryColor"></Bg_svg>
             <div class="input-container paper-clip-title">
-                <CustomInput v-model="newSubjName" placeholder="הכניסו את שם הנושא" class="paper-clip-content"></CustomInput>
+                <CustomInput :modelValue="this.chosenSubject" placeholder="הכניסו את שם הנושא" class="paper-clip-content"
+                @input="(value) => {this.$emit('subject-input', value);}" @focusout = "(value) => {this.$emit('subject-focusout', value)}"
+                 :parent-error-message="subjErrorMessage" ref="subject-input-el" @update:modelValue="(value) => {subjectContent = value}"></CustomInput>
             </div>
             <div class="secondary-container">
                 <Secondary :secondaryName="secondaryKey" :secondaryData="subjData['learningContent'][secondaryKey]"
@@ -20,7 +22,7 @@
                 </div>
             </div>
             <div class="save-container">
-                <div class="save-and-exit" @click="$emit('back-to-main')">חזרה לדף הבית</div>
+                <div class="save-and-exit" @click="$emit('back-to-main', this.subjectContent);">חזרה לדף הבית</div>
             </div>
         </div>
     </div>
@@ -34,17 +36,19 @@ import CustomInput from './CustomInput.vue'
 export default {
     components: { Bg_svg, Secondary, CustomInput },
     name: "InputScreen",
+    props: { "subjData": Object, "chosenSubject": String, "theme": Object, "subjErrorMessage": String },
+    emits: ["back-to-main", "subject-focusout", "subject-input"],
     data() {
         return {
             changesCounter: 0,
-            newSubjName: this.chosenSubject,
             showErrorMessage: false,
             indexedKeys: Object.keys(this.subjData['learningContent']),
             errorList: new Array(Object.keys(this.subjData['learningContent']).length),
-            duplicateKey: ""
+            duplicateKey: "",
+            titleRenderCounter: 0,
+            subjectContent: this.chosenSubject
         }
     },
-    props: { "subjData": Object, "chosenSubject": String, "theme": Object },
     methods: {
         addSecondary() {
             let newKey = `secondary${Object.keys(this.subjData["learningContent"]).length}`;
@@ -54,14 +58,7 @@ export default {
         // handle error messages and customInput events
         updateKeyName(key, newKey, itemIndex) {
             let objectRef = this.subjData["learningContent"];
-            console.log("duplicate key: " + this.duplicateKey);
             if (key !== newKey) {
-                console.log(this.indexedKeys);
-                if (key === this.duplicateKey) {
-                    let index = this.indexedKeys.indexOf(this.duplicateKey);
-                        this.errorList[index] = "";
-                }
-
                 if (!this.isDuplicateKey(objectRef, newKey)) {
                     objectRef[newKey] = objectRef[key]; 
                     let index = this.indexedKeys.indexOf(key);
@@ -82,12 +79,6 @@ export default {
             return false;
         },
         hideErrorMessages(value, index) {
-            // if (value === this.duplicateKey) {
-            //     let index = this.indexedKeys.indexOf(key);
-            //     if (this.errorList[index] !== "יש למלא את השדה") {
-
-            //     }
-            // }
             if ((value !== "" || !this.isDuplicateKey(this.subjData["learningContent"], value)) && this.errorList[index] !== "") {
                 this.errorList[index] = "";
                 this.updateKeyName(this.indexedKeys[index], value, index);
