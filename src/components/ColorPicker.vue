@@ -101,8 +101,20 @@ export default {
     changeTheme(event) {
       this.currentColorIndex = Number(event.currentTarget.id.slice(5));
       this.$emit("change-color", this.colorArray[event.currentTarget.id.slice(5)]);
+    },
+    // finds the curernt index by comparing primaryColor values
+    returnIndex() {
+      for (let index in this.colorArray) {
+        if (this.colorArray[index]["primaryColor"] === this.theme["primaryColor"]) {
+          return Number(index);
+        }
+      }
+      return 0;
     }
   },
+  mounted () {
+    this.currentColorIndex = this.returnIndex();
+  }
 }
 </script>
 
