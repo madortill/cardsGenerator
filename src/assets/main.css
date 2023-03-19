@@ -52,7 +52,7 @@ body {
     background-color: rgba(136, 134, 134, 0.658); 
 }
 
-/* Error message styling */
+/* Error message styling
 .error-message {
   position: absolute;
   z-index: 2;
@@ -92,7 +92,7 @@ body {
 
 .message .text {
   padding-right: 0.5em;
-}
+} */
 
 .none {
   display: none;

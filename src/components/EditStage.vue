@@ -1037,34 +1037,41 @@ export default {
       this.chosenSubject = subjName;
     },
     updateThanMain(value) {
-      if (this.updateKeyName(this.chosenSubject, value)) {
+      this.updateKeyName(this.chosenSubject, value);
+      let error = this.isErrorMessage();
+      if (error === "") {
         this.currentStage = 'main';
+      } else if (error.includes("הכותרת כבר בשימוש")) {
+        swal({
+          title: "בטוחים שלא התבלבלתם?",
+          text: "אחת הכותרות שהזנתם חוזרת על עצמה.",
+          icon: "error",
+          button: "אישור"
+        });
+      } else if (error.includes("יש למלא את השדה")) {
+        swal({
+          title: "חכו רגע!",
+          text: "שכחתם למלא כמה שדות",
+          icon: "error",
+          button: "אישור"
+        });
       }
+      document.querySelector(".swal-button").style.backgroundColor = this.theme.primaryColor;
     },
     updateKeyName(key, newKey) {
-      console.log(`chosenSubject: ${key}, value: ${newKey}`)
+      console.log(`%cupdate subject. old key: ${key}, new key: ${newKey}`, "background-color: lightpink")
       let objectRef = this.cardsData;
       if (key !== newKey) {
           if (!this.isDuplicateKey(objectRef, newKey)) {
             // changes the key name while recording its index by indexedKeys
               objectRef[newKey] = objectRef[key];
               let index = ((key === "") ? this.indexedKeys.length : this.indexedKeys.indexOf(key));
-              console.log(`newKey: ${newKey}`);
               this.indexedKeys[index] = newKey;
               delete objectRef[key];
               this.chosenSubject = newKey;
-              return(true);
               // Error message about duplicate titles
           } else if (this.subjErrorMessage !== "יש למלא את השדה") {
-              swal({
-                title: "הנושא כבר נמצא בשימוש",
-                // text: "You clicked the button!",
-                icon: "error",
-                button: "אישור"
-              });
-              return(false);
-          } else {
-            console.log("%clet's see what's going on here", 'background-color: lightpink');
+              this.subjErrorMessage = "הכותרת כבר בשימוש."; 
           }
       } 
       return true;
@@ -1088,7 +1095,32 @@ export default {
         if (value === "") {
             this.subjErrorMessage = "יש למלא את השדה";
         }
+    },
+    isErrorMessage () {
+      // Make sure there are no error messages
+      let errorContent = "";
+      let errorMessageList = document.querySelectorAll(".error-message");
+      for (let item of errorMessageList) {
+        errorContent = item.querySelector(".text").innerText;
+        console.log(`content: ${item.querySelector(".text").innerText}`);
+      }
+      
+      if (errorContent !== "") {
+        return(errorContent);
+      }
+
+      // Make sure there are not empty inputs without error
+      let inputList = document.querySelectorAll("input");
+      for (let item of inputList) {
+        if (item.value === "") {
+          item.focus();
+          errorContent = "יש למלא את השדה";
+        }
+      }
+      return(errorContent);
     }
+
+
     // updateThings(newValue, varName) {
     //   this[varName] = newValue;
     //   console.log(this[varName])
@@ -1106,17 +1138,28 @@ export default {
   },
   mounted () {
     this.indexedKeys = Object.keys(this.cardsData);
-    console.log(this.theme.secondaryColor)
   }
 }
+
+// swal({
+//   title: "הנושא כבר נמצא בשימוש",
+//   // text: "You clicked the button!",
+//   icon: "error",
+//   button: "אישור"
+// });
 </script>
 
 <style>
-.swal-button {
-  background-color: v-bind("theme.secondaryColor");
-}
 
 .swal-footer {
   text-align: left;
+}
+
+.swal-button:focus {
+  outline-color: white;
+}
+
+.swal-button:hover {
+  filter: contrast(120%);
 }
 </style>  
