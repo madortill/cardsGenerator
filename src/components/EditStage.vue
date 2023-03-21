@@ -1037,6 +1037,7 @@ export default {
       this.chosenSubject = subjName;
     },
     updateThanMain(value) {
+      document.documentElement.focus();
       this.updateKeyName(this.chosenSubject, value);
       let error = this.isErrorMessage();
       if (error === "") {
@@ -1113,7 +1114,8 @@ export default {
       let inputList = document.querySelectorAll("input");
       for (let item of inputList) {
         if (item.value === "") {
-          item.focus();
+          // item.focus();
+          // item.blur();
           errorContent = "יש למלא את השדה";
         }
       }

@@ -5,7 +5,7 @@
             <div class="input-container paper-clip-title">
                 <CustomInput :modelValue="this.chosenSubject" placeholder="הכניסו את שם הנושא" class="paper-clip-content"
                 @input="(value) => {this.$emit('subject-input', value);}" @focusout = "(value) => {this.$emit('subject-focusout', value)}"
-                 :parent-error-message="subjErrorMessage" ref="subject-input-el" @update:modelValue="(value) => {subjectContent = value}"></CustomInput>
+                 :parent-error-message="subjErrorMessage" ref="subject-input-el" @update:modelValue="(value) => {subjectContent = value;}"></CustomInput>
             </div>
             <div class="secondary-container">
                 <Secondary :secondaryName="secondaryKey" :secondaryData="subjData['learningContent'][secondaryKey]"
