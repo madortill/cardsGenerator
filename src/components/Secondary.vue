@@ -77,7 +77,7 @@ export default {
              this.indexedKeys[index] = newKey;
              delete this.secondaryData[key];
          } else if (this.errorList[itemIndex] !== "יש למלא את השדה") {
-           this.errorList[itemIndex] = "הכותרת כבר בשימוש.";
+           this.errorList[itemIndex] = "הכותרת כבר בשימוש";
          }
       }
     },

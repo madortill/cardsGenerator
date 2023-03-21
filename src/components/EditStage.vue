@@ -1071,7 +1071,7 @@ export default {
               this.chosenSubject = newKey;
               // Error message about duplicate titles
           } else if (this.subjErrorMessage !== "יש למלא את השדה") {
-              this.subjErrorMessage = "הכותרת כבר בשימוש."; 
+              this.subjErrorMessage = "הכותרת כבר בשימוש"; 
           }
       } 
       return true;
