@@ -4,7 +4,7 @@
       @change-color="changeColor" @change-title="updateThings(newValue, 'title')" @go-to-subject="goToSubj"></mainScreen>
     <Input-screen v-else-if="(currentStage === 'input')" :subjData="this.cardsData[chosenSubject]" :chosenSubject="chosenSubject" :theme="theme"
       @back-to-main="updateThanMain" @subject-input="hideErrorMessages" @subject-focusout="checkIfEmpty" 
-      :subjErrorMessage="subjErrorMessage" ref="input-screen"></Input-screen>
+      :subjErrorMessage="subjErrorMessage" ref="input-screen" @subject-change="(value) => {this.updateKeyName(this.chosenSubject, value); console.log('hi')}"></Input-screen>
     <!-- <add-questions type = "test" v-else-if="(currentStage === 'test')"></add-questions> -->
     <!-- <add-questions type = "practice" v-else-if="(currentStage === 'practice')"></add-questions> -->
   </div>
@@ -1024,21 +1024,21 @@ export default {
     },
     goToSubj(subjName) {
       if (subjName === "newSubject") {
-        this.cardsData[""] = {
+        this.cardsData[`subject${this.indexedKeys.length}`] = {
           "amountOfQuestions": {},
           "questionsExam": {},
           "questionsPractice": {},
           "learningContent": {},
         };
-        subjName = "";
-        // this.indexedKeys.push(subjName)
+        subjName = `subject${this.indexedKeys.length}`;
+        this.indexedKeys.push(subjName)
       }
       this.currentStage = "input";
       this.chosenSubject = subjName;
     },
-    updateThanMain(value) {
-      document.documentElement.focus();
-      this.updateKeyName(this.chosenSubject, value);
+    updateThanMain() {
+      console.log(document.activeElement);
+      window.focus();
       let error = this.isErrorMessage();
       if (error === "") {
         this.currentStage = 'main';
@@ -1066,7 +1066,7 @@ export default {
           if (!this.isDuplicateKey(objectRef, newKey)) {
             // changes the key name while recording its index by indexedKeys
               objectRef[newKey] = objectRef[key];
-              let index = ((key === "") ? this.indexedKeys.length : this.indexedKeys.indexOf(key));
+              let index = this.indexedKeys.indexOf(key);
               this.indexedKeys[index] = newKey;
               delete objectRef[key];
               this.chosenSubject = newKey;
@@ -1114,8 +1114,8 @@ export default {
       let inputList = document.querySelectorAll("input");
       for (let item of inputList) {
         if (item.value === "") {
-          // item.focus();
-          // item.blur();
+          item.focus();
+          item.blur();
           errorContent = "יש למלא את השדה";
         }
       }

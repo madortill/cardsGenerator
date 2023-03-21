@@ -3,9 +3,9 @@
         <div class="info-container scrollStyle" ref="infoContainer">
             <Bg_svg class="background svg" :color="theme.primaryColor"></Bg_svg>
             <div class="input-container paper-clip-title">
-                <CustomInput :modelValue="this.chosenSubject" placeholder="הכניסו את שם הנושא" class="paper-clip-content"
+                <CustomInput :modelValue="subjectContent" placeholder="הכניסו את שם הנושא" class="paper-clip-content"
                 @input="(value) => {this.$emit('subject-input', value);}" @focusout = "(value) => {this.$emit('subject-focusout', value)}"
-                 :parent-error-message="subjErrorMessage" ref="subject-input-el" @update:modelValue="(value) => {subjectContent = value;}"></CustomInput>
+                 :parent-error-message="subjErrorMessage" ref="subject-input-el" @update:modelValue="(value) => {this.$emit('subject-change', value)}"></CustomInput>
             </div>
             <div class="secondary-container">
                 <Secondary :secondaryName="secondaryKey" :secondaryData="subjData['learningContent'][secondaryKey]"
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="save-container">
-                <div class="save-and-exit" @click="$emit('back-to-main', this.subjectContent);">חזרה לדף הבית</div>
+                <div class="save-and-exit" @click="$emit('back-to-main');">חזרה לדף הבית</div>
             </div>
         </div>
     </div>
@@ -37,7 +37,7 @@ export default {
     components: { Bg_svg, Secondary, CustomInput },
     name: "InputScreen",
     props: { "subjData": Object, "chosenSubject": String, "theme": Object, "subjErrorMessage": String },
-    emits: ["back-to-main", "subject-focusout", "subject-input"],
+    emits: ["back-to-main", "subject-focusout", "subject-input", "subject-change"],
     data() {
         return {
             changesCounter: 0,
@@ -46,7 +46,6 @@ export default {
             errorList: new Array(Object.keys(this.subjData['learningContent']).length),
             duplicateKey: "",
             titleRenderCounter: 0,
-            subjectContent: this.chosenSubject
         }
     },
     methods: {
@@ -90,6 +89,9 @@ export default {
             }
         }
     },
+    computed: {
+        subjectContent() {return(this.chosenSubject.includes("subject") ? "" : this.chosenSubject);}
+    }
 }
 </script>
 
