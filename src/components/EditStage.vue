@@ -4,7 +4,7 @@
       @change-color="changeColor" @change-title="updateThings(newValue, 'title')" @go-to-subject="goToSubj"></mainScreen>
     <Input-screen v-else-if="(currentStage === 'input')" :subjData="this.cardsData[chosenSubject]" :chosenSubject="chosenSubject" :theme="theme"
       @back-to-main="updateThanMain" @subject-input="hideErrorMessages" @subject-focusout="checkIfEmpty" 
-      :subjErrorMessage="subjErrorMessage" ref="input-screen" @subject-change="(value) => {this.updateKeyName(this.chosenSubject, value); console.log('hi')}"></Input-screen>
+      :subjErrorMessage="subjErrorMessage" ref="input-screen" @subject-change="(value) => {this.updateKeyName(this.chosenSubject, value);}"></Input-screen>
     <!-- <add-questions type = "test" v-else-if="(currentStage === 'test')"></add-questions> -->
     <!-- <add-questions type = "practice" v-else-if="(currentStage === 'practice')"></add-questions> -->
   </div>
