@@ -12,7 +12,7 @@
       <div class="buttons-container">
         <page-button-svg :class="['button', currentPage === 0 ? 'invisible' : '']" type="back" :color="theme.textColor"
           @btn-pressed="handleBtn"></page-button-svg>
-        <button class="remove-btn">הסרת עמוד</button>
+        <button class="remove-btn" @click="removePage" :disabled="pageArray.length <= 1">הסרת עמוד</button>
         <page-button-svg class="button" v-if="currentPage === pageArray.length - 1" type="add" :color="theme.textColor"
           @btn-pressed="handleBtn" title="הוספת עמוד"></page-button-svg>
         <page-button-svg class="button" type="next" :color="theme.textColor" @btn-pressed="handleBtn"
@@ -82,6 +82,13 @@ export default {
       this.choice = "";
       this.isPopupShown = false;
     },
+    removePage() {
+      this.pageArray.splice(this.currentPage, 1);
+      if (this.currentPage >= this.pageArray.length) {
+        this.currentPage = this.pageArray.length - 1
+      }
+      console.log(this.pageArray);
+    },
   },
   computed: {
     currentPageObj() {
@@ -121,6 +128,10 @@ export default {
   cursor: pointer;
   height: fit-content;
   align-self: center;
+}
+
+.remove-btn:disabled {
+  border-width: 2px;
 }
 
 .buttons-container {

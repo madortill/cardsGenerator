@@ -1037,8 +1037,6 @@ export default {
       this.chosenSubject = subjName;
     },
     updateThanMain() {
-      console.log(document.activeElement);
-      window.focus();
       let error = this.isErrorMessage();
       if (error === "") {
         this.currentStage = 'main';

@@ -4,7 +4,8 @@
         <div class="grid subj-container">
             <Bg_svg class="background svg" :color="theme.primaryColor"></Bg_svg>
             <div class="paper-clip-title first-paper-clip">
-                <CustomInput v-model="title" placeholder="הכניסו שם ללומדה" class="paper-clip-content"></CustomInput>
+                <CustomInput v-model="title" placeholder="הכניסו שם ללומדה" class="paper-clip-content" 
+                @focusout="titleFocusOut" @input="titleInput" :parent-error-message="titleErrorMessage"></CustomInput>
             </div>
             <div class="cardsContainer scrollStyle">
                 <div class="subjCard" v-for="(value, index) in subjectArray" :key="'title' + index" @click="$emit('go-to-subject', value)">
@@ -38,7 +39,8 @@ export default {
     data() {
         return {
             title: "",
-            showErrorMessage: false
+            showErrorMessage: false,
+            titleErrorMessage: ""
         };
     },
     props: {"subjectArray": Array, "theme": Object},
@@ -46,6 +48,16 @@ export default {
         changeColor(theme) {
             this.$emit("change-color", theme);
         },
+        titleFocusOut (value) {
+            if (value === "") {
+                this.titleErrorMessage = "יש למלא את השדה"
+            }
+        },
+        titleInput (value) {
+            if (value !== "") {
+                this.titleErrorMessage = "";
+            }
+        }
     },
     computed: {},
     components: { ColorPicker, SubjectBtnSvg, CircleSvg, Bg_svg, CustomInput },
