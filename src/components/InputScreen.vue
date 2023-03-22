@@ -3,14 +3,14 @@
         <div class="info-container scrollStyle" ref="infoContainer">
             <Bg_svg class="background svg" :color="theme.primaryColor"></Bg_svg>
             <div class="input-container paper-clip-title">
-                <CustomInput :modelValue="subjectContent" placeholder="הכניסו את שם הנושא" class="paper-clip-content"
+                <CustomInput :modelValue="subject" placeholder="הכניסו את שם הנושא" class="paper-clip-content"
                 @input="(value) => {this.$emit('subject-input', value);}" @focusout = "(value) => {this.$emit('subject-focusout', value)}"
                  :parent-error-message="subjErrorMessage" ref="subject-input-el" @update:modelValue="(value) => {this.$emit('subject-change', value)}"></CustomInput>
             </div>
             <div class="secondary-container">
                 <Secondary :secondaryName="secondaryKey" :secondaryData="subjData['learningContent'][secondaryKey]"
                     :theme="theme" v-for="(secondaryKey, index) in indexedKeys" :key="'secondaryKey: ' + index"
-                    @update:secondary="(value) => { updateKeyName(secondaryKey, value, index) }"
+                    @update:secondary="(value) => { updateKeyName(secondaryKey, value, index, this.subjData['learningContent']) }"
                     :errorMessage="errorList[index]" @secondary-input="(value) => hideErrorMessages(value, index)"
                     @secondary-focusout="(value) => checkIfEmpty(value, index)"></Secondary>
                 <div class="button-container">
@@ -55,8 +55,8 @@ export default {
             this.indexedKeys.push(newKey);
         },
         // handle error messages and customInput events
-        updateKeyName(key, newKey, itemIndex) {
-            let objectRef = this.subjData["learningContent"];
+        updateKeyName(key, newKey, itemIndex, objectRef) {
+            // let objectRef = this.subjData["learningContent"];
             if (key !== newKey) {
                 if (!this.isDuplicateKey(objectRef, newKey)) {
                     objectRef[newKey] = objectRef[key]; 
@@ -64,7 +64,7 @@ export default {
                     this.indexedKeys[index] = newKey;
                     delete objectRef[key];
                 } else if (this.errorList[itemIndex] !== "יש למלא את השדה") {
-                    this.errorList[itemIndex] = "הכותרת כבר בשימוש.";
+                    this.errorList[itemIndex] = "הכותרת כבר בשימוש";
                 }
             }
         },
@@ -80,7 +80,7 @@ export default {
         hideErrorMessages(value, index) {
             if ((value !== "" || !this.isDuplicateKey(this.subjData["learningContent"], value)) && this.errorList[index] !== "") {
                 this.errorList[index] = "";
-                this.updateKeyName(this.indexedKeys[index], value, index);
+                this.updateKeyName(this.indexedKeys[index], value, index, this.subjData["learningContent"]);
             }
         },
         checkIfEmpty(value, index) {
@@ -90,7 +90,7 @@ export default {
         }
     },
     computed: {
-        subjectContent() {return(this.chosenSubject.includes("subject") ? "" : this.chosenSubject);}
+        subject() {return(this.chosenSubject.includes("subject") ? "" : this.chosenSubject);}
     }
 }
 </script>

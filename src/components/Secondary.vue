@@ -8,7 +8,7 @@
     <div class="overflow-container scrollStyle" v-touch:swipe="handleSwipe" ref="overflowContainer">
       <div class="cards-container">
         <card v-for="(topic, index) in indexedKeys" :key="index" :cardTopic="topic" :pageArray="secondaryData[topic]"
-          :isQuestion="false" :theme="theme" @update:cardTopic="(value) => {updateKeyName(topic, value, index)}"
+          :isQuestion="false" :theme="theme" @update:cardTopic="(value) => {updateKeyName(topic, value, index, this.secondaryData)}"
           :errorMessage="errorList[index]" @topic-input="(value) => hideErrorMessages(value, index)"
           @topic-focusout="(value) => checkIfEmpty(value, index)"></card>
         <div>
@@ -69,13 +69,13 @@ export default {
       event.currentTarget.scrollLeft = event.currentTarget.scrollLeft - pixelsToMove;
     },
     // handle error messages and customInput events. Happens not on change but when coming back to main screen or after error message
-    updateKeyName (key ,newKey, itemIndex) {
+    updateKeyName (key ,newKey, itemIndex, objectRef) {
       if (key !== newKey) {
-        if (!this.isDuplicateKey(this.secondaryData, newKey)) {
-             this.secondaryData[newKey] =  [...this.secondaryData[key]];
+        if (!this.isDuplicateKey(objectRef, newKey)) {
+             objectRef[newKey] =  [...objectRef[key]];
              let index = this.indexedKeys.indexOf(key);
              this.indexedKeys[index] = newKey;
-             delete this.secondaryData[key];
+             delete objectRef[key];
          } else if (this.errorList[itemIndex] !== "יש למלא את השדה") {
            this.errorList[itemIndex] = "הכותרת כבר בשימוש";
          }

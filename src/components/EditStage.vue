@@ -4,7 +4,7 @@
       @change-color="changeColor" @change-title="updateThings(newValue, 'title')" @go-to-subject="goToSubj"></mainScreen>
     <Input-screen v-else-if="(currentStage === 'input')" :subjData="this.cardsData[chosenSubject]" :chosenSubject="chosenSubject" :theme="theme"
       @back-to-main="updateThanMain" @subject-input="hideErrorMessages" @subject-focusout="checkIfEmpty" 
-      :subjErrorMessage="subjErrorMessage" ref="input-screen" @subject-change="(value) => {this.updateKeyName(this.chosenSubject, value);}"></Input-screen>
+      :subjErrorMessage="subjErrorMessage" ref="input-screen" @subject-change="(value) => {this.updateKeyName(this.chosenSubject, value, this.cardsData);}"></Input-screen>
     <!-- <add-questions type = "test" v-else-if="(currentStage === 'test')"></add-questions> -->
     <!-- <add-questions type = "practice" v-else-if="(currentStage === 'practice')"></add-questions> -->
   </div>
@@ -1057,9 +1057,9 @@ export default {
       }
       document.querySelector(".swal-button").style.backgroundColor = this.theme.primaryColor;
     },
-    updateKeyName(key, newKey) {
+    updateKeyName(key, newKey, objectRef) {
       console.log(`%cupdate subject. old key: ${key}, new key: ${newKey}`, "background-color: lightpink")
-      let objectRef = this.cardsData;
+      // let objectRef = this.cardsData;
       if (key !== newKey) {
           if (!this.isDuplicateKey(objectRef, newKey)) {
             // changes the key name while recording its index by indexedKeys
@@ -1087,7 +1087,7 @@ export default {
     hideErrorMessages(value) {
         if ((value !== "" || !this.isDuplicateKey(this.cardsData, value)) && this.subjErrorMessage !== "") {
           this.subjErrorMessage = "";
-          this.updateKeyName(this.chosenSubject, value);
+          this.updateKeyName(this.chosenSubject, value, this.cardsData);
         }
     },
     checkIfEmpty(value) {
