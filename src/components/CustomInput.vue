@@ -43,12 +43,12 @@ export default {
 			}
 		},
 		onInput(event) {
+			console.log("input");
 			this.$emit("input", event.currentTarget.value);
-			// this.updateValue(event.currentTarget.value);
-			this.newInputValue = event.currentTarget.value;
+			this.inputValue= event.currentTarget.value;
 		},
 		onChange (event) {
-			this.inputValue = event.target.value;
+			console.log("change");
 			this.$emit("update:modelValue", event.target.value);
 		},
 		async updateValue (value) {
@@ -58,7 +58,7 @@ export default {
       		} 
     	}
 	}, beforeUpdate () {
-		this.inputValue = this.newInputValue;
+		// this.inputValue = this.newInputValue;
 	}
 };
 </script>

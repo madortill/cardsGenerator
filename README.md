@@ -27,7 +27,9 @@ clarity of code:
             (indexedKeys is an array that saves the keys in the order we want to display them (v-for iterates over this array), because objects does not store entries in a particular order.)
         3. if the value is not unique and is not empty, sets error message to "הכותרת כבר בשימוש"
  **focusout**: on focusout, CostumInput.vue shows placeholder, and the parent component checks if value is empty checkIfEmpty. If it is empty, sets error message to "יש למלא את השדה".
- **input**: on input, grandparent component 
+ **input**: on input, CustomInput.vue saves the current value of the input as newInputValue for later use. 
+ The grandparent component hides error messages if neccessary (sets the prop to "")
+ **BeforeUpdate on CustomInput.vue**: Everytime we change the error message, the whole CustomInput.vue component updates, and the value of inputValue is automtically set to the porp modalValue. The problem is, when there is duplicate values, modalValue does not equl to inputValue, because if we change modalValue, there will be two same keys and there will be bugs. There for, we store an earlier version in modalValue and cardsData, but display the value we saved in newInputValue.
 
 
 PLEASE, IF YOU ARE CONSIDERING A SIMILIAR PROJECT USE PINIA AND NOT THIS MESSY WAY I DID!🍍
