@@ -1087,7 +1087,6 @@ export default {
     hideErrorMessages(value) {
         if ((value !== "" || !this.isDuplicateKey(this.cardsData, value)) && this.subjErrorMessage !== "") {
           this.subjErrorMessage = "";
-          this.updateKeyName(this.chosenSubject, value, this.cardsData);
         }
     },
     checkIfEmpty(value) {

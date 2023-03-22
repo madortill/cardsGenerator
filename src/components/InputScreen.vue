@@ -80,7 +80,6 @@ export default {
         hideErrorMessages(value, index) {
             if ((value !== "" || !this.isDuplicateKey(this.subjData["learningContent"], value)) && this.errorList[index] !== "") {
                 this.errorList[index] = "";
-                this.updateKeyName(this.indexedKeys[index], value, index, this.subjData["learningContent"]);
             }
         },
         checkIfEmpty(value, index) {

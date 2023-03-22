@@ -30,6 +30,7 @@ export default {
 	data () {
 		return {
 			inputValue: this.modelValue,
+			newInputValue: ""
 		}
 	},
 	methods: {
@@ -43,7 +44,8 @@ export default {
 		},
 		onInput(event) {
 			this.$emit("input", event.currentTarget.value);
-			this.updateValue(event.currentTarget.value);
+			// this.updateValue(event.currentTarget.value);
+			this.newInputValue = event.currentTarget.value;
 		},
 		onChange (event) {
 			this.inputValue = event.target.value;
@@ -55,7 +57,9 @@ export default {
         		this.inputValue = value;
       		} 
     	}
-	},
+	}, beforeUpdate () {
+		this.inputValue = this.newInputValue;
+	}
 };
 </script>
 

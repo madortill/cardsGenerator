@@ -92,7 +92,6 @@ export default {
     hideErrorMessages (value, index) {
       if ((value !== "" || !this.isDuplicateKey(this.secondaryData, value)) && this.errorList[index] !== "") {
         this.errorList[index] = "";
-        this.updateKeyName(this.indexedKeys[index], value, index);
       }
     },
     checkIfEmpty (value, index) {
