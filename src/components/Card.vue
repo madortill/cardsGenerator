@@ -20,6 +20,9 @@
       </div>
 
       <DropDownCard v-if="isPopupShown" :theme="theme" @add-page="addCard" @cancel="closePopup" cancelable></DropDownCard>
+
+      <!-- Delete popup -->
+      
     </div>
   </div>
 </template>
@@ -30,12 +33,13 @@ import PageButtonSvg from "./svg/PageButtonSvg.vue";
 import CardInput from "./CardInput.vue";
 import DropDownCard from "./DropDownCard.vue";
 import CustomInput from "./CustomInput.vue";
+import swal from 'sweetalert';
 
 export default {
   components: { CardSvg, PageButtonSvg, CardInput, DropDownCard, CustomInput },
   name: "card",
   props: ["isQuestion", "cardTopic", "pageArray", "theme","errorMessage"],
-  emits: ['update:cardTopic', "topic-input", "topic-focusout"],
+  emits: ['update:cardTopic', "topic-input", "topic-focusout", "delete-card"],
   data() {
     return {
       currentPage: 0,
@@ -89,6 +93,21 @@ export default {
       }
       console.log(this.pageArray);
     },
+    deleteCard() {
+      swal({
+        icon: "warning",
+        title: "בטוחים שאתם רוצים למחוק? כל מה שכתבתם בכרטיסייה הזו יימחק!",
+        // text: "",
+        buttons: {cancel: "לבטל", confirm: "למחוק"},
+        dangerMode: true,
+        className: "swal-font",
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+          this.$emit("delete-card");
+        }
+      });
+    }
   },
   computed: {
     currentPageObj() {
