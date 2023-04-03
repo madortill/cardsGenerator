@@ -58,6 +58,29 @@ import EditStage from './components/EditStage.vue'
   *:not(input) {
     user-select: none;
   }
+
+  /* sweet alert styles */
+  
+.swal-footer {
+  text-align: left;
+  direction: rtl;
+}
+
+.swal-button:focus {
+  outline-color: white;
+}
+
+.swal-button:hover {
+  filter: contrast(120%);
+}
+
+/* .swal-font .swal-title {
+  font-family: Rubik;
+  direction: rtl;
+  font-weight: normal !important;
+  color: black;
+} */
+
 </style>
 
 <!-- Add powershell file that enables to add new color (clone files and replace their colors based on three parameters). Add option to test it? -->
