@@ -30,7 +30,6 @@ export default {
 	data () {
 		return {
 			inputValue: this.modelValue,
-			newInputValue: ""
 		}
 	},
 	methods: {
