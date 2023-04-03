@@ -2,7 +2,7 @@
   <div class="container" id="ColorPicker">
     <h1 class="title">בחרו צבע ללומדה</h1>
     <div class="image-flex">
-      <div :class="['color-div', currentColorIndex === index ? 'chosen': '']" v-for="color, index in colorArray" :key="color.name" :id="'color' + index" @click="changeTheme" :ref="'color' + index" :title="color.name">
+      <div :class="['color-div', currentColorIndex === index ? 'chosen': '']" v-for="color, index in colorArray" :key="color.name" :id="'color' + index" @click="changeTheme" :ref="'color' + index" :title="color.hebrawName">
         <Bg_svg class="background-sample" :color="color.primaryColor"></Bg_svg>
       </div>
     </div>
@@ -21,6 +21,7 @@ export default {
       colorArray: [
         {
           name: "lightBlue",
+          hebrawName: "תכלת",
           primaryColor: "#20c5f2",
           secondaryColor: "#1de8f7",
           textColor: "#1c3f55",
@@ -28,13 +29,15 @@ export default {
           buttonsColor: "#1c3f55"
         },{
           name: "pink",
+          hebrawName: "ורוד",
           primaryColor: "#eda8ec",
           secondaryColor: "#c23ac0",
           textColor:"#260129",
           gradient: "#e586d7",
           buttonsColor: "#260129"
         },{
-          name: "orange",
+          name: "yellow",
+          hebrawName: "צהוב",
           primaryColor: "#FCB328",
           secondaryColor: "#FDDE2E",
           textColor:"#414042",
@@ -42,6 +45,7 @@ export default {
           buttonsColor: "#414042"
         },{
           name: "lightPurple",
+          hebrawName: "סגול בהיר",
           primaryColor: "#9E7FAD",
           secondaryColor: "#562d66", //previous color: "#9B6BAE",
           textColor:"#180926",
@@ -49,6 +53,7 @@ export default {
           buttonsColor: "#180926"
         },{
           name: "darkBlue",
+          hebrawName: "כחול כהה",
           primaryColor: "#223D6D",
           secondaryColor: "#516FA5 ",
           textColor:"#031520", // "#223d6d",
@@ -56,6 +61,7 @@ export default {
           buttonsColor: "#031520"
         },{
           name: "brown",
+          hebrawName: "חום",
           primaryColor: "#a7603b",
           secondaryColor: "#5c321c",
           textColor:"#361d10",
@@ -63,6 +69,7 @@ export default {
           buttonsColor: "#361d10"
         },{
           name: "torquise",
+          hebrawName: "טורקיז",
           primaryColor: "#1aa3a3",
           secondaryColor: "#67dfcb",
           textColor:"#1f3e3e",
@@ -72,6 +79,7 @@ export default {
         // Colors not tested
         {
           name: "maroon",
+          hebrawName: "בורדו",
           primaryColor: "#5b0616", // 4D243D
           secondaryColor: "#b91835",
           textColor:"#2e0002",
@@ -80,6 +88,7 @@ export default {
         },
         {
           name: "ballet-pink",
+          hebrawName: "ורוד-בלט",
           primaryColor: "#f97394",
           secondaryColor: "#ffb3c6ff",
           textColor:"#3a1820",
@@ -88,6 +97,7 @@ export default {
         },
         // {
         //   name: "",
+        //   hebrawName: "",
         //   primaryColor: "",
         //   secondaryColor: "",
         //   textColor:"",
