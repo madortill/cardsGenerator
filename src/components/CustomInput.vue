@@ -1,7 +1,7 @@
 <template>
 	<div style="position: relative">
 		<input :class="{'input': true, 'placeholder-custom-style' : placeholderStyle}" type="text" :placeholder="placeholder" :value="inputValue"
-		@focus="inputFocus" @focusout="inputFocus" @input="onInput" @change="onChange"/>
+		@focus="inputFocus" @focusout="inputFocus" @input="onInput" @change="onChange" required/>
 		<div class="error-message error-message-position" v-show="parentErrorMessage">
 			<div class="up-error-triangle"></div>
 			<div class="message">
@@ -42,12 +42,10 @@ export default {
 			}
 		},
 		onInput(event) {
-			console.log("input");
 			this.inputValue = event.currentTarget.value;
 			this.$emit("input", event.currentTarget.value);
 		},
 		onChange (event) {
-			console.log("change");
 			this.$emit("update:modelValue", event.target.value);
 		},
 	}

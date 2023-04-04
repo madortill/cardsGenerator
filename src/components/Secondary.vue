@@ -10,7 +10,7 @@
         <card v-for="(topic, index) in indexedKeys" :key="index" :cardTopic="topic" :pageArray="secondaryData[topic]"
           :isQuestion="false" :theme="theme" @update:cardTopic="(value) => {updateKeyName(topic, value, index, this.secondaryData)}"
           :errorMessage="errorList[index]" @topic-input="(value) => hideErrorMessages(value, index)"
-          @topic-focusout="(value) => checkIfEmpty(value, index)"></card>
+          @topic-focusout="(value) => checkIfEmpty(value, index)" @delete-card="deleteCard(topic)"></card>
         <div>
           <DropDownCard :theme="theme" @add-page="addCard" :key="reRenderCounter"></DropDownCard>
         </div>
@@ -51,7 +51,7 @@ export default {
           newCard.video = "";
           break;
         } case ("picAndText"): {
-          newCard.pic = [];
+          newCard.pic = "";
           break;
         }
       }
@@ -98,6 +98,10 @@ export default {
       if (!value) {
         this.errorList[index] = "יש למלא את השדה";
       }
+    },
+    deleteCard (key) {
+      this.indexedKeys.splice(this.indexedKeys.indexOf(key), 1);
+      delete this.secondaryData[key];
     }
   },
   computed: {

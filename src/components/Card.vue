@@ -8,7 +8,7 @@
       <CustomInput placeholder="הכניסו נושא לכרטיסיה" class="topic" :placeholderStyle="placeholderStyle" 
       :modelValue="topic" @update:modelValue="(value) => this.$emit('update:cardTopic', value)" :parentErrorMessage="errorMessage"
       @input="(value) => {this.$emit('topic-input', value);}" @focusout = "(value) => {this.$emit('topic-focusout', value)}"></CustomInput>
-      <card-input :cardInfo="currentPageObj"></card-input>
+      <card-input :cardInfo="currentPageObj" class="cardInput"></card-input>
       <div class="buttons-container">
         <page-button-svg :class="['button', currentPage === 0 ? 'invisible' : '']" type="back" :color="theme.textColor"
           @btn-pressed="handleBtn"></page-button-svg>
@@ -111,6 +111,7 @@ export default {
   },
   computed: {
     currentPageObj() {
+      console.log("currentPageObject ", this.pageArray[this.currentPage])
       return (this.pageArray[this.currentPage])
     },
     topic () {
@@ -126,16 +127,18 @@ export default {
 
 <style scoped>
 .card {
+  box-sizing: border-box;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
   align-items: center;
-  gap: 1rem;
+  justify-items: center;
+  grid-template:  9.5% 12.5% auto 15% / 1fr;
   height: 27.2rem;
   width: 20rem;
   font-size: 1.6rem;
   text-align: center;
+  padding-left: 4%;
+  padding-top: 6%;
 }
 
 .remove-btn {
@@ -157,7 +160,8 @@ export default {
   display: flex;
   width: 90%;
   justify-content: space-around;
-  margin-top: auto;
+  grid-column: 1 / 2;
+  grid-row:  -2 / -1;
 }
 
 .button {
@@ -183,6 +187,8 @@ export default {
   width: 85%;
   text-overflow: ellipsis;
   padding-right: 0.5rem;
+  grid-column: 1 / 2;
+  grid-row: 2 / span 1;
 }
 
 .delete-btn {
@@ -190,11 +196,17 @@ export default {
   width: 85%;
   display: flex;
   align-items: center;
-  position: relative;
-  top: 1.3rem;
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
 }
 
 .trash-can {
   height: 1.5rem;
   cursor: pointer;
-}</style>
+}
+
+.cardInput {
+  grid-column: 1 / 2;
+  grid-row: 3 / 4;
+}
+</style>

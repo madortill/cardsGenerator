@@ -1,27 +1,26 @@
 <template>
     <div class="card-input" id="CardInput">
-        <div> {{  }} </div>
         <div v-if="cardInfo.cardType === 'text'">
             <textarea type="text" ref="input" v-model="cardInfo.content"></textarea>
         </div>
         <div v-else-if="cardInfo.cardType === 'picAndText'" class="input-container">
             <div>
-                <label for="image-input">איזו תמונה תרצו לצרף? <br> (PNG, JPG, SVG)</label>
+                <span class="image-btn" @click="$refs.imageInput.click()">איזו תמונה תרצו לצרף? (PNG, JPG, SVG)</span>
                 <input type="file" class="no-opacity" id="image-input" name="image-input"
-                    accept=".jpg, .jpeg, .png, .svg" @change="updateImageDisplay" ref="input" required/>
+                    accept=".jpg, .jpeg, .png, .svg" @change="updateInput" ref="imageInput" required/>
                 <!-- .apng, .bmp, .gif, .jpeg, .pjpeg, .png, .svg+xml, .tiff, .webp, .x-icon -->
             </div>
             <div class="preview" ref="preview">
-                <p v-if="currFiles.length === 0">עדיין לא בחרתם תמונה</p>
-                <div v-else-if="isFileValid(this.currFiles[0], 'image')" class="image-details">
+                <p v-if="cardInfo.pic == []">עדיין לא בחרתם תמונה</p>
+                <div v-else-if="cardInfo.pic !== 'invalid'" class="image-details">
                     <img alt="התמונה שבחרתם" :src="chosenImageURL" class="image-preview"/>
-                    <p>שם הקובץ: {{ this.currFiles[0].name }}, גודל הקובץ: {{ returnFileSize(this.currFiles[0].size) }}.</p>
+                    <p class="preview-text">שם הקובץ: {{ fileName }} <br> גודל הקובץ: {{ returnFileSize(this.cardInfo.pic.size) }}.</p>
                 </div>
                 <div v-else>
-                    <p>הקובץ {{ this.currFiles[0].name }} לא תואם לסוג הקובץ המצופה. נסו לבחור קובץ אחר.</p>
+                    <p>הקובץ {{ this.cardInfo.pic.name }} לא תואם לסוג הקובץ המצופה. נסו לבחור קובץ אחר.</p>
                 </div>
             </div>
-            <input type="text" v-model="cardInfo.content" />
+            <input type="text" v-model="cardInfo.content" placeholder="אופציונלי"/>
         </div>
         <div v-else> {{ cardInfo.cardType }}</div>
     </div>
@@ -39,21 +38,17 @@ export default {
             }
         }
     },
-    data() {
-        return {
-            currFiles: this.cardInfo.pic ?? this.cardInfo.video,
-            chosenImageURL: ""
-        }
-    },
     methods: {
+        updateInput() {
+            this.updateImageDisplay();
+        },
         updateImageDisplay() {
-            console.log(this.$refs.input.files);
-            this.currFiles = this.$refs.input.files;
-            if (this.isFileValid(this.currFiles[0], "image")) {
-                this.chosenImageURL = URL.createObjectURL(this.currFiles[0]);
-                this.cardInfo.pic = this.currFiles[0];
+            console.log(this.$refs.imageInput);
+            let fileList = this.$refs.imageInput.files;
+            if (this.isFileValid(fileList[0], "image")) {
+                this.cardInfo.pic = fileList[0];
             } else {
-                this.currFiles = "";
+                this.cardInfo.pic = "invalid";
             }
         },
         returnFileSize(number) {
@@ -93,6 +88,25 @@ export default {
                 }
             }
         }
+    }, 
+    computed: {
+        chosenImageURL() {
+            console.log("chosen file: ", this.cardInfo.pic);
+            if (this.cardInfo.pic instanceof File) {
+                return (URL.createObjectURL(this.cardInfo.pic));
+            } else {
+                // this.cardInfo.pic = "invalid";
+                return undefined;
+            }
+        },
+        fileName () {
+            let tempName = this.cardInfo.pic.name.substring(0, this.cardInfo.pic.name.lastIndexOf('.'));
+            if (tempName.length > 10) {
+                return (tempName.slice(0, 10) + "...");
+            } else {
+                return tempName;
+            }
+        }
     },
 }
 
@@ -100,31 +114,35 @@ export default {
 
 <style scoped>
 .card-input {
-    width: 90%;
-    height: 90%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    /* width: 90%;
+    height: 90%; */
+    font-size: 0.9rem;
 }
 
 .no-opacity {
-    /* opacity: 0; */
-}
-
-img[alt] {
-    font-size: 1.3rem;
+    opacity: 0;
+    height: 0;
+    width: 0;
 }
 
 .image-preview {
-    max-height: 25%;
-    max-width: 90%;
-    height: 64px;
-    order: 1;
+    max-height: 7rem;
 }
 
 .preview {
-    max-height: 25%;
-    max-width: 90%;
+    margin-top: 1rem;
+}
+
+.preview-text {
+    margin: 0;
+}
+
+.image-btn {
+    cursor: pointer;
+    background-color: #7f9ccb;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px ridge black;
+    width: 4rem;
 }
 </style>

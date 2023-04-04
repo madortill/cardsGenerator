@@ -1,4 +1,3 @@
-לא לתת לעבור לעמוד הבית אם יש אינפוטים ריקים
 
 לעשות הערות ב README על איך דברים עובדים פה בכלל
 
@@ -6,4 +5,5 @@
 
 change parentErrorMessage to ErrorMessage
 
-לתקן - אחרי שיש הודעת שגיאה, כותבים טקסט וישר מוחקים נשארת רק אות אחת והודעת שגיאה
+
+add toe README - cardInput updates its own inputs (does not emit an event)

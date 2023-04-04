@@ -37,6 +37,6 @@ export default {
 	.learningCard {
 		height: 100%;
 		width: 100%;
-		right: 0.4rem;
+		/* right: 0.4rem; */
 	}
 </style>
