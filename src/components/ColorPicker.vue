@@ -19,6 +19,7 @@ export default {
     return {
       currentColorIndex: 0,
       colorArray: [
+        // Make sure all colors are 6 digit hex
         {
           name: "lightBlue",
           hebrawName: "תכלת",
@@ -90,9 +91,9 @@ export default {
           name: "ballet-pink",
           hebrawName: "ורוד-בלט",
           primaryColor: "#f97394",
-          secondaryColor: "#ffb3c6ff",
+          secondaryColor: "#ffb3c6",
           textColor:"#3a1820",
-          gradient: "#ff8fabff",
+          gradient: "#ff8fab",
           buttonsColor: "#3a1820"
         },
         // {

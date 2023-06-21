@@ -72,13 +72,13 @@ export default {
                   content: "דוגמה לתוכן של כרטיסייה המחולקת לפי נושאים ותתי נושאים."
                 },
               ],
-              "כרטיסייה שנייה": [
-                {
-                  cardType: "picAndText",
-                  pic: "",
-                  // content: "דוגמה לכותרת לתמונה הראשונה",
-                }
-              ],
+              // "כרטיסייה שנייה": [
+              //   {
+              //     cardType: "picAndText",
+              //     pic: new File(['2d405a88-bc48-4be9-ada1-64f8d10eec3a'], 'peacock.txt', {type: "text/plain", lastModified: 1678696575335, webkitRelativePath: '', size: 3392797}),
+              //     content: "דוגמה לכותרת לתמונה הראשונה",
+              //   }
+              // ],
             },
             "תת נושא 2": {
               "כרטיסייה שלישית מסוג וידאו": [

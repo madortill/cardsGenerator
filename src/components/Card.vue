@@ -8,7 +8,7 @@
       <CustomInput placeholder="הכניסו נושא לכרטיסיה" class="topic" :placeholderStyle="placeholderStyle" 
       :modelValue="topic" @update:modelValue="(value) => this.$emit('update:cardTopic', value)" :parentErrorMessage="errorMessage"
       @input="(value) => {this.$emit('topic-input', value);}" @focusout = "(value) => {this.$emit('topic-focusout', value)}"></CustomInput>
-      <card-input :cardInfo="currentPageObj" class="cardInput"></card-input>
+      <card-input :cardInfo="currentPageObj" :theme="theme" class="cardInput"></card-input>
       <div class="buttons-container">
         <page-button-svg :class="['button', currentPage === 0 ? 'invisible' : '']" type="back" :color="theme.textColor"
           @btn-pressed="handleBtn"></page-button-svg>
@@ -132,7 +132,7 @@ export default {
   display: grid;
   align-items: center;
   justify-items: center;
-  grid-template:  9.5% 12.5% auto 15% / 1fr;
+  grid-template:  8.5% 12.5% 64% 15% / 1fr;
   height: 27.2rem;
   width: 20rem;
   font-size: 1.6rem;
@@ -192,7 +192,7 @@ export default {
 }
 
 .delete-btn {
-  min-height: 3.5rem;
+  /* min-height: 3.5rem; */
   width: 85%;
   display: flex;
   align-items: center;
@@ -203,10 +203,15 @@ export default {
 .trash-can {
   height: 1.5rem;
   cursor: pointer;
+  margin-top: 0.5rem;
 }
 
 .cardInput {
   grid-column: 1 / 2;
   grid-row: 3 / 4;
+  align-self: stretch;
+  /* margin-top: 1.5rem; */
+  /* display: flex;
+  align-items: center; */
 }
 </style>

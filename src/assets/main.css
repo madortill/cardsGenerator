@@ -22,6 +22,10 @@ body {
 
 
 /* general classes */
+textarea {
+  resize: none;
+}
+
 .svg {
   position: absolute;
   z-index: -1;

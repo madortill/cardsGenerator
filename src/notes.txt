@@ -1,5 +1,4 @@
 
-לעשות הערות ב README על איך דברים עובדים פה בכלל
 
 לעשות משתנים גלובליים של הודעות שגיאה?
 
@@ -7,3 +6,5 @@ change parentErrorMessage to ErrorMessage
 
 
 add toe README - cardInput updates its own inputs (does not emit an event)
+
+Do error message to picture input - this is t he source of the problems!!!!!!!!

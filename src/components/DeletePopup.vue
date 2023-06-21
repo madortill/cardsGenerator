@@ -44,15 +44,17 @@ export default {
 <style>
 .card {
     position: relative;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    align-content: center;
     justify-content: center;
     align-items: center;
     gap: 1rem;
     height: 27.2rem;
     width: 20rem;
     font-size: 1.6rem;
-    text-align: center;
+    text-align: center;  
+    padding-left: 4%;
+    padding-top: 6%;
 }
 
 
