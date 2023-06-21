@@ -157,10 +157,24 @@ export default {
           icon: "error",
           button: "אישור"
         });
-      } else if (error.includes("יש למלא את השדה")) {
+      } else if (error.includes("יש למלא את השדה") || error.includes("עדיין לא בחרתם תמונה")) {
         swal({
           title: "חכו רגע!",
           text: "שכחתם למלא כמה שדות",
+          icon: "error",
+          button: "אישור"
+        });
+      } else if (error.includes("סוג הקובץ לא מתאים")) {
+        swal({
+          title: "סוג קובץ לא מתאים",
+          text: "יכול להיות שיש תמונה שלא מתאימה לסוג הקובץ שצריך?",
+          icon: "error",
+          button: "אישור"
+        });
+      } else {
+        swal({
+          title: "אופס! משהו השתבש",
+          text: "נסו לבדוק אם יש הודעות שגיאה על המסך",
           icon: "error",
           button: "אישור"
         });
@@ -207,13 +221,14 @@ export default {
       // Make sure there are no error messages
       let errorContent = "";
       let errorMessageList = document.querySelectorAll(".error-message");
+      errorMessageList.forEach(item => console.log(item));
       for (let item of errorMessageList) {
         errorContent = item.querySelector(".text").innerText;
+        if (errorContent !== "") {
+          return(errorContent);
+        }
       }
       
-      if (errorContent !== "") {
-        return(errorContent);
-      }
 
       // Make sure there are not empty inputs without error
       let inputList = document.querySelectorAll("input");

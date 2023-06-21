@@ -133,7 +133,7 @@ export default {
   align-items: center;
   justify-items: center;
   grid-template:  8.5% 12.5% 64% 15% / 1fr;
-  height: 27.2rem;
+  height: 29.2rem;
   width: 20rem;
   font-size: 1.6rem;
   text-align: center;

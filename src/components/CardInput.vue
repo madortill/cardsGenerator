@@ -6,9 +6,9 @@
         <div v-else-if="cardInfo.cardType === 'picAndText'" class="input-container">
                 <div class="image-btn" @click="$refs.imageInput.click()">איזו תמונה תרצו לצרף? (PNG, JPG, SVG)</div>
                 <input type="file" class="opacity" id="image-input" name="image-input"
-                    accept=".jpg, .jpeg, .png, .svg" @change="updateInput" ref="imageInput" required/>
+                    accept=".jpg, .jpeg, .png, .svg" @change="updateInput" ref="imageInput"/>
                 <!-- .apng, .bmp, .gif, .jpeg, .pjpeg, .png, .svg+xml, .tiff, .webp, .x-icon -->
-                <div v-if="cardInfo.pic == []" class="error">
+                <div v-if="cardInfo.pic == []" class="error error-message">
 		        	<img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="warning" />
 		        	<span class="text">עדיין לא בחרתם תמונה</span>
                 </div>
@@ -19,7 +19,7 @@
                     <!-- <p class="preview-text">שם הקובץ: {{ fileName }} <br> גודל הקובץ: {{ returnFileSize(this.cardInfo.pic.size) }}.</p> -->
                 </div>
             </div>
-            <div v-else class="error">
+            <div v-else class="error error-message">
                 <img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="warning" />
                 <div class="text">סוג הקובץ לא מתאים <br> לאפשרויות הקיימות</div>
             </div>
@@ -147,10 +147,11 @@ export default {
 
 .image-btn {
     cursor: pointer;
-    background-color: v-bind("theme.secondaryColor + 'b0'");
+    background-color: v-bind("theme.secondaryColor + '78'");
+    color: black;
     padding: 5px 10px;
     border-radius: 5px;
-    border: 1px ridge black;
+    border: 1px ridge rgb(118, 118, 118);
     width: fit-content;
     margin-top: 0.5rem;
 }

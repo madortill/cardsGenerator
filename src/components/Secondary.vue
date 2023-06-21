@@ -154,7 +154,7 @@ export default {
   width: 80vw;
   overflow-x: auto;
   overflow-y: hidden;
-  height: 29rem;
+  height: 31rem;
   margin-bottom: 1rem;
   scroll-behavior: smooth;
 }

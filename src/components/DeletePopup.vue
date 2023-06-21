@@ -49,7 +49,7 @@ export default {
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    height: 27.2rem;
+    height: 29.2rem;
     width: 20rem;
     font-size: 1.6rem;
     text-align: center;  
