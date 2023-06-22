@@ -221,7 +221,6 @@ export default {
       // Make sure there are no error messages
       let errorContent = "";
       let errorMessageList = document.querySelectorAll(".error-message");
-      errorMessageList.forEach(item => console.log(item));
       for (let item of errorMessageList) {
         errorContent = item.querySelector(".text").innerText;
         if (errorContent !== "") {

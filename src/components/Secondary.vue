@@ -124,9 +124,6 @@ export default {
   margin-right: 1rem;
   padding: 0.2rem;
   display: inline-block;
-}
-
-.secondary-name:focus-within {
   border-radius: 0.2rem;
   outline: none;
   outline: white solid 1px;

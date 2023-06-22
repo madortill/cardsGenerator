@@ -210,8 +210,6 @@ export default {
   grid-column: 1 / 2;
   grid-row: 3 / 4;
   align-self: stretch;
-  /* margin-top: 1.5rem; */
-  /* display: flex;
-  align-items: center; */
+  /* width: 100%; */
 }
 </style>

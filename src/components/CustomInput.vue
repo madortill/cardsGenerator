@@ -67,6 +67,7 @@ export default {
 	text-overflow: ellipsis;
 }
 
+/*  Error messages style */
 .error-message {
 	position: absolute;
 	z-index: 2;

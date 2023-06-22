@@ -18,8 +18,10 @@
                     <CircleSvg class="icon" :color="theme.buttonsColor"></CircleSvg>
                 </div>
                 <div class="button-container">
-                    <span class="button" @click="$emit('to-exam')"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" alt="plus icon"/> הוספת מבחן</span>
-                    <span class="button" @click="$emit('to-practice')"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" alt="plus icon" />הוספת תרגול</span>
+                    <!-- <span class="button" @click="$emit('to-exam')"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" alt="plus icon"/> הוספת מבחן</span> -->
+                    <!-- <span class="button" @click="$emit('to-practice')"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" alt="plus icon" />הוספת תרגול</span> -->
+                    <span class="button" @click="enterDeleteMode"><img src="@/assets/colorNeutralAssets/trash-white.svg" class="trash-can" alt="minus icon" />מצב מחיקה</span>
+                    <!-- <span class="button" @click="enterDeleteMode"><img src="@/assets/colorNeutralAssets/minus-small.svg" class="plus-button" alt="minus icon" />מצב מחיקה</span> -->
                 </div>
             </div>
             <div class="save-and-continue">שמירה והמשך</div>
@@ -57,6 +59,9 @@ export default {
             if (value !== "") {
                 this.titleErrorMessage = "";
             }
+        },
+        enterDeleteMode () {
+            console.log("enter delete mode")
         }
     },
     computed: {},
@@ -182,6 +187,17 @@ export default {
     position: relative;
     top: 0.5rem;
     margin-left: 0.4rem; 
+}
+
+.trash-can {
+    width: 1.8rem;
+    border: white solid 0.1rem;
+    border-radius: 50%;
+    position: relative;
+    top: 0.5rem;
+    margin-left: 0.4rem; 
+    padding: 0.3rem;
+    box-sizing: border-box;
 }
 
 .save-and-continue {
