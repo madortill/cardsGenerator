@@ -1,5 +1,6 @@
 <template>
     <div class="card-input" id="CardInput">
+        <!-- Input type text -->
         <div v-if="cardInfo.cardType === 'text'" class="input-container">
             <textarea class="textarea text-input"  type="text" ref="input" placeholder="הכניסו טקסט" v-model="cardInfo.content" required>
             </textarea>
@@ -12,7 +13,32 @@
                 <div class="down-error-triangle"></div>
             </div>
         </div>
-        <div v-else-if="cardInfo.cardType === 'picAndText'" class="input-container">
+        <!-- I'm trying to do something generic -->
+        <div v-else-if="cardInfo.cardType === 'picAndText' || cardInfo.cardType === 'videoAndText'" class="input-container">
+                <div class="image-btn" @click="$refs.fileInput.click()"> {{ imageOrVideo.inputPrompt }} </div>
+                <input type="file" class="opacity" id="file-input" name="file-input"
+                    :accept="imageOrVideo.AcceptedFormats" @change="updateInput" ref="fileInput"/>
+                <div v-if="cardInfo[imageOrVideo.propertyName] == []" class="error error-message">
+		        	<img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="picture-warning" />
+		        	<span class="error-text text"> {{ imageOrVideo.emptyError }}</span>
+                </div>
+            <div class="preview" ref="preview" v-else-if="cardInfo[imageOrVideo.propertyName] !== 'invalid'">
+                <div class="image-details">
+                    <img v-if="cardInfo.cardType === 'picAndText'" :alt="imageOrVideo.alt" :src="chosenImageURL" class="image-preview"/>
+                    <video v-else :alt="imageOrVideo.alt" class="image-preview" controls>
+                        <source :src="chosenImageURL" type="video/mp4">
+                        הדפדפן לא תומך בהצגת סרטונים
+                    </video>
+                </div>
+            </div>
+            <div v-else class="error error-message">
+                <img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="picture-warning" />
+                <div class="error-text text">סוג הקובץ לא מתאים <br> לאפשרויות הקיימות</div>
+            </div>
+            <textarea class="textarea" v-model="cardInfo.content" placeholder="הכניסו טקסט הסבר (לא חובה)"></textarea>
+        </div>
+        <!-- Input type file: images -->
+        <!-- <div v-else-if="cardInfo.cardType === 'picAndText'" class="input-container">
                 <div class="image-btn" @click="$refs.imageInput.click()">איזו תמונה תרצו לצרף? (PNG, JPG, SVG)</div>
                 <input type="file" class="opacity" id="image-input" name="image-input"
                     accept=".jpg, .jpeg, .png, .svg" @change="updateInput" ref="imageInput"/>
@@ -23,7 +49,6 @@
             <div class="preview" ref="preview" v-else-if="cardInfo.pic !== 'invalid'">
                 <div class="image-details">
                     <img alt="התמונה שבחרתם" :src="chosenImageURL" class="image-preview"/>
-                    <!-- <p class="preview-text">שם הקובץ: {{ fileName }} <br> גודל הקובץ: {{ returnFileSize(this.cardInfo.pic.size) }}.</p> -->
                 </div>
             </div>
             <div v-else class="error error-message">
@@ -31,7 +56,27 @@
                 <div class="error-text text">סוג הקובץ לא מתאים <br> לאפשרויות הקיימות</div>
             </div>
             <textarea class="textarea" v-model="cardInfo.content" placeholder="הכניסו טקסט הסבר (לא חובה)"></textarea>
-        </div>
+        </div> -->
+        <!-- Input type file: video -->
+        <!-- <div v-else-if="cardInfo.cardType === 'picAndText'" class="input-container">
+                <div class="image-btn" @click="$refs.videoInput.click()">איזה סרטון תרצו לצרף? (MP4)</div>
+                <input type="file" class="opacity" id="video-input" name="video-input"
+                    accept=".mp4" @change="updateInput" ref="videoInput"/>
+                <div v-if="cardInfo.video == []" class="error error-message">
+		        	<img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="picture-warning" />
+		        	<span class="error-text text">עדיין לא בחרתם סרטון</span>
+                </div>
+            <div class="preview" ref="preview" v-else-if="cardInfo.video !== 'invalid'">
+                <div class="image-details">
+                    <img alt="התמונה שבחרתם" :src="chosenImageURL" class="image-preview"/>
+                </div>
+            </div>
+            <div v-else class="error error-message">
+                <img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="picture-warning" />
+                <div class="error-text text">סוג הקובץ לא מתאים <br> לאפשרויות הקיימות</div>
+            </div>
+            <textarea class="textarea" v-model="cardInfo.content" placeholder="הכניסו טקסט הסבר (לא חובה)"></textarea>
+        </div> -->
         <div v-else> {{ cardInfo.cardType }}</div>
     </div>
 </template>
@@ -56,25 +101,16 @@ export default {
             this.updateImageDisplay();
         },
         updateImageDisplay() {
-            console.log(this.$refs.imageInput);
-            let fileList = this.$refs.imageInput.files;
-            if (this.isFileValid(fileList[0], "image")) {
-                this.cardInfo.pic = fileList[0];
+            console.log(this.$refs.fileInput);
+            let fileList = this.$refs.fileInput.files;
+            if (this.isFileValid(fileList[0], this.imageOrVideo.propertyName)) {
+                this.cardInfo[this.imageOrVideo.propertyName] = fileList[0];
             } else {
-                this.cardInfo.pic = "invalid";
+                this.cardInfo[this.imageOrVideo.propertyName] = "invalid";
             }
         },
-        returnFileSize(number) {
-            if (number < 1024) {
-                return `${number} bytes`;
-            } else if (number >= 1024 && number < 1048576) {
-                return `${(number / 1024).toFixed(1)} KB`;
-            } else if (number >= 1048576) {
-                return `${(number / 1048576).toFixed(1)} MB`;
-            }
-        },
-    isFileValid(file, presumedType = "image") {
-            const image = [
+    isFileValid(file, presumedType = "pic") {
+            const pic = [
                 "image/apng",
                 "image/bmp",
                 "image/gif",
@@ -86,14 +122,16 @@ export default {
                 "image/webp",
                 "image/x-icon"
             ];
-            const video = []
+            const video = [
+                "video/mp4"
+            ]
 
             if (!file) {
                 return false;
             }
             switch (presumedType) {
-                case "image": {
-                    return (image.includes(file.type));
+                case "pic": {
+                    return (pic.includes(file.type));
                 } case "video": {
                     return (video.includes(file.type));
                 } default: {
@@ -104,8 +142,8 @@ export default {
     }, 
     computed: {
         chosenImageURL() {
-            if (this.cardInfo.pic instanceof File) {
-                return (URL.createObjectURL(this.cardInfo.pic));
+            if (this.cardInfo[this.imageOrVideo.propertyName] instanceof File) {
+                return (URL.createObjectURL(this.cardInfo[this.imageOrVideo.propertyName]));
             } else {
                 // this.cardInfo.pic = "invalid";
                 return undefined;
@@ -118,6 +156,27 @@ export default {
             } else {
                 return tempName;
             }
+        },
+        imageOrVideo () {
+            // if (cardInfo.cardType === 'videoAndText' || cardInfo.cardType === 'picAndText') {
+                if  (this.cardInfo.cardType === 'picAndText') {
+                    return {
+                        AcceptedFormats: ".jpg, .jpeg, .png, .svg",
+                        inputPrompt: "איזו תמונה תרצו לצרף? (PNG, JPG, SVG)",
+                        emptyError: "לא בחרתם תמונה",
+                        previewAlt: "התמונה שבחרתם",
+                        propertyName: "pic"
+                    }
+
+                } else if (this.cardInfo.cardType === 'videoAndText') {
+                    return {
+                        AcceptedFormats: ".mp4",
+                        inputPrompt: "איזה סרטון תרצו לצרף? (MP4)",
+                        emptyError: "לא בחרתם סרטון",
+                        previewAlt: "הסרטון שבחרתם",
+                        propertyName: "video"
+                    }
+                }
         }
     },
 }

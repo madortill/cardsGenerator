@@ -4,7 +4,6 @@
 
 change parentErrorMessage to ErrorMessage
 
-
 add toe README - cardInput updates its own inputs (does not emit an event)
 
-Do error message to picture input - this is t he source of the problems!!!!!!!!
+i still need to fix error message for text input
