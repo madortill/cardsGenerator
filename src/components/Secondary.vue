@@ -6,7 +6,6 @@
     :parentErrorMessage="errorMessage" @input="(value) => {this.$emit('secondary-input', value);}"
     @focusout = "(value) => {this.$emit('secondary-focusout', value)}"></CustomInput>
     <div class="overflow-container scrollStyle" v-touch:swipe="handleSwipe" ref="overflowContainer">
-      <div class="cards-container">
         <card v-for="(topic, index) in indexedKeys" :key="index" :cardTopic="topic" :pageArray="secondaryData[topic]"
           :isQuestion="false" :theme="theme" @update:cardTopic="(value) => {updateKeyName(topic, value, index, this.secondaryData)}"
           :errorMessage="errorList[index]" @topic-input="(value) => hideErrorMessages(value, index)"
@@ -14,7 +13,6 @@
         <div>
           <DropDownCard :theme="theme" @add-page="addCard" :key="reRenderCounter"></DropDownCard>
         </div>
-      </div>
     </div>
   </div>
 </template>
@@ -129,15 +127,6 @@ export default {
   outline: white solid 1px;
 }
 
-.cards-container {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 2rem;
-  gap: 1.5rem;
-  width: fit-content;
-  height: fit-content;
-}
-
 
 .error-message-position {
   right: 11.5rem;
@@ -149,12 +138,16 @@ export default {
 
 .overflow-container {
   width: 80vw;
-  overflow-x: auto;
+  /* overflow-x: auto; */
   overflow-y: hidden;
   height: 31rem;
   margin-bottom: 1rem;
-  scroll-behavior: smooth;
+  scroll-behavior: smooth;  
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
 }
+
 
 ::-webkit-scrollbar:horizontal {
   height: 7px;

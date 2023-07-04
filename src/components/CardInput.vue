@@ -22,11 +22,11 @@
 		        	<img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="picture-warning" />
 		        	<span class="error-text text"> {{ imageOrVideo.emptyError }}</span>
                 </div>
-            <div class="preview" ref="preview" v-else-if="cardInfo[imageOrVideo.propertyName] !== 'invalid'">
+            <div class="preview" ref="preview" v-else-if="cardInfo.cardType[imageOrVideo.propertyName] !== 'invalid'">
                 <div class="image-details">
                     <img v-if="cardInfo.cardType === 'picAndText'" :alt="imageOrVideo.alt" :src="chosenImageURL" class="image-preview"/>
                     <video v-else :alt="imageOrVideo.alt" class="image-preview" controls>
-                        <source :src="chosenImageURL" type="video/mp4">
+                        <source :src="chosenImageURL" type="video/mp4" :key="refreshCounter">
                         הדפדפן לא תומך בהצגת סרטונים
                     </video>
                 </div>
@@ -37,46 +37,6 @@
             </div>
             <textarea class="textarea" v-model="cardInfo.content" placeholder="הכניסו טקסט הסבר (לא חובה)"></textarea>
         </div>
-        <!-- Input type file: images -->
-        <!-- <div v-else-if="cardInfo.cardType === 'picAndText'" class="input-container">
-                <div class="image-btn" @click="$refs.imageInput.click()">איזו תמונה תרצו לצרף? (PNG, JPG, SVG)</div>
-                <input type="file" class="opacity" id="image-input" name="image-input"
-                    accept=".jpg, .jpeg, .png, .svg" @change="updateInput" ref="imageInput"/>
-                <div v-if="cardInfo.pic == []" class="error error-message">
-		        	<img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="picture-warning" />
-		        	<span class="error-text text">עדיין לא בחרתם תמונה</span>
-                </div>
-            <div class="preview" ref="preview" v-else-if="cardInfo.pic !== 'invalid'">
-                <div class="image-details">
-                    <img alt="התמונה שבחרתם" :src="chosenImageURL" class="image-preview"/>
-                </div>
-            </div>
-            <div v-else class="error error-message">
-                <img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="picture-warning" />
-                <div class="error-text text">סוג הקובץ לא מתאים <br> לאפשרויות הקיימות</div>
-            </div>
-            <textarea class="textarea" v-model="cardInfo.content" placeholder="הכניסו טקסט הסבר (לא חובה)"></textarea>
-        </div> -->
-        <!-- Input type file: video -->
-        <!-- <div v-else-if="cardInfo.cardType === 'picAndText'" class="input-container">
-                <div class="image-btn" @click="$refs.videoInput.click()">איזה סרטון תרצו לצרף? (MP4)</div>
-                <input type="file" class="opacity" id="video-input" name="video-input"
-                    accept=".mp4" @change="updateInput" ref="videoInput"/>
-                <div v-if="cardInfo.video == []" class="error error-message">
-		        	<img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="picture-warning" />
-		        	<span class="error-text text">עדיין לא בחרתם סרטון</span>
-                </div>
-            <div class="preview" ref="preview" v-else-if="cardInfo.video !== 'invalid'">
-                <div class="image-details">
-                    <img alt="התמונה שבחרתם" :src="chosenImageURL" class="image-preview"/>
-                </div>
-            </div>
-            <div v-else class="error error-message">
-                <img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="picture-warning" />
-                <div class="error-text text">סוג הקובץ לא מתאים <br> לאפשרויות הקיימות</div>
-            </div>
-            <textarea class="textarea" v-model="cardInfo.content" placeholder="הכניסו טקסט הסבר (לא חובה)"></textarea>
-        </div> -->
         <div v-else> {{ cardInfo.cardType }}</div>
     </div>
 </template>
@@ -84,6 +44,11 @@
 <script>
 export default {
     name: "CardInput",
+    data () {
+        return {
+            refreshCounter: 0
+        }
+    },
     props: {
         "cardInfo": {
             type: Object,
@@ -101,9 +66,9 @@ export default {
             this.updateImageDisplay();
         },
         updateImageDisplay() {
-            console.log(this.$refs.fileInput);
             let fileList = this.$refs.fileInput.files;
             if (this.isFileValid(fileList[0], this.imageOrVideo.propertyName)) {
+                console.log("file valid");
                 this.cardInfo[this.imageOrVideo.propertyName] = fileList[0];
             } else {
                 this.cardInfo[this.imageOrVideo.propertyName] = "invalid";
@@ -142,7 +107,10 @@ export default {
     }, 
     computed: {
         chosenImageURL() {
+            console.log(this.cardInfo[this.imageOrVideo.propertyName]);
             if (this.cardInfo[this.imageOrVideo.propertyName] instanceof File) {
+                console.log(URL.createObjectURL(this.cardInfo[this.imageOrVideo.propertyName]));
+                this.refreshCounter++;
                 return (URL.createObjectURL(this.cardInfo[this.imageOrVideo.propertyName]));
             } else {
                 // this.cardInfo.pic = "invalid";
@@ -150,7 +118,7 @@ export default {
             }
         },
         fileName () {
-            let tempName = this.cardInfo.pic.name.substring(0, this.cardInfo.pic.name.lastIndexOf('.'));
+            let tempName = this.cardInfo[this.imageOrVideo.propertyName].name.substring(0, this.cardInfo[this.imageOrVideo.propertyName].name.lastIndexOf('.'));
             if (tempName.length > 10) {
                 return (tempName.slice(0, 10) + "...");
             } else {
