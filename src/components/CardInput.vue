@@ -24,9 +24,9 @@
                 </div>
             <div class="preview" ref="preview" v-else-if="cardInfo.cardType[imageOrVideo.propertyName] !== 'invalid'">
                 <div class="image-details">
-                    <img v-if="cardInfo.cardType === 'picAndText'" :alt="imageOrVideo.alt" :src="chosenImageURL" class="image-preview"/>
-                    <video v-else :alt="imageOrVideo.alt" class="image-preview" controls>
-                        <source :src="chosenImageURL" type="video/mp4" :key="refreshCounter">
+                    <img v-if="cardInfo.cardType === 'picAndText'" :alt="imageOrVideo.alt" :src="chosenMediaURL" class="image-preview"/>
+                    <video v-else :alt="imageOrVideo.alt" class="image-preview" ref="video" controls>
+                        <source :src="chosenMediaURL" type="video/mp4">
                         הדפדפן לא תומך בהצגת סרטונים
                     </video>
                 </div>
@@ -44,11 +44,6 @@
 <script>
 export default {
     name: "CardInput",
-    data () {
-        return {
-            refreshCounter: 0
-        }
-    },
     props: {
         "cardInfo": {
             type: Object,
@@ -63,6 +58,9 @@ export default {
     },
     methods: {
         updateInput() {
+            if (this.cardInfo.cardType === 'videoAndText') {
+                this.$refs.video.load();
+            }
             this.updateImageDisplay();
         },
         updateImageDisplay() {
@@ -106,14 +104,11 @@ export default {
         }
     }, 
     computed: {
-        chosenImageURL() {
+        chosenMediaURL() {
             console.log(this.cardInfo[this.imageOrVideo.propertyName]);
             if (this.cardInfo[this.imageOrVideo.propertyName] instanceof File) {
-                console.log(URL.createObjectURL(this.cardInfo[this.imageOrVideo.propertyName]));
-                this.refreshCounter++;
                 return (URL.createObjectURL(this.cardInfo[this.imageOrVideo.propertyName]));
             } else {
-                // this.cardInfo.pic = "invalid";
                 return undefined;
             }
         },
@@ -186,6 +181,7 @@ export default {
     border: 1px ridge rgb(118, 118, 118);
     width: fit-content;
     margin-top: 0.5rem;
+    align-self: center;
 }
 
 .textarea {
