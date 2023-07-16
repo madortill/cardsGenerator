@@ -2,18 +2,13 @@
     <div class="card-input" id="CardInput">
         <!-- Input type text -->
         <div v-if="cardInfo.cardType === 'text'" class="input-container">
-            <textarea class="textarea text-input"  type="text" ref="input" placeholder="הכניסו טקסט" v-model="cardInfo.content" required>
-            </textarea>
-            <!-- Error message -->
-            <div class="error-message error-message-position text-error-message" v-show="cardInfo.content === ''">
-                <div class="message">
-                    <img src="@/assets/colorNeutralAssets/triangle-warning.svg" alt="warning symbol" class="warning" />
-                    <span class="text"> יש למלא את השדה </span>
-                </div>
-                <div class="down-error-triangle"></div>
-            </div>
+            <div :class="isShowRedBorder ? 'error-message textarea-error-innertext' : 'none'"><span class= "text">יש למלא את השדה</span></div>
+            <textarea :class="['textarea', 'text-input', isShowRedBorder ? 'error-message textarea-error' : '']"
+              type="text" ref="input" placeholder="הכניסו טקסט" v-model="cardInfo.content" 
+              @focusout="() => {isShowRedBorder = cardInfo.content === ''  ? true : false}"
+              @input="() => {cardInfo.content === '' ? '' : isShowRedBorder = false}" required></textarea>
         </div>
-        <!-- I'm trying to do something generic -->
+        <!-- Image or Video type -->
         <div v-else-if="cardInfo.cardType === 'picAndText' || cardInfo.cardType === 'videoAndText'" class="input-container">
                 <div class="image-btn" @click="$refs.fileInput.click()"> {{ imageOrVideo.inputPrompt }} </div>
                 <input type="file" class="opacity" id="file-input" name="file-input"
@@ -33,11 +28,36 @@
             </div>
             <div v-else class="error error-message">
                 <img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="picture-warning" />
-                <div class="error-text text">סוג הקובץ לא מתאים <br> לאפשרויות הקיימות</div>
+                <div class="text">סוג הקובץ לא מתאים <br> לאפשרויות הקיימות</div>
             </div>
             <textarea class="textarea" v-model="cardInfo.content" placeholder="הכניסו טקסט הסבר (לא חובה)"></textarea>
         </div>
-        <div v-else> {{ cardInfo.cardType }}</div>
+        <!-- Youtube type -->
+        <div v-else-if="cardInfo.cardType=== 'youtube'" class="input-container">
+            <!-- <div class="image-btn" @click="$refs.fileInput.click()"> הדביקו קישור לסרטון יוטיוב </div>
+                <input type="file" class="opacity" id="file-input" name="file-input"
+                    :accept="imageOrVideo.AcceptedFormats" @change="updateInput" ref="fileInput"/>
+                <div v-if="cardInfo[imageOrVideo.propertyName] == []" class="error error-message">
+		        	<img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="picture-warning" />
+		        	<span class="text"> {{ imageOrVideo.emptyError }}</span>
+                </div>
+            <div class="preview" ref="preview" v-else-if="cardInfo.cardType[imageOrVideo.propertyName] !== 'invalid'">
+                <div class="image-details">
+                    <img v-if="cardInfo.cardType === 'picAndText'" :alt="imageOrVideo.alt" :src="chosenMediaURL" class="image-preview"/>
+                    <video v-else :alt="imageOrVideo.alt" class="image-preview" ref="video" controls>
+                        <source :src="chosenMediaURL" type="video/mp4">
+                        הדפדפן לא תומך בהצגת סרטונים
+                    </video>
+                </div>
+            </div>
+            <div v-else class="error error-message">
+                <img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="picture-warning" />
+                <div class="text">סוג הקובץ לא מתאים <br> לאפשרויות הקיימות</div>
+            </div> -->
+            <textarea class="textarea" v-model="cardInfo.content" placeholder="הכניסו טקסט הסבר (לא חובה)"></textarea>
+        </div>
+        <!-- Deafult option for cases of errors -->
+        <div v-else> אופס! נראה שהאפשרות שבחרתם לא קיימת יותר...</div>
     </div>
 </template>
 
@@ -56,12 +76,18 @@ export default {
             type: Object,
         }
     },
+    data() {
+        return {
+            isShowRedBorder: false
+        }
+    },
     methods: {
         updateInput() {
+            console.log(`cardType: ${this.cardInfo.cardType}, refs value:`, this.$refs)
+            this.updateImageDisplay();
             if (this.cardInfo.cardType === 'videoAndText') {
                 this.$refs.video.load();
             }
-            this.updateImageDisplay();
         },
         updateImageDisplay() {
             let fileList = this.$refs.fileInput.files;
@@ -104,8 +130,7 @@ export default {
         }
     }, 
     computed: {
-        chosenMediaURL() {
-            console.log(this.cardInfo[this.imageOrVideo.propertyName]);
+        chosenMediaURL() { 
             if (this.cardInfo[this.imageOrVideo.propertyName] instanceof File) {
                 return (URL.createObjectURL(this.cardInfo[this.imageOrVideo.propertyName]));
             } else {
@@ -200,6 +225,14 @@ export default {
 }
 
 /* Error messages styles */
+.textarea-error {
+    border: none;
+    outline: rgb(216, 10, 10) 2px solid;
+}
+
+.textarea-error-innertext {
+    color: #d80a0a;
+}
 
 /* Picture warnings */
 .error {
@@ -212,10 +245,11 @@ export default {
     width: 85%;
 }
 
-.error-text {
+.error .text {
     font-weight: 800;
     color: #710101;
     text-align: right;
+    outline: red;
 }
 
 .picture-warning {

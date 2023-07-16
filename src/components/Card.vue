@@ -91,13 +91,11 @@ export default {
       if (this.currentPage >= this.pageArray.length) {
         this.currentPage = this.pageArray.length - 1
       }
-      console.log(this.pageArray);
     },
     deleteCard() {
       swal({
         icon: "warning",
         title: "בטוחים שאתם רוצים למחוק? כל מה שכתבתם בכרטיסייה הזו יימחק!",
-        // text: "",
         buttons: {cancel: "לבטל", confirm: "למחוק"},
         dangerMode: true,
         className: "swal-font",
@@ -111,7 +109,6 @@ export default {
   },
   computed: {
     currentPageObj() {
-      console.log("currentPageObject ", this.pageArray[this.currentPage])
       return (this.pageArray[this.currentPage])
     },
     topic () {
