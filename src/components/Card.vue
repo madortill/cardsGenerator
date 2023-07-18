@@ -206,7 +206,7 @@ export default {
 .cardInput {
   grid-column: 1 / 2;
   grid-row: 3 / 4;
-  align-self: stretch;
-  /* width: 100%; */
+  /* align-self: stretch; */
+  display: contents;
 }
 </style>
