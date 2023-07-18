@@ -56,6 +56,11 @@ textarea {
     background-color: rgba(136, 134, 134, 0.658); 
 }
 
+.input::selection, textarea::selection {
+  background-color: rgba(78, 181, 245, 0.704);
+}
+
+
 /* Error message styling
 .error-message {
   position: absolute;

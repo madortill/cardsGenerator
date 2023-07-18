@@ -148,6 +148,9 @@ export default {
 
 .subject {
     color: v-bind("theme.textColor");
+    width: 71%;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .icon {

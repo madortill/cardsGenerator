@@ -1,9 +1,7 @@
-
+use youtube iFrame Player API to catch wrong typing of youtube videos and messages errors generally
 
 לעשות משתנים גלובליים של הודעות שגיאה?
 
 change parentErrorMessage to ErrorMessage
 
 add toe README - cardInput updates its own inputs (does not emit an event)
-
-i still need to fix error message for text input
