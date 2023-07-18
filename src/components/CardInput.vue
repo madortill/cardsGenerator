@@ -17,7 +17,7 @@
 		    	<img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="picture-warning" />
 		    	<span class="error-text text"> {{ imageOrVideo.emptyError }}</span>
             </div>
-            <div class="preview" ref="preview" v-else-if="cardInfo.cardType[imageOrVideo.propertyName] !== 'invalid'">
+            <div class="preview" ref="preview" v-else-if="cardInfo[imageOrVideo.propertyName] !== 'invalid'">
                 <div class="image-details">
                     <img v-if="cardInfo.cardType === 'picAndText'" :alt="imageOrVideo.alt" :src="chosenMediaURL" class="image-preview"/>
                     <video v-else :alt="imageOrVideo.alt" class="image-preview" ref="video" controls>
@@ -43,12 +43,10 @@
 		    	<span class="text"> {{ youtubeError }} </span>
             </div> 
             <div class="preview" ref="preview" v-else-if="youtubeId !== null">
-                <!-- <div class="image-details"> -->
-                    <iframe width="280" height="165" :src="'https://www.youtube-nocookie.com/embed/' + youtubeId" 
-                    class="image-preview" title="סרטון יוטיוב" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
-                    gyroscope; picture-in-picture; web-share" allowfullscreen ref="youtubeIframe"></iframe>
-                </div>
-            <!-- </div> -->
+                <iframe width="280" height="165" :src="'https://www.youtube-nocookie.com/embed/' + youtubeId" 
+                class="image-preview" title="סרטון יוטיוב" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
+                gyroscope; picture-in-picture; web-share" allowfullscreen ref="youtubeIframe"></iframe>
+            </div>
             <textarea class="textarea" v-model="cardInfo.content" placeholder="הכניסו טקסט הסבר (לא חובה)"></textarea>
         </div>
         <!-- Deafult option for cases of errors -->
@@ -180,13 +178,9 @@ export default {
             console.log('youtubeId is changing');
             // Use regex that matches the video id if  it's embed, watch or share
             let regEx = new RegExp(/(?<=v=|youtu.be\/|embed\/)\w+/g);
-            console.log('youtubeId', this.cardInfo.youtube.match(/(?<=v=|youtu.be\/|embed\/)\w+/g));
-            return (this.cardInfo.youtube.match(/(?<=v=|youtu.be\/|embed\/)\w+/g)[0]);
+            console.log('youtubeId', this.cardInfo.youtube.match(/(?<=v=|youtu.be\/|embed\/)[^&]+/g));
+            return (this.cardInfo.youtube.match(/(?<=v=|youtu.be\/|embed\/)[^&]+/g)[0]);
         },
-        iframeHTML() {
-            return (`<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${this.cardInfo.youtube.match(/(?<=v=|youtu.be\/|embed\/)\w+/g)[0]}" class="image-preview" title="סרטון יוטיוב" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowfullscreen ref="youtubeIframe"></iframe> `);
-        }
     },
 }
 </script>
@@ -266,7 +260,8 @@ export default {
 .error .text {
     font-weight: 800;
     color: #710101;
-    text-align: right;
+    /* text-align: right; */
+    text-align: center;
     outline: red;
 }
 
@@ -339,6 +334,7 @@ export default {
     font-size: 1rem;
     border-radius: 0.4rem;
     border: 1px ridge rgb(118, 118, 118);
+    flex-basis: 2.5rem
 }
 
 .load-youtube {
