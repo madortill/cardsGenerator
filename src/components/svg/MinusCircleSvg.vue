@@ -5,7 +5,7 @@
         <g>
             <path
                 d="M12 0C5.383 0 0 5.383 0 12s5.383 12 12 12 12-5.383 12-12S18.617 0 12 0Zm4 13H8a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Z"
-                fill="#ab2889" data-original="#000000" class="" opacity="1"></path>
+                :fill="color" data-original="#000000" class="" opacity="1"></path>
         </g>
     </svg>
 </template>

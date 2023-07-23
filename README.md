@@ -30,6 +30,7 @@ clarity of code:
  **input**: on input, CustomInput.vue saves the current value of the input as inputValue, (because modalValue does not always match the actual value, for example when there is duplicate key).
  The grandparent component hides error messages if neccessary (sets the prop to "")
 
+**notes:** the component of CardInput.vue handles its own inputs and error messages and does not emit an event, because there is no need to check for duplicates.
 
 PLEASE, IF YOU ARE CONSIDERING A SIMILIAR PROJECT USE PINIA AND NOT THIS MESSY WAY I DID!🍍
 

@@ -8,20 +8,22 @@
                 @focusout="titleFocusOut" @input="titleInput" :parent-error-message="titleErrorMessage"></CustomInput>
             </div>
             <div class="cardsContainer scrollStyle">
-                <div class="subjCard" v-for="(value, index) in subjectArray" :key="'title' + index" @click="$emit('go-to-subject', value)">
+                <div :class="['subjCard', isDeleteMode === true ? 'rattle-animation': '']" v-for="(value, index) in subjectArray"
+                   :key="'title' + index" @click="() => {if (!this.isDeleteMode) {$emit('go-to-subject', value)}}" :ref="'subj' + index">
+                   <div class="delete" v-show="isDeleteMode"></div>
                     <SubjectBtnSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></SubjectBtnSvg>
                     <div class="subject">{{ value }}</div>
                 </div>
                 <div class="subjCard"  @click="$emit('go-to-subject', 'newSubject')">
                     <SubjectBtnSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></SubjectBtnSvg>
                     <div class="subject">הוספת נושא</div>
-                    <CircleSvg class="icon" :color="theme.buttonsColor"></CircleSvg>
+                    <div class="add-subj-btn"></div>
                 </div>
                 <div class="button-container">
                     <!-- <span class="button" @click="$emit('to-exam')"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" alt="plus icon"/> הוספת מבחן</span> -->
                     <!-- <span class="button" @click="$emit('to-practice')"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" alt="plus icon" />הוספת תרגול</span> -->
-                    <span class="button" @click="enterDeleteMode"><img src="@/assets/colorNeutralAssets/trash-white.svg" class="trash-can" alt="minus icon" />מצב מחיקה</span>
-                    <!-- <span class="button" @click="enterDeleteMode"><img src="@/assets/colorNeutralAssets/minus-small.svg" class="plus-button" alt="minus icon" />מצב מחיקה</span> -->
+                    <span class="button" @click="isDeleteMode = !isDeleteMode" v-show="!isDeleteMode && subjectArray.length > 0"><img src="@/assets/colorNeutralAssets/trash-white.svg" class="trash-can" alt="trash icon" />מצב מחיקה</span>
+                    <span class="button back-btn" @click="isDeleteMode = !isDeleteMode" v-show="isDeleteMode"><img src="@/assets/colorNeutralAssets/arrow-small-right.svg" class="trash-can" alt="trash icon" />חזרה</span>
                 </div>
             </div>
             <div class="save-and-continue">שמירה והמשך</div>
@@ -33,6 +35,7 @@
 import ColorPicker from './ColorPicker.vue';
 import SubjectBtnSvg from './svg/SubjectBtnSvg.vue';
 import CircleSvg from './svg/CircleSvg.vue';
+import MinusCircleSvg from './svg/MinusCircleSvg.vue';
 import Bg_svg from './svg/Bg_svg.vue';
 import CustomInput from './CustomInput.vue';
 
@@ -42,7 +45,8 @@ export default {
         return {
             title: "",
             showErrorMessage: false,
-            titleErrorMessage: ""
+            titleErrorMessage: "",
+            isDeleteMode: false
         };
     },
     props: {"subjectArray": Array, "theme": Object},
@@ -60,12 +64,11 @@ export default {
                 this.titleErrorMessage = "";
             }
         },
-        enterDeleteMode () {
-            console.log("enter delete mode")
-        }
+        toggleDeleteMode () {
+            this.isDeleteMode = !this.isDeleteMode;
+        },
     },
-    computed: {},
-    components: { ColorPicker, SubjectBtnSvg, CircleSvg, Bg_svg, CustomInput },
+    components: { ColorPicker, SubjectBtnSvg, CircleSvg, Bg_svg, CustomInput, MinusCircleSvg },
 }
 
 </script>
@@ -87,6 +90,7 @@ export default {
     width: 66.67vw;
 }
 
+/* Title input styles */
 .first-paper-clip {
     width: 24rem;
     grid-area: 1/ 1/ span 1 / span 1;
@@ -119,6 +123,7 @@ export default {
     outline: black solid 2px;
 }
 
+/* general styles */
 .cardsContainer {
     display: flex;
     flex-wrap: wrap;
@@ -183,6 +188,7 @@ export default {
     cursor: pointer;
 }
 
+
 .plus-button {
     width: 1.5rem;
     border: white solid 0.1rem;
@@ -218,4 +224,72 @@ export default {
     cursor: pointer;
 }
 
+.add-subj-btn {
+    position: relative;
+    margin-top: 1rem;
+    width: 2rem;
+    height: 2rem;
+}
+
+.add-subj-btn:before {
+    height: 56%;
+	transform: translate(40%,39%);
+}
+.add-subj-btn:after {
+    height: 56%;
+	transform: translate(40%,39%) rotate(90deg);
+}
+
+/* Delete mode */
+.delete {
+    position: absolute;
+    right: 12%;
+    top: 20%;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.delete, .add-subj-btn{
+    border-radius: 50%;
+    background: v-bind("theme.buttonsColor");
+    opacity: 1;
+    transition: .4s ease;
+    z-index: 1;
+}
+
+
+
+.delete:before, .delete:after, .add-subj-btn:before, .add-subj-btn:after {
+    content: '';
+    width: 9%;
+    position: absolute;
+    background: #fff;
+    border-radius: 6px;
+}
+.delete:before {
+    height: 59%;
+	transform: translate(40%,30%) rotate(45deg);
+}
+.delete:after {
+    height: 59%;
+	transform: translate(40%,30%) rotate(-45deg);
+}
+
+@keyframes rattle {
+    0% {
+        transform: translate(-10px, 0px) rotate(-3deg);
+    } 50% {
+        transform: translate(10px, 0px) rotate(3deg);
+    } 100% {
+        transform: translate(-10px, 0px) rotate(-3deg);
+    }
+}
+.rattle-animation {
+    transform-origin: 50% 50%;
+    animation: rattle 0.7s ease-in-out infinite;
+}
+
+.back-btn {
+    padding: 0.1rem 1rem 0.7rem;
+}
 </style>
