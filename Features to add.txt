@@ -2,3 +2,9 @@
 
 הוראות הפעלה, אולי עם ספרייה שדומה ל intro.js
 יש תמונות בתיק מסכים
+
+שגיאות בהטמעת סרטון יוטיוב בעזרת youtube api
+embed youtube videos with youtube player api and not in html
+
+Change InputScreen appearance form v-if to v-show and than you don't have to connect the inputs' values to the props and can give up the 
+workaround using nextTick

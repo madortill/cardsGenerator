@@ -1,10 +1,12 @@
 <template>
   <div id="Secondary">
-    <span class="arrow">></span>
-    <CustomInput class="secondary-name" placeholder="הכניסו תת-נושא" :placeholderStyle="{color: '#ffffffC7'}"
-    :modelValue="secondary" @update:modelValue="(value) => this.$emit('update:secondary', value)"
-    :parentErrorMessage="errorMessage" @input="(value) => {this.$emit('secondary-input', value);}"
-    @focusout = "(value) => {this.$emit('secondary-focusout', value)}"></CustomInput>
+    <div class="flex">
+      <span class="minus" @click="deleteSecondary"></span>
+      <CustomInput class="secondary-name" placeholder="הכניסו תת-נושא" :placeholderStyle="{color: '#ffffffC7'}"
+      :modelValue="secondary" @update:modelValue="(value) => this.$emit('update:secondary', value)"
+      :parentErrorMessage="errorMessage" @input="(value) => {this.$emit('secondary-input', value);}"
+      @focusout = "(value) => {this.$emit('secondary-focusout', value)}"></CustomInput>
+    </div>
     <div class="overflow-container scrollStyle" v-touch:swipe="handleSwipe" ref="overflowContainer">
         <card v-for="(topic, index) in indexedKeys" :key="index" :cardTopic="topic" :pageArray="secondaryData[topic]"
           :isQuestion="false" :theme="theme" @update:cardTopic="(value) => {updateKeyName(topic, value, index, this.secondaryData)}"
@@ -97,10 +99,24 @@ export default {
         this.errorList[index] = "יש למלא את השדה";
       }
     },
-    deleteCard (key) {
-      this.indexedKeys.splice(this.indexedKeys.indexOf(key), 1);
-      delete this.secondaryData[key];
-    }
+    deleteSecondary() {
+      swal({
+        icon: "warning",
+        title: `בטוחים שאתם רוצים למחוק? כל מה שכתבתם בתת הנושא "${this.secondary}" יימחק!`,
+        buttons: {cancel: "לבטל", confirm: "למחוק"},
+        dangerMode: true,
+        className: "swal-font",
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+          this.$emit("delete-secondary", this.secondaryName);
+        }
+      });
+    },
+    deleteCard (cardName) {
+      this.indexedKeys.splice(this.indexedKeys.indexOf(cardName), 1);
+      delete this.secondaryData[cardName];
+    },
   },
   computed: {
     secondary() {return(this.secondaryName.includes("secondary") ? "" : this.secondaryName)}
@@ -108,23 +124,54 @@ export default {
 } 
 </script>
 <style scoped>
-.arrow,
+.flex {
+  display: flex;
+  width: 19rem;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.minus,
 .secondary-name {
   color: white;
   font-size: 1.4rem;
   width: 17rem;
+  outline: none;
+  outline: white solid 1px;
+}
+
+.minus {
+    border-radius: 50%;
+    position: relative;
+    /* padding: 0.1rem 1rem; */
+    flex-shrink: 0;
+    flex-grow: 0;
+    flex-basis: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+}
+
+.minus::before {
+  content: '';
+  width: 0.2rem;
+  position: absolute;
+  background: #fff;
+  border-radius: 2px;
+  height: 50%;
+  transform: rotate(90deg);
+  outline: none;
+  top: 29%;
+  left: 45%;
 }
 
 .secondary-name {
   background-color: transparent;
   border: none;
   box-sizing: border-box;
-  margin-right: 1rem;
   padding: 0.2rem;
   display: inline-block;
-  border-radius: 0.2rem;
-  outline: none;
-  outline: white solid 1px;
+  border-radius: 0.3rem;
+  flex-grow: 1;
 }
 
 

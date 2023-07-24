@@ -239,6 +239,8 @@ export default {
     width: fit-content;
     margin-top: 0.5rem;
     align-self: center;
+    text-align: center;
+    box-sizing: border-box;
 }
 
 .textarea {

@@ -28,6 +28,8 @@
             </div>
             <div class="save-and-continue">שמירה והמשך</div>
         </div>
+        <button>hi!</button>
+        <div>hi!</div>
     </div>
 </template>
 
@@ -233,7 +235,9 @@ export default {
 
 .add-subj-btn:before {
     height: 56%;
-	transform: translate(40%,39%);
+	/* transform: translate(40%,39%); */
+	transform: translate(47%,36%);
+    
 }
 .add-subj-btn:after {
     height: 56%;
@@ -245,8 +249,8 @@ export default {
     position: absolute;
     right: 12%;
     top: 20%;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 2rem;
+    height: 2rem;
 }
 
 .delete, .add-subj-btn{
@@ -275,18 +279,26 @@ export default {
 	transform: translate(40%,30%) rotate(-45deg);
 }
 
-@keyframes rattle {
+/* @keyframes rattle {
     0% {
         transform: translate(-10px, 0px) rotate(-3deg);
     } 50% {
         transform: translate(10px, 0px) rotate(3deg);
     } 100% {
         transform: translate(-10px, 0px) rotate(-3deg);
+    } */
+@keyframes rattle {
+    0% {
+        transform: rotate(-0.5deg);
+    } 50% {
+        transform: rotate(0.5deg);
+    } 100% {
+        transform: rotate(-0.5deg);
     }
 }
 .rattle-animation {
-    transform-origin: 50% 50%;
-    animation: rattle 0.7s ease-in-out infinite;
+    /* transform-origin: 50% 50%; */
+    animation: rattle 0.2s ease-in-out infinite;
 }
 
 .back-btn {

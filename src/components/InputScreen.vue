@@ -12,13 +12,12 @@
                     :theme="theme" v-for="(secondaryKey, index) in indexedKeys" :key="'secondaryKey: ' + index"
                     @update:secondary="(value) => { updateKeyName(secondaryKey, value, index, this.subjData['learningContent']) }"
                     :errorMessage="errorList[index]" @secondary-input="(value) => hideErrorMessages(value, index)"
-                    @secondary-focusout="(value) => checkIfEmpty(value, index)"></Secondary>
+                    @secondary-focusout="(value) => checkIfEmpty(value, index)" @delete-secondary="deleteSecondary"></Secondary>
                 <div class="button-container">
                     <span :class="['button', changesCounter]" @click="addSecondary">
                         <img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button"  alt="plus icon"/> הוספת תת נושא</span>
-                    <span class="button" @click="$emit('to-practice')"
-                        v-if="(Object.keys(subjData['learningContent']).length > 0)">
-                        <img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" alt="plus icon"/>הוספת תרגול</span>
+                    <!-- <span class="button" @click="$emit('to-practice')" v-if="(Object.keys(subjData['learningContent']).length > 0)">
+                        <img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" alt="plus icon"/>הוספת תרגול</span> -->
                 </div>
             </div>
             <div class="save-container">
@@ -86,7 +85,11 @@ export default {
             if (!value) {
                 this.errorList[index] = "יש למלא את השדה";
             }
-        }
+        },
+        deleteSecondary (secondaryName) {
+          this.indexedKeys.splice(this.indexedKeys.indexOf(secondaryName), 1);
+          delete this.subjData["learningContent"][secondaryName];
+        },
     },
     computed: {
         subject() {return(this.chosenSubject.includes("subject") ? "" : this.chosenSubject);}
