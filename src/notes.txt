@@ -5,3 +5,5 @@ use youtube iFrame Player API to catch wrong typing of youtube videos and messag
 change parentErrorMessage to ErrorMessage
 
 Change InputScreen appearance form v-if to v-show and than I don't have to connect the inputs' values to the props and can give up the workout using nextTick
+
+לוודא ששם הלומדה לא ריק לפני שעושים fetch

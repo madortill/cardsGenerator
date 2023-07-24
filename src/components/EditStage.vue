@@ -1,7 +1,7 @@
 <template>
   <div id="EditStage">
     <mainScreen v-if="(currentStage === 'main')" :theme="theme" :subjectArray="indexedKeys"
-      @change-color="changeColor" @change-title="updateThings(newValue, 'title')" @go-to-subject="goToSubj"></mainScreen>
+      @change-color="changeColor" @change-title="updateThings(newValue, 'title')" @go-to-subject="goToSubj" @delete-subject="deleteSubject"></mainScreen>
     <Input-screen v-else-if="(currentStage === 'input')" :subjData="this.cardsData[chosenSubject]" :chosenSubject="chosenSubject" :theme="theme"
       @back-to-main="updateThanMain" @subject-input="hideErrorMessages" @subject-focusout="checkIfEmpty" 
       :subjErrorMessage="subjErrorMessage" ref="input-screen" @subject-change="(value) => {this.updateKeyName(this.chosenSubject, value, this.cardsData);}"></Input-screen>
@@ -28,98 +28,7 @@ export default {
         gradient: "#27c5f2",
         buttonsColor: "#1c3f55"
       },
-      cardsData: {
-        // "נושא 1": {
-        //   "icon": "../assets/images/learning/Artboard 4.svg",
-        //   "amountOfQuestions": 2,
-        //   "questionsExam": [
-        //     {
-        //       type: "multiple",
-        //       question: "דוגמה לשאלה אמריקאית מתרגלת שיש לה 4 תשובות?",
-        //       ans1: "תשובה ראשונה ולא נכונה",
-        //       ans2: "תשובה שנייה נכונה!",
-        //       ans3: "תשובה שלישית ולא נכונה",
-        //       ans4: "תשובה רביעית לא נכונה",
-        //       correctAns: "ans2"
-        //     },
-        //     {
-        //       type: "binary",
-        //       sentence: "דוגמה לשאלה מתרגלת נכונה של נכון או לא נכון",
-        //       trueOrFalse: true
-        //     }
-        //   ],
-        //   "questionsPractice": [
-        //     {
-        //       type: "multiple",
-        //       question: "דוגמה לשאלה אמריקאית בוחנת שיש לה 4 תשובות?",
-        //       ans1: "תשובה ראשונה ולא נכונה",
-        //       ans2: "תשובה שנייה נכונה!",
-        //       ans3: "תשובה שלישית ולא נכונה",
-        //       ans4: "תשובה רביעית לא נכונה",
-        //       correctAns: "ans2"
-        //     },
-        //     {
-        //       type: "binary",
-        //       sentence: "דוגמה לשאלה בוחנת נכונה של נכון או לא נכון",
-        //       trueOrFalse: true
-        //     }
-        //   ],
-        //   "learningContent": {
-        //     "תת נושא 1": {
-        //       "כרטיסייה ראשונה מסוג טקסט": [
-        //         {
-        //           cardType: "text",
-        //           content: "דוגמה לתוכן של כרטיסייה המחולקת לפי נושאים ותתי נושאים."
-        //         },
-        //       ],
-        //       // "כרטיסייה שנייה": [
-        //       //   {
-        //       //     cardType: "picAndText",
-        //       //     pic: new File(['2d405a88-bc48-4be9-ada1-64f8d10eec3a'], 'peacock.txt', {type: "text/plain", lastModified: 1678696575335, webkitRelativePath: '', size: 3392797}),
-        //       //     content: "דוגמה לכותרת לתמונה הראשונה",
-        //       //   }
-        //       // ],
-        //     },
-        //     "תת נושא 2": {
-        //       "כרטיסייה שלישית מסוג וידאו": [
-        //         {
-        //           cardType: "videoAndText",
-        //           video: "../assets/images/פתיח.mp4",
-        //           content: "סרטון מוסר שלא הבנתי למה הוא היה על המחשב של פלג... פטל.. שלג?"
-        //         }
-        //       ],
-        //       "כרטיסייה רביעית": [
-        //         {
-        //           cardType: "text",
-        //           content: "g"
-        //         },
-        //         {
-        //           cardType: "text",
-        //           content: "g"
-        //         }
-        //       ]
-        //     },
-        //     "תת נושא 3": {
-        //       "תת תת נושא 12": [
-        //         {
-        //           cardType: "videoAndText",
-        //           video: "../assets/images/פתיח.mp4",
-        //           content: "סרטון מוסר שלא הבנתי למה הוא היה על המחשב של פלג... פטל.. שלג?"
-        //         }
-        //       ],
-        //     },
-        //     "תת נושא 5": {
-        //       "תת תת נושא 12": [
-        //         {
-        //           cardType: "videoAndText",
-        //           video: "../assets/images/פתיח.mp4",
-        //           content: "סרטון מוסר שלא הבנתי למה הוא היה על המחשב של פלג... פטל.. שלג?"
-        //         }
-        //       ],
-        //     }
-        //   },
-        // },
-      },
+      cardsData: {},
       title: "",
       indexedKeys: [],
       subjErrorMessage: ""
@@ -145,6 +54,11 @@ export default {
       }
       this.currentStage = "input";
       this.chosenSubject = subjName;
+    },
+    deleteSubject (subj) {
+      this.indexedKeys.splice(this.indexedKeys.indexOf(subj), 1);
+      delete this.cardsData[subj];
+      this.chosenSubject = ""
     },
     updateThanMain() {
       let error = this.isErrorMessage();
@@ -240,12 +154,6 @@ export default {
       }
       return(errorContent);
     }
-
-
-    // updateThings(newValue, varName) {
-    //   this[varName] = newValue;
-    //   console.log(this[varName])
-    // }
   },
   computed: {
     lomdaData() {
@@ -261,13 +169,6 @@ export default {
     this.indexedKeys = Object.keys(this.cardsData);
   }
 }
-
-// swal({
-//   title: "הנושא כבר נמצא בשימוש",
-//   // text: "You clicked the button!",
-//   icon: "error",
-//   button: "אישור"
-// });
 </script>
 
 <style>

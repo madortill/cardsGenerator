@@ -9,7 +9,7 @@
             </div>
             <div class="cardsContainer scrollStyle">
                 <div :class="['subjCard', isDeleteMode === true ? 'rattle-animation': '']" v-for="(value, index) in subjectArray"
-                   :key="'title' + index" @click="!this.isDeleteMode ? $emit('go-to-subject', value): this.deleteSubj(index)" :ref="'subj' + index">
+                   :key="'title' + index" @click="!this.isDeleteMode ? $emit('go-to-subject', value): this.deleteSubj(value)" :ref="'subj' + index">
                    <div class="delete" v-show="isDeleteMode"></div>
                     <SubjectBtnSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></SubjectBtnSvg>
                     <div class="subject">{{ value }}</div>
@@ -26,7 +26,7 @@
                     <span class="button back-btn" @click="isDeleteMode = !isDeleteMode" v-show="isDeleteMode"><img src="@/assets/colorNeutralAssets/arrow-small-right.svg" class="trash-can" alt="trash icon" />חזרה</span>
                 </div>
             </div>
-            <div class="save-and-continue">שמירה והמשך</div>
+            <div class="save-and-continue" @click="saveAndContinue">שמירה והמשך</div>
         </div>
     </div>
 </template>
@@ -67,20 +67,45 @@ export default {
         toggleDeleteMode () {
             this.isDeleteMode = !this.isDeleteMode;
         },
-        deleteSubj (indexToDelete) {
+        deleteSubj (subj) {
             console.log('delete subject')
             swal({
                 icon: "warning",
-                title: `בטוחים שאתם רוצים למחוק את הנושא ${this.subjectArray[indexToDelete]}?`,
+                title: `בטוחים שאתם רוצים למחוק את הנושא ${subj}?`,
                 buttons: {cancel: "לבטל", confirm: "למחוק"},
                 dangerMode: true,
                 className: "swal-font",
             })
             .then((willDelete) => {
               if (willDelete) {
-                  this.subjectArray.splice(indexToDelete, 1);
+                this.isDeleteMode = false;
+                this.$emit('delete-subject', subj)
               }
-      });
+            });
+        },
+        saveAndContinue () {
+            swal({
+                icon: "info",
+                title: `בטוחים שאתם רוצים להמשיך? אחרי שתמשיכו אי אפשר יהיה לשנות את התוכן.`,
+                buttons: {cancel: "ביטול", confirm: "המשך"},
+                className: "swal-font",
+            })
+            .then((willContinue) => {
+              if (willContinue) {
+                if (this.title === '') {
+                    swal({
+                    title: "איך אתם רוצים לקרוא ללומדה?",
+                    buttons: {confirm: "אישור"},
+                    className: "swal-font",
+                    content: "input", 
+                    })
+                    .then((value) => {
+                      this.title = value;
+                    });
+                }
+                this.$emit("next-stage", this.title)
+              }
+            });
 
         }
     },
