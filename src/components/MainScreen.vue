@@ -9,12 +9,12 @@
             </div>
             <div class="cardsContainer scrollStyle">
                 <div :class="['subjCard', isDeleteMode === true ? 'rattle-animation': '']" v-for="(value, index) in subjectArray"
-                   :key="'title' + index" @click="() => {if (!this.isDeleteMode) {$emit('go-to-subject', value)}}" :ref="'subj' + index">
+                   :key="'title' + index" @click="!this.isDeleteMode ? $emit('go-to-subject', value): this.deleteSubj(index)" :ref="'subj' + index">
                    <div class="delete" v-show="isDeleteMode"></div>
                     <SubjectBtnSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></SubjectBtnSvg>
                     <div class="subject">{{ value }}</div>
                 </div>
-                <div class="subjCard"  @click="$emit('go-to-subject', 'newSubject')">
+                <div class="subjCard"  @click="() => {if (!this.isDeleteMode) {$emit('go-to-subject', 'newSubject')}}">
                     <SubjectBtnSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></SubjectBtnSvg>
                     <div class="subject">הוספת נושא</div>
                     <div class="add-subj-btn"></div>
@@ -28,8 +28,6 @@
             </div>
             <div class="save-and-continue">שמירה והמשך</div>
         </div>
-        <button>hi!</button>
-        <div>hi!</div>
     </div>
 </template>
 
@@ -42,7 +40,7 @@ import Bg_svg from './svg/Bg_svg.vue';
 import CustomInput from './CustomInput.vue';
 
 export default {
-    name: "main-stage",
+    name: "main-screen",
     data() {
         return {
             title: "",
@@ -69,6 +67,22 @@ export default {
         toggleDeleteMode () {
             this.isDeleteMode = !this.isDeleteMode;
         },
+        deleteSubj (indexToDelete) {
+            console.log('delete subject')
+            swal({
+                icon: "warning",
+                title: `בטוחים שאתם רוצים למחוק את הנושא ${this.subjectArray[indexToDelete]}?`,
+                buttons: {cancel: "לבטל", confirm: "למחוק"},
+                dangerMode: true,
+                className: "swal-font",
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+                  this.subjectArray.splice(indexToDelete, 1);
+              }
+      });
+
+        }
     },
     components: { ColorPicker, SubjectBtnSvg, CircleSvg, Bg_svg, CustomInput, MinusCircleSvg },
 }
@@ -279,14 +293,6 @@ export default {
 	transform: translate(40%,30%) rotate(-45deg);
 }
 
-/* @keyframes rattle {
-    0% {
-        transform: translate(-10px, 0px) rotate(-3deg);
-    } 50% {
-        transform: translate(10px, 0px) rotate(3deg);
-    } 100% {
-        transform: translate(-10px, 0px) rotate(-3deg);
-    } */
 @keyframes rattle {
     0% {
         transform: rotate(-0.5deg);
@@ -297,7 +303,6 @@ export default {
     }
 }
 .rattle-animation {
-    /* transform-origin: 50% 50%; */
     animation: rattle 0.2s ease-in-out infinite;
 }
 
