@@ -84,7 +84,7 @@ export default {
           primaryColor: "#5b0616", // 4D243D
           secondaryColor: "#b91835",
           textColor:"#2e0002",
-          gradient: "",
+          gradient: "#2e0002",
           buttonsColor: "#2e0002"
         },
         {
