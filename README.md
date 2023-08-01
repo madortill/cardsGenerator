@@ -34,6 +34,7 @@ clarity of code:
 - the component of CardInput.vue handles its own inputs and error messages and does not emit an event, because there is no need to check for duplicates.
 - The buttons "delete", "add-subj-btn" in <MainScreen.vue> and "minus" in <Seconday.vue> are not images, they are style with ::before and ::after that     make the stripes. The father has <position: relative> so the child's precent will referce the father.
 - some of the general styles are in src/assets/main.css make sure no to miss them!
+- All the final checks (that no input is empty and no error messages appear) happen in EditStage.vue
 
 PLEASE, IF YOU ARE CONSIDERING A SIMILIAR PROJECT USE PINIA AND NOT THIS MESSY WAY I DID!🍍
 

@@ -6,4 +6,10 @@ change parentErrorMessage to ErrorMessage
 
 Change InputScreen appearance form v-if to v-show and than I don't have to connect the inputs' values to the props and can give up the workout using nextTick
 
-לוודא ששם הלומדה לא ריק לפני שעושים fetch
+להוסיף סמל של מדור טי"ל
+להוסיף footer של להכניס רק תוכן בלמ"ס
+לעצב מסך טעינה
+לעצב מסך סיום
+אודות
+עצירה לפני ריפרש
+history API?

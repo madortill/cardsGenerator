@@ -8,8 +8,7 @@
             <DropDown @choice="saveChoice"
                 :optionList="{ 'videoAndText': 'וידיאו מהמחשב', 'youtube': 'וידיאו מהיוטיוב', 'text': 'טקסט', 'picAndText': 'תמונה וכיתוב' }"></DropDown>
             <div>
-                <div :class="['button', 'btn-bg', choice ? '' : 'disabled']" @click="$emit('add-page', choice)" id="add-page" v-show="choice || cancelable">הוספת עמוד
-                </div>
+                <div :class="['button', 'btn-bg', choice ? '' : 'disabled']" @click="$emit('add-page', choice)" id="add-page" v-show="choice || cancelable">{{ btnText }}</div>
                 <div class="button" @click="$emit('cancel')" id="cancel" v-if="cancelable">ביטול הוספה</div>
             </div>
         </div>
@@ -24,7 +23,7 @@ import CloseBtnSvg from "./svg/CloseBtnSvg.vue";
 export default {
     name: "DropDownCard",
     components: { DropDown, CardSvg, CloseBtnSvg },
-    props: {"theme": Object, "cancelable": Boolean},
+    props: {"theme": Object, "cancelable": Boolean, btnText: {type: String, default: "הוספת עמוד"}},
     emits: ['cancel', 'add-page'],
     data() {
         return {

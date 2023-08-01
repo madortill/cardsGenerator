@@ -2,9 +2,9 @@
   <div id="Card">
     <div class="card">
       <CardSvg :color="theme.secondaryColor"></CardSvg>
-      <div id="delete-btn" class="delete-btn">
+      <button id="delete-btn" class="delete-btn">
         <img src="@/assets/colorNeutralAssets/trash-gray.svg" alt="פח אשפה" class="trash-can" @click="deleteCard" title="מחק כרטיס">
-      </div>
+      </button>
       <CustomInput placeholder="הכניסו נושא לכרטיסיה" class="topic" :placeholderStyle="placeholderStyle" 
       :modelValue="topic" @update:modelValue="(value) => this.$emit('update:cardTopic', value)" :parentErrorMessage="errorMessage"
       @input="(value) => {this.$emit('topic-input', value);}" @focusout = "(value) => {this.$emit('topic-focusout', value)}"></CustomInput>
@@ -147,6 +147,7 @@ export default {
   cursor: pointer;
   height: fit-content;
   align-self: center;
+  color: revert;
 }
 
 .remove-btn:disabled {

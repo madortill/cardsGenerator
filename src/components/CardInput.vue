@@ -11,7 +11,7 @@
         </div>
         <!-- Image or Video type -->
         <div v-else-if="cardInfo.cardType === 'picAndText' || cardInfo.cardType === 'videoAndText'" class="input-container">
-            <div class="image-btn" @click="$refs.fileInput.click()"> {{ imageOrVideo.inputPrompt }} </div>
+            <button class="image-btn" @click="$refs.fileInput.click()"> {{ imageOrVideo.inputPrompt }} </button>
             <input type="file" class="opacity" id="file-input" name="file-input"
                 :accept="imageOrVideo.AcceptedFormats" @change="updateInput" ref="fileInput"/>
             <div v-if="cardInfo[imageOrVideo.propertyName] == []" class="error error-message">
