@@ -4,7 +4,7 @@
         <div class="grid subj-container">
             <Bg_svg class="background svg" :color="theme.primaryColor"></Bg_svg>
             <div class="paper-clip-title first-paper-clip">
-                <CustomInput v-model="title" placeholder="הכניסו שם ללומדה" class="paper-clip-content" 
+                <CustomInput :modelValue="title" @update:modelValue="onUpdateTitle" placeholder="הכניסו שם ללומדה" class="paper-clip-content" 
                 @focusout="titleFocusOut" @input="titleInput" :parent-error-message="titleErrorMessage"></CustomInput>
             </div>
             <div class="cardsContainer scrollStyle">
@@ -50,6 +50,7 @@ export default {
         };
     },
     props: {"subjectArray": Array, "theme": Object},
+    emits: ["change-color", "update-title", "go-to-subject", "delete-subject", "next-stage" ],
     methods: {
         changeColor(theme) {
             this.$emit("change-color", theme);
@@ -62,7 +63,12 @@ export default {
         titleInput (value) {
             if (value !== "") {
                 this.titleErrorMessage = "";
+                // this.$emit('update-title', this.title)
             }
+        },
+        onUpdateTitle (value) {
+            this.title = value;
+            this.$emit('update-title', this.title)
         },
         toggleDeleteMode () {
             this.isDeleteMode = !this.isDeleteMode;
@@ -101,9 +107,11 @@ export default {
                     })
                     .then((value) => {
                       this.title = value;
+                      this.$emit("next-stage", this.title)
                     });
+                } else {
+                    this.$emit("next-stage", this.title)
                 }
-                this.$emit("next-stage", this.title)
               }
             });
 

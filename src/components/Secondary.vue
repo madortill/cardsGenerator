@@ -12,8 +12,8 @@
           :isQuestion="false" :theme="theme" @update:cardTopic="(value) => {updateKeyName(topic, value, index, this.secondaryData)}"
           :errorMessage="errorList[index]" @topic-input="(value) => hideErrorMessages(value, index)"
           @topic-focusout="(value) => checkIfEmpty(value, index)" @delete-card="deleteCard(topic)"></card>
-        <div>
-          <DropDownCard :theme="theme" @add-page="addCard" :key="reRenderCounter"></DropDownCard>
+        <div> 
+          <DropDownCard :theme="theme" @add-page="addCard" :key="reRenderCounter" btnText="הוספת כרטיסיה"></DropDownCard>
         </div>
     </div>
   </div>
