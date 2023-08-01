@@ -27,6 +27,7 @@
                 </div>
             </div>
             <div class="save-and-continue" @click="saveAndContinue">שמירה והמשך</div>
+            <div class="footer"><span>יש להכניס תוכן בסיווג בלמ"ס בלבד!</span> <div class="svg gradient"></div></div>
         </div>
     </div>
 </template>
@@ -341,5 +342,27 @@ export default {
 
 .back-btn {
     padding: 0.1rem 1rem 0.7rem;
+}
+
+.footer {
+    grid-area: 3/ 1/ span 1/ span 1;
+    align-self: center;
+    justify-self: center;
+    color: rgb(255, 255, 255);
+    font-size: 1.4rem;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer .gradient {
+    background-image: linear-gradient(180deg, rgba(103, 223, 203, 0) 0%, v-bind("theme.gradient") 100%);
+    height: 100%;
+    width: 100%;
+    left: 0;
+    bottom: 0;
 }
 </style>

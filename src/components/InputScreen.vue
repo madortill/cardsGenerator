@@ -23,6 +23,7 @@
             <div class="save-container">
                 <div class="save-and-exit" @click="$emit('back-to-main');">חזרה לדף הבית</div>
             </div>
+            <div class="footer"><span>יש להכניס תוכן בסיווג בלמ"ס בלבד!</span> <div class="svg gradient"></div></div>
         </div>
     </div>
 </template>
@@ -109,10 +110,12 @@ export default {
 .info-container {
     width: 99.5vw;
     height: 99.2vh;
+    padding-bottom: 5vh;
     overflow-x: hidden;
     position: relative;
     top: 0.4vh;
     right: 0.25vw;
+    box-sizing: border-box;
 }
 
 .input-container {
@@ -190,7 +193,7 @@ export default {
     font-size: 1.3rem;
     width: fit-content;
     cursor: pointer;
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
     position: fixed;
     bottom: 1vh;
 }
@@ -200,4 +203,29 @@ export default {
     width: 100%;
     justify-content: flex-end;
 }
+
+.footer {
+    color: rgba(255, 255, 255, 0.83);
+    font-size: 1.4rem;
+    pointer-events: none;
+    padding: 0.5rem 1rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 4vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.footer .gradient {
+    background-image: linear-gradient(180deg, rgba(103, 223, 203, 0) 0%, v-bind("theme.gradient") 100%);
+    height: 100%;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: -2;
+}
+
 </style>
