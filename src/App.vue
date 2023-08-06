@@ -30,20 +30,25 @@ export default {
       const result = await reponse.json()
       result.items.forEach(i => console.log(i, i.full_name));
       this.currentStage = 4;
+    },
+    onBeforeUnload(event) {
+      event.preventDefault();
+      return (event.returnValue = "");
     }
   },
+  mounted() {
+    addEventListener("beforeunload", this.onBeforeUnload, { capture: true });
+  }
 }
 
 </script>
 
 <template>
-  <!-- <div id="app">  -->
-  <open-screen @next-stage="currentStage++" v-if="currentStage === 0"></open-screen>
-  <instructions v-else-if="currentStage === 1"></instructions>
-  <edit-stage v-else-if="currentStage === 2" @next-stage="initFetch"></edit-stage>
-  <loading-screen v-else-if="currentStage === 3"></loading-screen>
-  <end-screen v-else-if="currentStage === 4" :lomdaTitle="lomdaTitle"></end-screen>
-  <!-- </div> -->
+    <open-screen @next-stage="currentStage++" v-if="currentStage === 0"></open-screen>
+    <instructions v-else-if="currentStage === 1"></instructions>
+    <edit-stage v-else-if="currentStage === 2" @next-stage="initFetch"></edit-stage>
+    <loading-screen v-else-if="currentStage === 3"></loading-screen>
+    <end-screen v-else-if="currentStage === 4" :lomdaTitle="lomdaTitle"></end-screen>
 </template>
 
 
