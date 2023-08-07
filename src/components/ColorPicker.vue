@@ -135,12 +135,12 @@ export default {
       font-weight: 800;
       font-family: rubik-semiBold;
     }
-    .container {
+    /* .container {
         width: 33.33vw;
         height: 100vh;
         position: absolute;
         right: 0;
-    }
+    } */
 
     .image-flex {
       display: flex;

@@ -1,6 +1,10 @@
 <template>
     <div id="MainScreen">
-        <ColorPicker :theme="theme" @change-color="changeColor"></ColorPicker>
+        <div class="settings-container">
+            <ColorPicker :theme="theme" @change-color="changeColor"></ColorPicker>
+            <button class="odot-btn" @click="showAbout=true">אודות</button>
+            <about-screen v-show="showAbout" @hide-odot="showAbout=false"></about-screen>
+        </div>
         <div class="grid subj-container">
             <Bg_svg class="background svg" :color="theme.primaryColor"></Bg_svg>
             <div class="paper-clip-title first-paper-clip">
@@ -39,6 +43,7 @@ import CircleSvg from './svg/CircleSvg.vue';
 import MinusCircleSvg from './svg/MinusCircleSvg.vue';
 import Bg_svg from './svg/Bg_svg.vue';
 import CustomInput from './CustomInput.vue';
+import AboutScreen from './AboutScreen.vue';
 
 export default {
     name: "main-screen",
@@ -47,11 +52,13 @@ export default {
             title: "",
             showErrorMessage: false,
             titleErrorMessage: "",
-            isDeleteMode: false
+            isDeleteMode: false,
+            showAbout: false
         };
     },
     props: {"subjectArray": Array, "theme": Object},
     emits: ["change-color", "update-title", "go-to-subject", "delete-subject", "next-stage" ],
+    components: { ColorPicker, SubjectBtnSvg, CircleSvg, Bg_svg, CustomInput, MinusCircleSvg, AboutScreen },
     methods: {
         changeColor(theme) {
             this.$emit("change-color", theme);
@@ -118,12 +125,43 @@ export default {
 
         }
     },
-    components: { ColorPicker, SubjectBtnSvg, CircleSvg, Bg_svg, CustomInput, MinusCircleSvg },
 }
 
 </script>
 
 <style scoped>
+.settings-container {
+    width: 33.33vw;
+    height: 100vh;
+    position: absolute;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+}
+
+.odot-btn {
+    text-align: center;
+    font-weight: 800;
+    font-family: rubik-semiBold;
+    font-size: 1.5em;
+    border: 1.5pt solid black;
+    border-radius: 0.5rem;
+    padding: 0.8rem 2.5rem;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.odot-btn:hover {
+    box-shadow: rgba(0, 0, 0, 0.2) 2.95px 4.95px 2.6px;
+    transform: translateY(-3px);
+}
+
+.odot-btn:active {
+    box-shadow: rgba(0, 0, 0, 0.15) 2.95px 1.95px 2.6px;
+    transform: translateY(0px);
+}
+
 .grid {
   position: absolute;
   left: 0;
@@ -356,6 +394,7 @@ export default {
     position: relative;
     justify-content: center;
     align-items: center;
+    z-index: -1;
 }
 
 .footer .gradient {
