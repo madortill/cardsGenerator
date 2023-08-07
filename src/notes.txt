@@ -9,5 +9,4 @@ Change InputScreen appearance form v-if to v-show and than I don't have to conne
 להוסיף סמל של מדור טי"ל
 לעצב מסך טעינה
 לעצב מסך סיום
-אודות
 history API?

@@ -44,7 +44,7 @@ export default {
     data () {
         return {
             isVisable: true,
-            animationDuration: 1
+            animationDuration: 0.9
         }
     },
     methods: {
@@ -163,7 +163,7 @@ export default {
 @keyframes zeroHeight {
     0% {
         transform: translate(-50%, -50%) scale(100%, 100%);
-    } 50% {
+    } 45% {
         transform: translate(-50%, -50%) scale(100%, 0.1%);
     } 100% {
         transform: translate(-50%, -50%) scale(0%, 0.1%); 

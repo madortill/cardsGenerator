@@ -7,6 +7,7 @@
 embed youtube videos with youtube player api and not in html
 
 Change InputScreen appearance form v-if to v-show and than you don't have to connect the inputs' values to the props and can give up the 
-workaround using nextTick
+workaround using nextTick OR option for temporary save - download txt or blob file to the computer and then option to 'continue from saved' and upload a file. 
+Make sure there is no malicious code!
 
 Text cards will be rich text format with options for uordered list, ordered list, bold, title (using cards freeForm option)
