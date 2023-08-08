@@ -10,7 +10,7 @@ export default {
   components: { OpenScreen, Instructions, EditStage, LoadingScreen, EndScreen},
   data() {
     return {
-      currentStage: 2,
+      currentStage: 0,
       lomdaTitle: ''
     }
   },
@@ -28,8 +28,8 @@ export default {
         // body: JSON.stringify(this.data)
       });
       const result = await reponse.json()
-      result.items.forEach(i => console.log(i, i.full_name));
-      this.currentStage = 4;
+      // result.items.forEach(i => console.log(i, i.full_name));
+      // this.currentStage = 4;
     },
     onBeforeUnload(event) {
       event.preventDefault();
@@ -44,7 +44,8 @@ export default {
 </script>
 
 <template>
-    <open-screen @next-stage="currentStage++" v-if="currentStage === 0"></open-screen>
+  <!-- there is no instructions yet, so openScreen increase currentStage by 2 to skip it -->
+    <open-screen @next-stage="currentStage+=2" v-if="currentStage === 0"></open-screen>
     <instructions v-else-if="currentStage === 1"></instructions>
     <edit-stage v-else-if="currentStage === 2" @next-stage="initFetch"></edit-stage>
     <loading-screen v-else-if="currentStage === 3"></loading-screen>
@@ -83,13 +84,6 @@ export default {
 .swal-button:hover {
   filter: contrast(120%);
 }
-
-/* .swal-font .swal-title {
-  font-family: Rubik;
-  direction: rtl;
-  font-weight: normal !important;
-  color: black;
-} */
 </style>
 
 <!-- Add powershell file that enables to add new color (clone files and replace their colors based on three parameters). Add option to test it? -->

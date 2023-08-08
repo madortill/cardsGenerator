@@ -11,6 +11,9 @@
 
 <script>
 import Bg_svg from './svg/Bg_svg.vue'
+
+let frozenColorArr = [];
+
 export default {
   components: { Bg_svg },
   name: "colorPicker",
@@ -125,7 +128,7 @@ export default {
   },
   mounted () {
     this.currentColorIndex = this.returnIndex();
-  }
+  },
 }
 </script>
 
