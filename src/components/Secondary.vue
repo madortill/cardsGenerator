@@ -4,7 +4,7 @@
       <span class="minus" @click="deleteSecondary"></span>
       <CustomInput class="secondary-name" placeholder="הכניסו תת-נושא" :placeholderStyle="{color: '#ffffffC7'}"
       :modelValue="secondary" @update:modelValue="(value) => this.$emit('update:secondary', value)"
-      :parentErrorMessage="errorMessage" @input="(value) => {this.$emit('secondary-input', value);}"
+      :errorMessage="errorMessage" @input="(value) => {this.$emit('secondary-input', value);}"
       @focusout = "(value) => {this.$emit('secondary-focusout', value)}"></CustomInput>
     </div>
     <div class="overflow-container scrollStyle" v-touch:swipe="handleSwipe" ref="overflowContainer">

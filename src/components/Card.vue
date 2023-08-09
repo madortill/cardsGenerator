@@ -6,7 +6,7 @@
         <img src="@/assets/colorNeutralAssets/trash-gray.svg" alt="פח אשפה" class="trash-can" @click="deleteCard" title="מחק כרטיס">
       </button>
       <CustomInput placeholder="הכניסו נושא לכרטיסיה" class="topic" :placeholderStyle="placeholderStyle" 
-      :modelValue="topic" @update:modelValue="(value) => this.$emit('update:cardTopic', value)" :parentErrorMessage="errorMessage"
+      :modelValue="topic" @update:modelValue="(value) => this.$emit('update:cardTopic', value)" :errorMessage="errorMessage"
       @input="(value) => {this.$emit('topic-input', value);}" @focusout = "(value) => {this.$emit('topic-focusout', value)}"></CustomInput>
       <card-input :cardInfo="currentPageObj" :theme="theme" class="cardInput"></card-input>
       <div class="buttons-container">

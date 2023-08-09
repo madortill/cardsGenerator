@@ -9,7 +9,7 @@
             <Bg_svg class="background svg" :color="theme.primaryColor"></Bg_svg>
             <div class="paper-clip-title first-paper-clip">
                 <CustomInput :modelValue="title" @update:modelValue="onUpdateTitle" placeholder="הכניסו שם ללומדה" class="paper-clip-content" 
-                @focusout="titleFocusOut" @input="titleInput" :parent-error-message="titleErrorMessage"></CustomInput>
+                @focusout="titleFocusOut" @input="titleInput" :errorMessage="titleErrorMessage"></CustomInput>
             </div>
             <div class="cardsContainer scrollStyle">
                 <div :class="['subjCard', isDeleteMode === true ? 'rattle-animation': '']" v-for="(value, index) in subjectArray"

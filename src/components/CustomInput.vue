@@ -2,11 +2,11 @@
 	<div style="position: relative">
 		<input :class="{'input': true, 'placeholder-custom-style' : placeholderStyle}" type="text" :placeholder="placeholder" :value="inputValue"
 		@focus="inputFocus" @focusout="inputFocus" @input="onInput" @change="onChange" required/>
-		<div class="error-message error-message-position" v-show="parentErrorMessage">
+		<div class="error-message error-message-position" v-show="errorMessage">
 			<div class="up-error-triangle"></div>
 			<div class="message">
 				<img src="@/assets/colorNeutralAssets/triangle-warning.svg" alt="warning symbol" class="warning" />
-				<span class="text"> {{ parentErrorMessage }} </span>
+				<span class="text"> {{ errorMessage }} </span>
 			</div>
 		</div>
 	</div>
@@ -24,7 +24,7 @@ export default {
 				return (obj.color || obj["font-size"]);
 			}
 		},
-		"parentErrorMessage": String
+		"errorMessage": String
 	},
 	emits: ["update:modelValue", "input", "focusout"],
 	data () {

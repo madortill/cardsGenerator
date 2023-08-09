@@ -1,7 +1,5 @@
 לעשות משתנים גלובליים של הודעות שגיאה?
 
-change parentErrorMessage to ErrorMessage
-
 Change InputScreen appearance form v-if to v-show and than I don't have to connect the inputs' values to the props and can give up the workout using nextTick
 
 favicon
