@@ -8,6 +8,7 @@
       :subjErrorMessage="subjErrorMessage" ref="input-screen" @subject-change="(value) => {this.updateKeyName(this.chosenSubject, value, this.cardsData);}"></Input-screen>
     <!-- <add-questions type = "test" v-else-if="(currentStage === 'test')"></add-questions> -->
     <!-- <add-questions type = "practice" v-else-if="(currentStage === 'practice')"></add-questions> -->
+    <img class="till-logo" src="@/assets/colorNeutralAssets/till-logo-text-white.svg" alt='לוגו מדור טי"ל'>
   </div>
 </template>
 
@@ -190,5 +191,14 @@ export default {
 
 .swal-button:hover {
   filter: contrast(120%);
+}
+
+.till-logo {
+  /* max-width: 1rem; */
+  position: absolute;
+  height: 4rem;
+  left: 2%;
+  top: 2%;
+  opacity: v-bind("currentStage === 'input' ? 0.83: 1");
 }
 </style>  

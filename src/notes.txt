@@ -1,12 +1,7 @@
-use youtube iFrame Player API to catch wrong typing of youtube videos and messages errors generally
-
 לעשות משתנים גלובליים של הודעות שגיאה?
 
 change parentErrorMessage to ErrorMessage
 
 Change InputScreen appearance form v-if to v-show and than I don't have to connect the inputs' values to the props and can give up the workout using nextTick
 
-להוסיף סמל של מדור טי"ל
-לעצב מסך טעינה
-לעצב מסך סיום
-history API?
+favicon

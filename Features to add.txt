@@ -11,3 +11,5 @@ workaround using nextTick OR option for temporary save - download txt or blob fi
 Make sure there is no malicious code!
 
 Text cards will be rich text format with options for uordered list, ordered list, bold, title (using cards freeForm option)
+
+use history API to return from InputScreen to MainScreen when back button in chrome or android is pressed
