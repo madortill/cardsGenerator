@@ -116,7 +116,8 @@ export default {
       },
   },
   mounted () {
-      interval = setInterval(this.next, 1100);
+    this.next();
+    interval = setInterval(this.next, 1100);
   }
 }
 
@@ -132,15 +133,12 @@ export default {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  background-color: azure;
+  background-color: #f0ffff;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.vertical-center-wrapper {
-
-}
 
 .transition-wrapper {
   --card-width: 15rem;

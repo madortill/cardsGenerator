@@ -10,18 +10,17 @@ export default {
   components: { OpenScreen, Instructions, EditStage, LoadingScreen, EndScreen},
   data() {
     return {
-      currentStage: 3,
-      lomdaTitle: ''
+      currentStage: 0,
+      lomdaTitle: '',
+      theme: ''
     }
   },
   methods: {
-    changeColor(newTheme) {
-      this.theme = newTheme;
-    },
     // request to save the js in the server
     async initFetch(data) {
       this.currentStage = 3;
       this.lomdaTitle = data["TITLE"];
+      this.theme = data["THEME"];
       const url2 = `https://api.github.com/search/commits?q=repo:freecodecamp/freecodecamp author-date:2022-04-01..2022-04-30`;
       const reponse = await fetch(url2, {
         "method": "GET",
@@ -29,7 +28,11 @@ export default {
       });
       const result = await reponse.json()
       // result.items.forEach(i => console.log(i, i.full_name));
-      // this.currentStage = 4;
+      // Time out so the loading screen will not disappear immediatly
+      setTimeout(() => {
+      this.currentStage = 4;
+      removeEventListener("beforeunload", this.onBeforeUnload ,true);
+      }, 1900);
     },
     onBeforeUnload(event) {
       event.preventDefault();
@@ -37,7 +40,7 @@ export default {
     }
   },
   mounted() {
-    addEventListener("beforeunload", this.onBeforeUnload, { capture: true });
+    addEventListener("beforeunload", this.onBeforeUnload, true);
   }
 }
 
@@ -49,7 +52,7 @@ export default {
     <instructions v-else-if="currentStage === 1"></instructions>
     <edit-stage v-else-if="currentStage === 2" @next-stage="initFetch"></edit-stage>
     <loading-screen v-else-if="currentStage === 3"></loading-screen>
-    <end-screen v-else-if="currentStage === 4" :lomdaTitle="lomdaTitle"></end-screen>
+    <end-screen v-else-if="currentStage === 4" :lomdaTitle="lomdaTitle" :theme="this.theme"></end-screen>
 </template>
 
 

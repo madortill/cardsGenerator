@@ -94,10 +94,11 @@ export default {
           button: "אישור"
         });
       }
-      document.querySelector(".swal-button").style.backgroundColor = this.theme.primaryColor;
+      if (document.querySelector(".swal-button")) {
+        document.querySelector(".swal-button").style.backgroundColor = this.theme.primaryColor;
+      }
     },
     updateKeyName(key, newKey, objectRef) {
-      // let objectRef = this.cardsData;
       if (key !== newKey) {
           if (!this.isDuplicateKey(objectRef, newKey)) {
             // changes the key name while recording its index by indexedKeys
@@ -166,7 +167,8 @@ export default {
         "TITLE": this.title,
         "AMOUNT_EXAM_QUESTIONS": 0,
         "TIME_FOR_EXAM ": "00:00",
-        "DATA": this.cardsData
+        "DATA": this.cardsData,
+        "THEME": this.theme
       }
     }
   },
