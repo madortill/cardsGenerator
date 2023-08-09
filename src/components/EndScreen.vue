@@ -150,6 +150,9 @@ export default {
 .text {
     font-size: 1.2rem;
     margin-bottom: 22px;
+    max-width: 78%;
+    word-wrap: break-word;
+    text-align: center;
 }
 
 @keyframes fall {
