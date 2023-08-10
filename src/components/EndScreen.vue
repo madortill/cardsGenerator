@@ -4,7 +4,7 @@
         <div class="end-text">
             <SubjectBtnSvg class="svg" :secondaryColor="theme.secondaryColor" :primaryColor="theme.primaryColor"></SubjectBtnSvg>
             <h1>יש לכם לומדה מוכנה!</h1>
-            <div class="text">קישור ללומדה: <a
+            <div class="text">קישור ללומדה: <br> <a
                     :href="`https://madortill.github.io/${this.lomdaTitle}/code/`">https://madortill.github.io/{{ this.lomdaTitle }}/code/</a>
             </div>
             <vue-qrcode :value="`https://madortill.github.io/${this.lomdaTitle}/code/`" tag="svg"
@@ -20,7 +20,7 @@ import FlowerSvg from './svg/FlowerSvg.vue';
 import SubjectBtnSvg from './svg/SubjectBtnSvg.vue';
 
 export default {
-    name: "loadingStage",
+    name: "endingStage",
     props: ["lomdaTitle", "theme"],
     components: { VueQrcode, FlowerSvg, SubjectBtnSvg },
     data () {
@@ -109,11 +109,13 @@ export default {
         }
     },
     mounted() {
-        this.flowersOnscreen.push({leftPosition: `${Math.ceil(Math.ceil(Math.random() * 100/ 2)* 2)}%`, colorIndex: Math.round(Math.random() * (this.colorArray.length -1))});
+        this.flowersOnscreen.push({leftPosition: `${Math.ceil(Math.ceil(Math.random() * 100/ 2)* 2)}%`, colorIndex: this.colorIndex});
         let savedIndex;
         setInterval(() => {
             savedIndex = this.flowersOnscreen.length;
-            this.flowersOnscreen.push({leftPosition: `${Math.ceil(Math.ceil(Math.random() * 100/ 2)* 2)}%`, colorIndex: Math.round(Math.random() * (this.colorArray.length -1))});
+            // I have no idea why the -1 is needed but otherwise this.colorIndex is equal to the length and an error occurs
+            (this.colorIndex === (this.colorArray.length - 1)) ?  this.colorIndex = 0 : this.colorIndex++;
+            this.flowersOnscreen.push({leftPosition: `${Math.ceil(Math.ceil(Math.random() * 100/ 2)* 2)}%`, colorIndex: this.colorIndex});
             setTimeout((savedIndex) => {
                 this.flowersOnscreen.splice(savedIndex, 1)
             }, 4000)
@@ -160,6 +162,11 @@ export default {
     word-wrap: break-word;
     text-align: center;
     margin-left: 2%;
+}
+
+a {
+    color: v-bind("theme.secondaryColor");
+    filter: brightness(0.75);
 }
 
 @keyframes fall {
