@@ -1,6 +1,6 @@
 <template>
     <div id="endScreen">
-        <FlowerSvg v-for="(flower, index) in flowersOnscreen" :theme="colorArray[index % colorArray.length]" :key="index" class="flower" :style="`left: ${flower.leftPosition}`"></FlowerSvg>
+        <FlowerSvg v-for="(flower, index) in flowersOnscreen" :theme="colorArray[flower.colorIndex]" :key="flower.leftPosition" class="flower" :style="`left: ${flower.leftPosition}`"></FlowerSvg>
         <div class="end-text">
             <SubjectBtnSvg class="svg" :secondaryColor="theme.secondaryColor" :primaryColor="theme.primaryColor"></SubjectBtnSvg>
             <h1>יש לכם לומדה מוכנה!</h1>
@@ -105,12 +105,18 @@ export default {
               },
           ],
           flowersOnscreen: [],
+          colorIndex: 0
         }
     },
     mounted() {
-        this.flowersOnscreen.push(this.colorArray[Math.round(Math.random() * this.colorArray.length)].name);
+        this.flowersOnscreen.push({leftPosition: `${Math.ceil(Math.ceil(Math.random() * 100/ 2)* 2)}%`, colorIndex: Math.round(Math.random() * (this.colorArray.length -1))});
+        let savedIndex;
         setInterval(() => {
-            this.flowersOnscreen.push({leftPosition: `${Math.ceil(Math.ceil(Math.random() * 100/ 2)* 2)}%`});
+            savedIndex = this.flowersOnscreen.length;
+            this.flowersOnscreen.push({leftPosition: `${Math.ceil(Math.ceil(Math.random() * 100/ 2)* 2)}%`, colorIndex: Math.round(Math.random() * (this.colorArray.length -1))});
+            setTimeout((savedIndex) => {
+                this.flowersOnscreen.splice(savedIndex, 1)
+            }, 4000)
         }, 200);
     }
 }

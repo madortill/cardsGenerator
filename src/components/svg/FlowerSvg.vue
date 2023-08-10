@@ -1,7 +1,6 @@
 <template>
     <svg width="95" height="84" viewBox="0 0 95 84" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="95" height="84" />
-
             <rect width="95" height="84" fill="white" fill-opacity="0" />
             <path
                 d="M30.2052 28.5151C25.7052 26.1818 16.2052 21.5151 14.2052 21.5151C13.7052 18.5152 13.8052 11.8152 18.2052 9.01516C22.6052 6.21516 29.3718 9.86587 32.2052 12.0412C30.947 17.5862 30.3591 24.0499 30.2052 28.5151Z"
@@ -22,7 +21,7 @@
 
 <script>
 export default {
-    name: "Bg_svg",
-    props: ["theme"]
+    name: "FlowerSvg",
+    props: ["theme"],
 }
 </script>
