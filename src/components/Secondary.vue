@@ -99,6 +99,7 @@ export default {
         this.errorList[index] = "יש למלא את השדה";
       }
     },
+    // shows delete popup and if the user says yes, emits delete-secondary event and updates indexedKeys
     deleteSecondary() {
       swal({
         icon: "warning",
@@ -115,7 +116,6 @@ export default {
       });
     },
     deleteCard (cardName) {
-      let cardIndex = this.indexedKeys.indexOf(cardName);
       this.indexedKeys.splice(this.indexedKeys.indexOf(cardName), 1);
       delete this.secondaryData[cardName];
     },

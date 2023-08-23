@@ -194,6 +194,7 @@ export default {
             // Actually do the computing - determine error message if the user entered a link, nothing or something that is not a link
             if (this.cardInfo.cardType === 'youtube' ) { 
                 if (this.cardInfo.youtube === '') {
+                    // reset the input value
                     this.youtubeLink = '';
                     return ('יש להכניס קישור');
                 } else if (this.cardInfo.youtube === 'notLink') {

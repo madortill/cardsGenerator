@@ -1,6 +1,6 @@
 <template>
     <div class="black-screen">
-        <div :class="['odot-div', isVisable ? '': 'zero-height']">
+        <div :class="['odot-div', isVisable ? '': 'zero-height', 'scrollStyle']">
             <div class="exit" @click="disappearAnimation"></div>
             <h1>אודות</h1>
             <div>
@@ -86,21 +86,21 @@ export default {
     min-width: 42%;
     padding: 3% 10%;
     max-height: 70%;
-    /* transition: transform v-bind("animationDuration + 's'"); */
+    overflow: auto;
 }
 
 .odot-div h1 {
     font-size: 3em;
-    margin-bottom: 0.4em;
-    margin-top: 0.4rem;
+    margin-bottom: 3.4%;
+    margin-top: 0;
 }
 
 .odot-div h2 {
-    margin-bottom: 0.4em;
+    margin-bottom: 2.4%;
     margin-top: 0;
     display: inline-block;
     font-weight: bold;
-    padding-top: 0.5em;
+    padding-top: 1.5%;
 }
 
 .odot-div span,
