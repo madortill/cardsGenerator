@@ -110,6 +110,7 @@ export default {
       .then((willDelete) => {
         if (willDelete) {
           this.$emit("delete-secondary", this.secondaryName);
+          this.indexedKeys =  Object.keys(this.secondaryData);
         }
       });
     },

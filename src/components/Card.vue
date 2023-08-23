@@ -20,8 +20,6 @@
       </div>
 
       <DropDownCard v-if="isPopupShown" :theme="theme" @add-page="addCard" @cancel="closePopup" cancelable></DropDownCard>
-
-      <!-- Delete popup -->
       
     </div>
   </div>
@@ -207,7 +205,6 @@ export default {
 .cardInput {
   grid-column: 1 / 2;
   grid-row: 3 / 4;
-  /* align-self: stretch; */
   display: contents;
 }
 </style>
