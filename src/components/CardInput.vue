@@ -2,25 +2,27 @@
     <div class="card-input" id="CardInput">
         <!-- Input type text -->
         <div v-if="cardInfo.cardType === 'text'" class="input-container">
-            <div :class="isShowRedBorder ? 'error-message textarea-error-innertext' : 'none'"><span class= "text">יש למלא את השדה</span></div>
-            <textarea :class="['textarea', 'text-input', isShowRedBorder ? 'error-message textarea-error' : '']"
-              type="text" ref="input" placeholder="הכניסו טקסט" v-model="cardInfo.content" 
-              @focusout="() => { cardInfo.content === ''  ? isShowRedBorder = true : isShowRedBorder = false}"
-              required></textarea>
-              <!-- @input="() => {cardInfo.content === '' ? '' : isShowRedBorder = false}" -->
+            <div :class="isShowRedBorder ? 'error-message textarea-error-innertext' : 'none'"><span class="text">יש למלא את
+                    השדה</span></div>
+            <textarea :class="['textarea', 'text-input', isShowRedBorder ? 'error-message textarea-error' : '']" type="text"
+                ref="input" placeholder="הכניסו טקסט" v-model="cardInfo.content"
+                @focusout="() => { cardInfo.content === '' ? isShowRedBorder = true : isShowRedBorder = false }"
+                required></textarea>
         </div>
         <!-- Image or Video type -->
         <div v-else-if="cardInfo.cardType === 'picAndText' || cardInfo.cardType === 'videoAndText'" class="input-container">
             <button class="image-btn" @click="$refs.fileInput.click()"> {{ imageOrVideo.inputPrompt }} </button>
-            <input type="file" class="opacity" id="file-input" name="file-input"
-                :accept="imageOrVideo.AcceptedFormats" @change="updateInput" ref="fileInput"/>
+            <input type="file" class="opacity" id="file-input" name="file-input" :accept="imageOrVideo.AcceptedFormats"
+                @change="updateInput" ref="fileInput" />
             <div v-if="cardInfo[imageOrVideo.propertyName] == []" class="error error-message">
-		    	<img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="picture-warning" />
-		    	<span class="error-text text"> {{ imageOrVideo.emptyError }}</span>
+                <img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol"
+                    class="picture-warning" />
+                <span class="error-text text"> {{ imageOrVideo.emptyError }}</span>
             </div>
             <div class="preview" ref="preview" v-else-if="cardInfo[imageOrVideo.propertyName] !== 'invalid'">
                 <div class="image-details">
-                    <img v-if="cardInfo.cardType === 'picAndText'" :alt="imageOrVideo.alt" :src="chosenMediaURL" class="image-preview"/>
+                    <img v-if="cardInfo.cardType === 'picAndText'" :alt="imageOrVideo.alt" :src="chosenMediaURL"
+                        class="image-preview" />
                     <video v-else :alt="imageOrVideo.alt" class="image-preview" ref="video" controls>
                         <source :src="chosenMediaURL" type="video/mp4">
                         הדפדפן לא תומך בהצגת סרטונים
@@ -28,25 +30,27 @@
                 </div>
             </div>
             <div v-else class="error error-message">
-                <img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="picture-warning" />
+                <img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol"
+                    class="picture-warning" />
                 <div class="text">סוג הקובץ לא מתאים <br> לאפשרויות הקיימות</div>
             </div>
             <textarea class="textarea" v-model="cardInfo.content" placeholder="הכניסו טקסט הסבר (לא חובה)"></textarea>
         </div>
         <!-- Youtube type -->
         <div v-else-if="cardInfo.cardType === 'youtube'" class="input-container">
-            <div class="youtube-input-container"> 
-                <input type="url" class="youtube-input" placeholder="הכניסו קישור ליוטיוב" ref="youtubeInput" 
-                    @focus="(event) => {event.target.select()}" v-model="youtubeLink"/>
-                <button class="image-btn load-youtube" @click="validateYoutube">טען</button> 
+            <div class="youtube-input-container">
+                <input type="url" class="youtube-input" placeholder="הכניסו קישור ליוטיוב" ref="youtubeInput"
+                    @focus="(event) => { event.target.select() }" v-model="youtubeLink" />
+                <button class="image-btn load-youtube" @click="updateYoutubeValue">טען</button>
             </div>
             <div v-if="youtubeError" class="error error-message">
-		    	<img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="picture-warning" />
-		    	<span class="text"> {{ youtubeError }} </span>
-            </div> 
+                <img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol"
+                    class="picture-warning" />
+                <span class="text"> {{ youtubeError }} </span>
+            </div>
             <div class="preview" ref="preview" v-else>
-                <iframe width="280" height="165" :src="cardInfo.youtube" 
-                class="image-preview" title="סרטון יוטיוב" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
+                <iframe width="280" height="165" :src="cardInfo.youtube" class="image-preview" title="סרטון יוטיוב"
+                    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
                 gyroscope; picture-in-picture; web-share" allowfullscreen ref="youtubeIframe"></iframe>
             </div>
             <textarea class="textarea" v-model="cardInfo.content" placeholder="הכניסו טקסט הסבר (לא חובה)"></textarea>
@@ -74,14 +78,12 @@ export default {
     data() {
         return {
             isShowRedBorder: false,
-            youtubeError: this.cardInfo.youtube === '' ? 'יש להכניס קישור' : '',
             youtubeLink: this.cardInfo.youtube
         }
     },
     methods: {
         // Image and video functions
         updateInput() {
-            console.log(`cardType: ${this.cardInfo.cardType}, refs value:`, this.$refs)
             this.updateImageDisplay();
             if (this.cardInfo.cardType === 'videoAndText') {
                 this.$refs.video.load();
@@ -90,13 +92,12 @@ export default {
         updateImageDisplay() {
             let fileList = this.$refs.fileInput.files;
             if (this.isFileValid(fileList[0], this.imageOrVideo.propertyName)) {
-                console.log("file valid");
                 this.cardInfo[this.imageOrVideo.propertyName] = fileList[0];
             } else {
                 this.cardInfo[this.imageOrVideo.propertyName] = "invalid";
             }
         },
-    isFileValid(file, presumedType = "pic") {
+        isFileValid(file, presumedType = "pic") {
             const pic = [
                 "image/apng",
                 "image/bmp",
@@ -128,37 +129,32 @@ export default {
         },
 
         // Youtube functions
-        extractYoutubeId (URL) {
-            console.log('youtubeId is changing');
+        extractYoutubeId(URL) {
             // Use regex that matches the video id if  it's embed, watch or share
-            console.log('youtubeId', URL.match(/(?<=v=|youtu.be\/|embed\/)[^&]+/g));
             return (URL.match(/(?<=v=|youtu.be\/|embed\/)[^&]+/g)?.[0]);
         },
-        validateYoutube (event) {
-            let validateRegEx = new RegExp(/https?.*\youtu\.?be\.*/g);
+        updateYoutubeValue(event) {
             let inputValue = this.$refs.youtubeInput.value;
-            this.cardInfo.youtube = this.extractYoutubeId(inputValue) === null ? '' :`https://www.youtube-nocookie.com/embed/${this.extractYoutubeId(inputValue)}`;
-            // console.log(validateRegEx.test(inputValue));
+            let validateRegEx = new RegExp(/https?.*\youtu\.?be\.*/g);
             if (validateRegEx.test(inputValue)) {
-                console.log('youtube value: ', this.cardInfo.youtube);
-                this.youtubeError = '';
+                this.cardInfo.youtube = this.extractYoutubeId(inputValue) === null ? '' : `https://www.youtube-nocookie.com/embed/${this.extractYoutubeId(inputValue)}`;
             } else if (inputValue === '') {
-                this.youtubeError = 'יש להכניס קישור';
+                this.cardInfo.youtube = '';
             } else {
-                this.youtubeError = 'הקישור שהכנסתם הוא לא של יוטיוב';
+                this.cardInfo.youtube = 'notLink'
             }
         },
-    }, 
+    },
     computed: {
         // Image and video computed
-        chosenMediaURL() { 
+        chosenMediaURL() {
             if (this.cardInfo[this.imageOrVideo.propertyName] instanceof File) {
                 return (URL.createObjectURL(this.cardInfo[this.imageOrVideo.propertyName]));
             } else {
                 return undefined;
             }
         },
-        fileName () {
+        fileName() {
             let tempName = this.cardInfo[this.imageOrVideo.propertyName].name.substring(0, this.cardInfo[this.imageOrVideo.propertyName].name.lastIndexOf('.'));
             if (tempName.length > 10) {
                 return (tempName.slice(0, 10) + "...");
@@ -166,42 +162,49 @@ export default {
                 return tempName;
             }
         },
-        imageOrVideo () {
-            // if (cardInfo.cardType === 'videoAndText' || cardInfo.cardType === 'picAndText') {
-                if  (this.cardInfo.cardType === 'picAndText') {
-                    return {
-                        AcceptedFormats: ".jpg, .jpeg, .png, .svg",
-                        inputPrompt: "איזו תמונה תרצו לצרף? (PNG, JPG, SVG)",
-                        emptyError: "לא בחרתם תמונה",
-                        previewAlt: "התמונה שבחרתם",
-                        propertyName: "pic"
-                    }
-
-                } else if (this.cardInfo.cardType === 'videoAndText') {
-                    return {
-                        AcceptedFormats: ".mp4",
-                        inputPrompt: "איזה סרטון תרצו לצרף? (MP4)",
-                        emptyError: "לא בחרתם סרטון",
-                        previewAlt: "הסרטון שבחרתם",
-                        propertyName: "video"
-                    }
+        imageOrVideo() {
+            if (this.cardInfo.cardType === 'picAndText') {
+                return {
+                    AcceptedFormats: ".jpg, .jpeg, .png, .svg",
+                    inputPrompt: "איזו תמונה תרצו לצרף? (PNG, JPG, SVG)",
+                    emptyError: "לא בחרתם תמונה",
+                    previewAlt: "התמונה שבחרתם",
+                    propertyName: "pic"
                 }
+
+            } else if (this.cardInfo.cardType === 'videoAndText') {
+                return {
+                    AcceptedFormats: ".mp4",
+                    inputPrompt: "איזה סרטון תרצו לצרף? (MP4)",
+                    emptyError: "לא בחרתם סרטון",
+                    previewAlt: "הסרטון שבחרתם",
+                    propertyName: "video"
+                }
+            }
         },
-        youtubeInputDirection () {  
-            console.log(`is contain hebrew: ${ /[\u0590-\u05fe]/g.test(this.youtubeLink)}`);
+        // youtube computed
+        youtubeInputDirection() {
             if (this.youtubeLink === '' || /[\u0590-\u05fe]/g.test(this.youtubeLink)) {
                 return 'rtl';
-            } 
+            }
             return 'ltr'
 
+        },
+        youtubeError() {
+            // Actually do the computing - determine error message if the user entered a link, nothing or something that is not a link
+            if (this.cardInfo.cardType === 'youtube' ) { 
+                if (this.cardInfo.youtube === '') {
+                    this.youtubeLink = '';
+                    return ('יש להכניס קישור');
+                } else if (this.cardInfo.youtube === 'notLink') {
+                    return ('הקישור שהכנסתם הוא לא של יוטיוב');
+                } else {
+                    return('')
+                }
+
+            }
         }
     },
-    // Set  initial youtube value 
-    // mounted () {
-    //     if (this.cardInfo.cardType === 'youtube') {
-    //         this.$refs.youtubeInput.value = this.cardInfo.youtube;
-    //     }
-    // }
 }
 </script>
 
@@ -275,7 +278,8 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 1rem 1rem;;
+    margin: 1rem 1rem;
+    ;
     width: 85%;
 }
 
@@ -288,14 +292,14 @@ export default {
 }
 
 .picture-warning {
-	height: 1.5rem;
+    height: 1.5rem;
     margin-left: 0.4rem;
 }
 
 /* Text warnings */
 .text-error-message {
-	position: absolute;
-	z-index: 2;
+    position: absolute;
+    z-index: 2;
 }
 
 .error-message-position {
@@ -316,29 +320,30 @@ export default {
     line-height: 0px;
     margin: auto;
 }
+
 .message {
-	background-color: #ffbeb7;
-	width: fit-content;
-	padding: 0.5rem 1rem;
-	border-radius: 0.2rem;
-	font-size: 1.2rem;
-	font-weight: normal;
-	color: black;
-	display: flex;
-	align-items: center;
-	--shadow-color: rgba(0, 0, 0, 0.219);
-	box-shadow: 0.3px 0.5px 0.7px var(--shadow-color),
-		0.8px 1.6px 2px -0.8px var(--shadow-color),
-		2.1px 4.1px 5.2px -1.7px var(--shadow-color),
-		5px 10px 12.6px -2.5px var(--shadow-color);
+    background-color: #ffbeb7;
+    width: fit-content;
+    padding: 0.5rem 1rem;
+    border-radius: 0.2rem;
+    font-size: 1.2rem;
+    font-weight: normal;
+    color: black;
+    display: flex;
+    align-items: center;
+    --shadow-color: rgba(0, 0, 0, 0.219);
+    box-shadow: 0.3px 0.5px 0.7px var(--shadow-color),
+        0.8px 1.6px 2px -0.8px var(--shadow-color),
+        2.1px 4.1px 5.2px -1.7px var(--shadow-color),
+        5px 10px 12.6px -2.5px var(--shadow-color);
 }
 
 .warning {
-	height: 1.2rem;
+    height: 1.2rem;
 }
 
 .message .text {
-	padding-right: 0.5em;
+    padding-right: 0.5em;
 }
 
 /* Youtube styles */
@@ -349,6 +354,7 @@ export default {
     gap: 2px;
     padding-top: 0.2rem;
 }
+
 .load-youtube {
     margin: 0;
     padding: 0.3rem;
@@ -370,9 +376,8 @@ export default {
 
 .youtube-input::selection {
     background-color: rgba(78, 181, 245, 0.704);
-} 
+}
 
 .youtube-input::placeholder {
     text-align: right;
-}
-</style>
+}</style>

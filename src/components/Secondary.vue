@@ -115,6 +115,7 @@ export default {
       });
     },
     deleteCard (cardName) {
+      let cardIndex = this.indexedKeys.indexOf(cardName);
       this.indexedKeys.splice(this.indexedKeys.indexOf(cardName), 1);
       delete this.secondaryData[cardName];
     },
