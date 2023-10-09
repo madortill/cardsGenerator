@@ -12,7 +12,8 @@ export default {
     return {
       currentStage: 0,
       lomdaTitle: '',
-      theme: ''
+      theme: '',
+      jsonData: '',
     }
   },
   methods: {
@@ -26,7 +27,8 @@ export default {
         "method": "GET",
         // body: JSON.stringify(this.data)
       });
-      const result = await reponse.json()
+      const result = await reponse.json();
+      this.jsonData = data;
       // result.items.forEach(i => console.log(i, i.full_name));
       // Time out so the loading screen will not disappear immediatly
       setTimeout(() => {
@@ -52,7 +54,7 @@ export default {
     <instructions v-else-if="currentStage === 1"></instructions>
     <edit-stage v-else-if="currentStage === 2" @next-stage="initFetch"></edit-stage>
     <loading-screen v-else-if="currentStage === 3"></loading-screen>
-    <end-screen v-else-if="currentStage === 4" :lomdaTitle="lomdaTitle" :theme="this.theme"></end-screen>
+    <end-screen v-else-if="currentStage === 4" :lomdaTitle="lomdaTitle" :theme="this.theme" :JsonData="JSON.stringify(this.jsonData)"></end-screen>
 </template>
 
 

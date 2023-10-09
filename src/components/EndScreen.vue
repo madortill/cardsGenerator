@@ -1,14 +1,21 @@
 <template>
     <div id="endScreen">
-        <FlowerSvg v-for="(flower, index) in flowersOnscreen" :theme="colorArray[flower.colorIndex]" :key="flower.leftPosition" class="flower" :style="`left: ${flower.leftPosition}`"></FlowerSvg>
+        <div class="flower-container">
+            <FlowerSvg v-for="(flower, index) in flowersOnscreen" :theme="colorArray[flower.colorIndex]" :key="flower.leftPosition" class="flower" :style="`left: ${flower.leftPosition}`"></FlowerSvg>
+        </div>
         <div class="end-text">
             <SubjectBtnSvg class="svg" :secondaryColor="theme.secondaryColor" :primaryColor="theme.primaryColor"></SubjectBtnSvg>
             <h1>יש לכם לומדה מוכנה!</h1>
-            <div class="text">קישור ללומדה: <br> <a
-                    :href="`https://madortill.github.io/${this.lomdaTitle}/code/`">https://madortill.github.io/{{ this.lomdaTitle }}/code/</a>
+            <div class="text">
+                <span>השלב האחרון הוא להוריד את הקובץ שקיבלתם ולשלוח לנו אותו בכתובת </span>
+                <a href="mailto:mador.till@gmail.com">mador.till@gmail.com</a>
+                <br> 
+                <br> 
+                <!-- <a :href="`https://madortill.github.io/${this.lomdaTitle}/code/`">https://madortill.github.io/{{ this.lomdaTitle }}/code/</a> -->
             </div>
-            <vue-qrcode :value="`https://madortill.github.io/${this.lomdaTitle}/code/`" tag="svg"
-                :options="{ width: 148, color: {light: '#00000000'} }"></vue-qrcode>
+            <a :href="downloadURL" download="data.json" class="download">לחצו כאן להורדת הקובץ</a>
+            <!-- <vue-qrcode :value="`https://madortill.github.io/${this.lomdaTitle}/code/`" tag="svg"
+                :options="{ width: 148, color: {light: '#00000000'} }"></vue-qrcode> -->
         </div>
         </div>
         
@@ -21,7 +28,7 @@ import SubjectBtnSvg from './svg/SubjectBtnSvg.vue';
 
 export default {
     name: "endingStage",
-    props: ["lomdaTitle", "theme"],
+    props: {"lomdaTitle": String, "theme": Object, "JsonData": String},
     components: { VueQrcode, FlowerSvg, SubjectBtnSvg },
     data () {
         return {
@@ -105,7 +112,8 @@ export default {
               },
           ],
           flowersOnscreen: [],
-          colorIndex: 0
+          colorIndex: 0,
+          downloadURL: ''
         }
     },
     mounted() {
@@ -114,12 +122,15 @@ export default {
         setInterval(() => {
             savedIndex = this.flowersOnscreen.length;
             // I have no idea why the -1 is needed but otherwise this.colorIndex is equal to the length and an error occurs
-            (this.colorIndex === (this.colorArray.length - 1)) ?  this.colorIndex = 0 : this.colorIndex++;
-            this.flowersOnscreen.push({leftPosition: `${Math.ceil(Math.ceil(Math.random() * 100/ 2)* 2)}%`, colorIndex: this.colorIndex});
+            this.colorIndex++;
+            this.flowersOnscreen.push({leftPosition: `${Math.ceil(Math.ceil(Math.random() * 100/ 2)* 2)}%`, colorIndex: this.colorIndex % this.colorArray.length});
             setTimeout((savedIndex) => {
                 this.flowersOnscreen.splice(savedIndex, 1)
             }, 4000)
         }, 200);
+
+        this.downloadURL = window.URL.createObjectURL(new Blob([String(this.JsonData)], { type: 'text/plain' }));
+        console.log(this.downloadURL);
     }
 }
 </script>
@@ -135,18 +146,21 @@ export default {
     justify-content: center;
     align-items: center;
     background-color: #f0ffff;
-
 }
 
 .end-text {
     z-index: 1;
     position: relative;
+    top: -10%;
     width: 40rem;
     /* height: 50%; */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    min-height: 20%;
+    padding-top: 5rem;
+    
 }
 
 .flower {
@@ -157,7 +171,6 @@ export default {
 
 .text {
     font-size: 1.2rem;
-    margin-bottom: 22px;
     max-width: 75%;
     word-wrap: break-word;
     text-align: center;
@@ -167,6 +180,20 @@ export default {
 a {
     color: v-bind("theme.secondaryColor");
     filter: brightness(0.75);
+}
+
+.download {
+    margin-top: auto;
+    font-size: 1.2rem;
+}
+
+.flower-container {
+    display: contents;
+}
+
+.svg {
+    top: 0;
+    left: 0;
 }
 
 @keyframes fall {
