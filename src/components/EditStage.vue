@@ -46,9 +46,7 @@ export default {
     goToSubj(subjName) {
       if (subjName === "newSubject") {
         this.cardsData[`subject${this.indexedKeys.length}`] = {
-          "amountOfQuestions": {},
-          "questionsExam": {},
-          "questionsPractice": {},
+          "amountOfQuestions": 0,
           "learningContent": {},
           "icon": "../assets/images/learning/Artboard 4.svg"
         };
