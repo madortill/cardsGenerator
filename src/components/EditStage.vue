@@ -50,6 +50,7 @@ export default {
           "questionsExam": {},
           "questionsPractice": {},
           "learningContent": {},
+          "icon": "../assets/images/learning/Artboard 4.svg"
         };
         subjName = `subject${this.indexedKeys.length}`;
         this.indexedKeys.push(subjName)
