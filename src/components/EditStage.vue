@@ -2,7 +2,7 @@
   <div id="EditStage">
     <mainScreen v-if="(currentStage === 'main')" :theme="theme" :subjectArray="indexedKeys"
       @change-color="changeColor" @change-title="updateThings(newValue, 'title')" @go-to-subject="goToSubj" @delete-subject="deleteSubject" 
-      @next-stage="nextStage" @update-title="changeTitle"></mainScreen>
+      @next-stage="nextStage" @update-title="changeTitle" :title="title"></mainScreen>
     <Input-screen v-else-if="(currentStage === 'input')" :subjData="this.cardsData[chosenSubject]" :chosenSubject="chosenSubject" :theme="theme"
       @back-to-main="updateThanMain" @subject-input="hideErrorMessages" @subject-focusout="checkIfEmpty" 
       :subjErrorMessage="subjErrorMessage" ref="input-screen" @subject-change="(value) => {this.updateKeyName(this.chosenSubject, value, this.cardsData);}"></Input-screen>

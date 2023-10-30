@@ -49,14 +49,14 @@ export default {
     name: "main-screen",
     data() {
         return {
-            title: "",
+            // title: "",
             showErrorMessage: false,
             titleErrorMessage: "",
             isDeleteMode: false,
             showAbout: false
         };
     },
-    props: {"subjectArray": Array, "theme": Object},
+    props: {"subjectArray": Array, "theme": Object, "title": String},
     emits: ["change-color", "update-title", "go-to-subject", "delete-subject", "next-stage" ],
     components: { ColorPicker, SubjectBtnSvg, CircleSvg, Bg_svg, CustomInput, MinusCircleSvg, AboutScreen },
     methods: {
@@ -75,8 +75,7 @@ export default {
             }
         },
         onUpdateTitle (value) {
-            this.title = value;
-            this.$emit('update-title', this.title)
+            this.$emit('update-title', value)
         },
         toggleDeleteMode () {
             this.isDeleteMode = !this.isDeleteMode;

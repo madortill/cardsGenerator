@@ -1,5 +1,9 @@
 לעשות משתנים גלובליים של הודעות שגיאה?
 
-Change InputScreen appearance form v-if to v-show and than I don't have to connect the inputs' values to the props and can give up the workout using nextTick
-
 favicon
+
+title is deleted when entering a subject
+make sure all text inputs are not empty before leaving a subject
+text-area hiding the gradient
+
+Do a share option to the downloaded file.                                                                                                                                                                                              
