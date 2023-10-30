@@ -30,7 +30,7 @@
                 טלפון שלומי אוגרן: <a href="tel:052-5364232">052-5364232</a>
             </div>
             <div class="contact">
-                מייל: <a href="mailto:madortill@gmail.com">madortill@gmail.com</a>
+                מייל: <a href="mailto:mador.till@gmail.com">mador.till@gmail.com</a>
             </div>
             <img class="till-logo" src="@/assets/colorNeutralAssets/till-logo-text-black.svg">
         </div>

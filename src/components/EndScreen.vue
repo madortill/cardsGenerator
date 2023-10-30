@@ -8,7 +8,7 @@
             <h1>יש לכם לומדה מוכנה!</h1>
             <div class="text">
                 <span>השלב האחרון הוא להוריד את הקובץ שקיבלתם ולשלוח לנו אותו בכתובת </span>
-                <a href="mailto:mador.till@gmail.com">mador.till@gmail.com</a>
+                <a href="mailto:mador.till.mop@gmail.com">mador.till.mop@gmail.com</a>
                 <br> 
                 <br> 
                 <!-- <a :href="`https://madortill.github.io/${this.lomdaTitle}/code/`">https://madortill.github.io/{{ this.lomdaTitle }}/code/</a> -->
