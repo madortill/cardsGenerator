@@ -146,9 +146,10 @@ export default {
       
 
       // Make sure there are not empty inputs without error
-      let inputList = document.querySelectorAll("input");
+      let inputList = document.querySelectorAll("input, textarea");
       for (let item of inputList) {
         if (item.value === "" && item.hasAttribute('required')) {
+          console.log(item)
           item.focus();
           item.blur();
           errorContent = "יש למלא את השדה";

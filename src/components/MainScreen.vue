@@ -113,8 +113,7 @@ export default {
                     content: "input", 
                     })
                     .then((value) => {
-                      this.title = value;
-                      this.$emit("next-stage", this.title)
+                      this.$emit("next-stage", value)
                     });
                 } else {
                     this.$emit("next-stage", this.title)

@@ -2,9 +2,6 @@
 
 favicon
 
-make sure all text inputs are not empty before leaving a subject
 text-area hiding the gradient
 
 Do a share option to the downloaded file.     
-
-problem with title popup
