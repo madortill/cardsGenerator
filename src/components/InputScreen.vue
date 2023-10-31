@@ -216,17 +216,21 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: -1;
+    z-index: 0;
 }
 
 
 .footer .gradient {
-    background-image: linear-gradient(180deg, rgba(103, 223, 203, 0) 0%, v-bind("theme.gradient") 100%);
+    background-image: linear-gradient(180deg, rgba(103, 223, 203, 0) 0%, v-bind("theme.gradient") 73%);
     height: 100%;
     width: 100%;
     left: 0;
     bottom: 0;
     z-index: -2;
+}
+
+.footer span {
+    margin-top: 1rem;
 }
 
 </style>

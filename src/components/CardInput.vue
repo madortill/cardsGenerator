@@ -7,6 +7,7 @@
             <textarea :class="['textarea', 'text-input', isShowRedBorder ? 'error-message textarea-error' : '']" type="text"
                 ref="input" placeholder="הכניסו טקסט" v-model="cardInfo.content"
                 @focusout="() => { cardInfo.content === '' ? isShowRedBorder = true : isShowRedBorder = false }"
+                @input ="(e) => { e.currentTarget.value !== '' ?  isShowRedBorder = false : '' }"
                 required></textarea>
         </div>
         <!-- Image or Video type -->
