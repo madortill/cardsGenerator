@@ -92,9 +92,10 @@ export default {
         updateImageDisplay() {
             let fileList = this.$refs.fileInput.files;
             if (this.isFileValid(fileList[0], this.imageOrVideo.propertyName)) {
-                this.cardInfo[this.imageOrVideo.propertyName] = fileList[0];
+                this.saveAsBase64(fileList[0]);
+                this.cardInfo[`${this.imageOrVideo.propertyName}File`] = fileList[0];
             } else {
-                this.cardInfo[this.imageOrVideo.propertyName] = "invalid";
+                this.cardInfo[`${this.imageOrVideo.propertyName}File`] = "invalid";
             }
         },
         isFileValid(file, presumedType = "pic") {
@@ -127,7 +128,14 @@ export default {
                 }
             }
         },
-
+        saveAsBase64(file) {
+            let context = this
+            let reader = new FileReader();
+            reader.onloadend = function() {
+                context.cardInfo[context.imageOrVideo.propertyName] = reader.result;
+            }
+            reader.readAsDataURL(file);
+        },
         // Youtube functions
         extractYoutubeId(URL) {
             // Use regex that matches the video id if  it's embed, watch or share
@@ -148,14 +156,14 @@ export default {
     computed: {
         // Image and video computed
         chosenMediaURL() {
-            if (this.cardInfo[this.imageOrVideo.propertyName] instanceof File) {
-                return (URL.createObjectURL(this.cardInfo[this.imageOrVideo.propertyName]));
+            if (this.cardInfo[`${this.imageOrVideo.propertyName}File`] instanceof File) {
+                return (URL.createObjectURL(this.cardInfo[`${this.imageOrVideo.propertyName}File`]));
             } else {
                 return undefined;
             }
         },
         fileName() {
-            let tempName = this.cardInfo[this.imageOrVideo.propertyName].name.substring(0, this.cardInfo[this.imageOrVideo.propertyName].name.lastIndexOf('.'));
+            let tempName = this.cardInfo[`${this.imageOrVideo.propertyName}File`].name.substring(0, this.cardInfo[`${this.imageOrVideo.propertyName}File`].name.lastIndexOf('.'));
             if (tempName.length > 10) {
                 return (tempName.slice(0, 10) + "...");
             } else {

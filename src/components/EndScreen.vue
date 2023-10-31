@@ -130,7 +130,6 @@ export default {
         }, 200);
 
         this.downloadURL = window.URL.createObjectURL(new Blob([String(this.JsonData)], { type: 'text/plain' }));
-        console.log(this.downloadURL);
     }
 }
 </script>
