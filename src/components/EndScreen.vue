@@ -1,24 +1,43 @@
 <template>
     <div id="endScreen">
         <div class="flower-container">
-            <FlowerSvg v-for="(flower, index) in flowersOnscreen" :theme="colorArray[flower.colorIndex]" :key="flower.leftPosition" class="flower" :style="`left: ${flower.leftPosition}`"></FlowerSvg>
+            <FlowerSvg v-for="(flower, index) in flowersOnscreen" :theme="colorArray[flower.colorIndex]"
+                :key="flower.leftPosition" class="flower" :style="`left: ${flower.leftPosition}`"></FlowerSvg>
         </div>
         <div class="end-text">
-            <SubjectBtnSvg class="svg" :secondaryColor="theme.secondaryColor" :primaryColor="theme.primaryColor"></SubjectBtnSvg>
+            <SubjectBtnSvg class="svg" :secondaryColor="theme.secondaryColor" :primaryColor="theme.primaryColor">
+            </SubjectBtnSvg>
             <h1>יש לכם לומדה מוכנה!</h1>
             <div class="text">
-                <span>השלב האחרון הוא להוריד את הקובץ שקיבלתם ולשלוח לנו אותו בכתובת </span>
+                <span>השלב האחרון הוא להוריד את הקובץ שקיבלתם ולשלוח לנו אותו בכתובת: </span>
+                <br>
                 <a href="mailto:mador.till.mop@gmail.com">mador.till.mop@gmail.com</a>
-                <br> 
-                <br> 
-                <!-- <a :href="`https://madortill.github.io/${this.lomdaTitle}/code/`">https://madortill.github.io/{{ this.lomdaTitle }}/code/</a> -->
+                <br>
+                <br>
             </div>
-            <a :href="downloadURL" download="data.json" class="download">לחצו כאן להורדת הקובץ</a>
-            <!-- <vue-qrcode :value="`https://madortill.github.io/${this.lomdaTitle}/code/`" tag="svg"
-                :options="{ width: 148, color: {light: '#00000000'} }"></vue-qrcode> -->
+            <div>
+                <a :href="this.downloadURL" download="data.json" class="download"><button class="action-btn">
+                        <svg viewBox="14 14 72 72" class="share-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" >
+                            <path class="st0"
+                                d="M63.799,48.352c2.992-2.992,7.537,1.553,4.545,4.545l-16.131,16.13c-1.229,1.181-3.216,1.194-4.486-0.058  L31.656,52.898c-2.992-2.992,1.553-7.537,4.545-4.545l10.585,10.585V17.839c0-4.232,6.428-4.232,6.428,0v41.098L63.799,48.352  L63.799,48.352z M88.571,78.906c4.232,0,4.232,6.428,0,6.428H11.429c-4.232,0-4.232-6.428,0-6.428H88.571z" />
+                        </svg>
+                        <span>הורדה</span>
+                    </button>
+                </a>
+                <button href="" @click="this.share" v-if="testFileForShare" class="action-btn">
+                    <svg alt="share icon" class="share-icon" viewBox="0 0 512.629 512.629">
+                        <path
+                            d="M0.006,256.014c-0.218,54.774,44.009,99.354,98.784,99.572c25.226,0.1,49.543-9.416,68-26.612l147.797,66.731   c-1.027,5.526-1.59,11.127-1.685,16.747c-0.174,55.152,44.393,100.002,99.545,100.177s100.002-44.393,100.177-99.545   s-44.393-100.002-99.545-100.177c-32.951-0.104-63.832,16.053-82.534,43.182L191.686,293.39   c9.863-23.816,9.901-50.567,0.107-74.411l138.667-63.019c31.225,45.161,93.148,56.457,138.309,25.232S525.225,88.045,494,42.884   s-93.148-56.457-138.309-25.232c-26.895,18.596-42.926,49.227-42.875,81.925c0.09,5.628,0.661,11.237,1.707,16.768L167.11,183.331   c-39.939-37.503-102.718-35.528-140.221,4.411C9.532,206.228-0.088,230.657,0.006,256.014z"
+                            fill="currentColor" />
+                    </svg>
+                    <span>שיתוף</span>
+                </button>
+            </div>
         </div>
-        </div>
-        
+    </div>
+    <!-- <a :href="`https://madortill.github.io/${this.lomdaTitle}/code/`">https://madortill.github.io/{{ this.lomdaTitle }}/code/</a> -->
+    <!-- <vue-qrcode :value="`https://madortill.github.io/${this.lomdaTitle}/code/`" tag="svg"
+        :options="{ width: 148, color: {light: '#00000000'} }"></vue-qrcode> -->
 </template>
 
 <script>
@@ -28,108 +47,122 @@ import SubjectBtnSvg from './svg/SubjectBtnSvg.vue';
 
 export default {
     name: "endingStage",
-    props: {"lomdaTitle": String, "theme": Object, "JsonData": String},
+    props: { "lomdaTitle": String, "theme": Object, "JsonData": String },
     components: { VueQrcode, FlowerSvg, SubjectBtnSvg },
-    data () {
+    data() {
         return {
             colorArray: [
-              // Make sure all colors are 6 digit hex
-              {
-                  name: "lightBlue",
-                  hebrawName: "תכלת",
-                  primaryColor: "#20c5f2",
-                  secondaryColor: "#1de8f7",
-                  textColor: "#1c3f55",
-                  gradient: "#27c5f2",
-                  buttonsColor: "#1c3f55"
-              }, {
-                  name: "pink",
-                  hebrawName: "ורוד",
-                  primaryColor: "#eda8ec",
-                  secondaryColor: "#c23ac0",
-                  textColor: "#260129",
-                  gradient: "#e586d7",
-                  buttonsColor: "#260129"
-              }, {
-                  name: "yellow",
-                  hebrawName: "צהוב",
-                  primaryColor: "#FCB328",
-                  secondaryColor: "#FDDE2E",
-                  textColor: "#414042",
-                  gradient: "#ffa700",
-                  buttonsColor: "#414042"
-              }, {
-                  name: "lightPurple",
-                  hebrawName: "סגול בהיר",
-                  primaryColor: "#9E7FAD",
-                  secondaryColor: "#562d66", //previous color: "#9B6BAE",
-                  textColor: "#180926",
-                  gradient: "#683f91", // previous color:  "#3D2768",
-                  buttonsColor: "#180926"
-              }, {
-                  name: "darkBlue",
-                  hebrawName: "כחול כהה",
-                  primaryColor: "#223D6D",
-                  secondaryColor: "#516FA5 ",
-                  textColor: "#031520", // "#223d6d",
-                  gradient: "#516FA5",
-                  buttonsColor: "#031520"
-              }, {
-                  name: "brown",
-                  hebrawName: "חום",
-                  primaryColor: "#a7603b",
-                  secondaryColor: "#5c321c",
-                  textColor: "#361d10",
-                  gradient: "#602003",
-                  buttonsColor: "#361d10"
-              }, {
-                  name: "torquise",
-                  hebrawName: "טורקיז",
-                  primaryColor: "#1aa3a3",
-                  secondaryColor: "#67dfcb",
-                  textColor: "#1f3e3e",
-                  gradient: "#629191",
-                  buttonsColor: "#1f3e3e"
-              },
-              // Colors not tested
-              {
-                  name: "maroon",
-                  hebrawName: "בורדו",
-                  primaryColor: "#5b0616", // 4D243D
-                  secondaryColor: "#b91835",
-                  textColor: "#2e0002",
-                  gradient: "#2e0002",
-                  buttonsColor: "#2e0002"
-              },
-              {
-                  name: "ballet-pink",
-                  hebrawName: "ורוד-בלט",
-                  primaryColor: "#f97394",
-                  secondaryColor: "#ffb3c6",
-                  textColor: "#3a1820",
-                  gradient: "#ff8fab",
-                  buttonsColor: "#3a1820"
-              },
-          ],
-          flowersOnscreen: [],
-          colorIndex: 0,
-          downloadURL: ''
+                // Make sure all colors are 6 digit hex
+                {
+                    name: "lightBlue",
+                    hebrawName: "תכלת",
+                    primaryColor: "#20c5f2",
+                    secondaryColor: "#1de8f7",
+                    textColor: "#1c3f55",
+                    gradient: "#27c5f2",
+                    buttonsColor: "#1c3f55"
+                }, {
+                    name: "pink",
+                    hebrawName: "ורוד",
+                    primaryColor: "#eda8ec",
+                    secondaryColor: "#c23ac0",
+                    textColor: "#260129",
+                    gradient: "#e586d7",
+                    buttonsColor: "#260129"
+                }, {
+                    name: "yellow",
+                    hebrawName: "צהוב",
+                    primaryColor: "#FCB328",
+                    secondaryColor: "#FDDE2E",
+                    textColor: "#414042",
+                    gradient: "#ffa700",
+                    buttonsColor: "#414042"
+                }, {
+                    name: "lightPurple",
+                    hebrawName: "סגול בהיר",
+                    primaryColor: "#9E7FAD",
+                    secondaryColor: "#562d66", //previous color: "#9B6BAE",
+                    textColor: "#180926",
+                    gradient: "#683f91", // previous color:  "#3D2768",
+                    buttonsColor: "#180926"
+                }, {
+                    name: "darkBlue",
+                    hebrawName: "כחול כהה",
+                    primaryColor: "#223D6D",
+                    secondaryColor: "#516FA5 ",
+                    textColor: "#031520", // "#223d6d",
+                    gradient: "#516FA5",
+                    buttonsColor: "#031520"
+                }, {
+                    name: "brown",
+                    hebrawName: "חום",
+                    primaryColor: "#a7603b",
+                    secondaryColor: "#5c321c",
+                    textColor: "#361d10",
+                    gradient: "#602003",
+                    buttonsColor: "#361d10"
+                }, {
+                    name: "torquise",
+                    hebrawName: "טורקיז",
+                    primaryColor: "#1aa3a3",
+                    secondaryColor: "#67dfcb",
+                    textColor: "#1f3e3e",
+                    gradient: "#629191",
+                    buttonsColor: "#1f3e3e"
+                },
+                // Colors not tested
+                {
+                    name: "maroon",
+                    hebrawName: "בורדו",
+                    primaryColor: "#5b0616", // 4D243D
+                    secondaryColor: "#b91835",
+                    textColor: "#2e0002",
+                    gradient: "#2e0002",
+                    buttonsColor: "#2e0002"
+                },
+                {
+                    name: "ballet-pink",
+                    hebrawName: "ורוד-בלט",
+                    primaryColor: "#f97394",
+                    secondaryColor: "#ffb3c6",
+                    textColor: "#3a1820",
+                    gradient: "#ff8fab",
+                    buttonsColor: "#3a1820"
+                },
+            ],
+            flowersOnscreen: [],
+            colorIndex: 0,
+            downloadFile: '',
+            downloadURL: ''
+        }
+    },
+    methods: {
+        share(event) {
+            event.preventDefault();
+            navigator.share({
+                file: this.downloadFile,
+                title: 'מידע ללומדה🙂',
+                text: 'שולחים לכם את המידע שקיבלנו מתוך מחולל לומדת הכרטיסיות',
+            })
+        },
+        testFileForShare() {
+            navigator.canShare(this.downloadFile)
         }
     },
     mounted() {
-        this.flowersOnscreen.push({leftPosition: `${Math.ceil(Math.ceil(Math.random() * 100/ 2)* 2)}%`, colorIndex: this.colorIndex});
+        this.flowersOnscreen.push({ leftPosition: `${Math.ceil(Math.ceil(Math.random() * 100 / 2) * 2)}%`, colorIndex: this.colorIndex });
         let savedIndex;
         setInterval(() => {
             savedIndex = this.flowersOnscreen.length;
             // I have no idea why the -1 is needed but otherwise this.colorIndex is equal to the length and an error occurs
             this.colorIndex++;
-            this.flowersOnscreen.push({leftPosition: `${Math.ceil(Math.ceil(Math.random() * 100/ 2)* 2)}%`, colorIndex: this.colorIndex % this.colorArray.length});
+            this.flowersOnscreen.push({ leftPosition: `${Math.ceil(Math.ceil(Math.random() * 100 / 2) * 2)}%`, colorIndex: this.colorIndex % this.colorArray.length });
             setTimeout((savedIndex) => {
                 this.flowersOnscreen.splice(savedIndex, 1)
             }, 4000)
         }, 200);
-
-        this.downloadURL = window.URL.createObjectURL(new Blob([String(this.JsonData)], { type: 'text/plain' }));
+        this.downloadFile = new Blob([String(this.JsonData)], { type: 'text/plain' });
+        this.downloadURL = window.URL.createObjectURL(this.downloadFile);
     }
 }
 </script>
@@ -157,9 +190,10 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    /* min-height: 28%; */
     min-height: 20%;
     padding-top: 5rem;
-    
+
 }
 
 .flower {
@@ -170,7 +204,7 @@ export default {
 
 .text {
     font-size: 1.2rem;
-    max-width: 75%;
+    max-width: 65%;
     word-wrap: break-word;
     text-align: center;
     margin-left: 2%;
@@ -182,8 +216,9 @@ a {
 }
 
 .download {
-    margin-top: auto;
+    text-decoration: none;
     font-size: 1.2rem;
+    filter: brightness(1)
 }
 
 .flower-container {
@@ -195,11 +230,55 @@ a {
     left: 0;
 }
 
+.action-btn {
+    color: v-bind("theme.secondaryColor");
+    margin-top: 0.5rem;
+    filter: brightness(0.75);
+    /* border:  */
+    display: inline-flex;
+    align-items: center;
+    border: 1px v-bind("theme.secondaryColor") solid;
+    border-radius: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    gap: 0.3rem;
+    width: fit-content;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+}
+
+.action-btn:hover {
+    filter: brightness(0.55);
+}
+
+.action-btn:active {
+    filter: brightness(1);
+    background-color: v-bind("theme.secondaryColor");
+    color: white;
+}
+
+.share-icon {
+    display: inline;
+    height: 1.1em;
+    width: auto;
+    min-width: 1.1em;
+}
+
 @keyframes fall {
     0% {
         top: -10rem;
-    } 100% {
+    }
+
+    100% {
         top: 100%;
     }
 }
+/* SVG class */
+.st0 {
+    fill-rule: evenodd;
+    clip-rule: evenodd;
+    fill: currentColor;
+    stroke-width: 16;
+}
+
+
 </style>
