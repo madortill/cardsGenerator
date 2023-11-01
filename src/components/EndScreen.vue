@@ -16,12 +16,15 @@
                 <br>
             </div>
             <div>
-                <a :href="this.downloadURL" download="data.json" class="download"><button class="action-btn">
-                        <svg viewBox="14 14 72 72" class="share-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" >
-                            <path class="st0"
-                                d="M63.799,48.352c2.992-2.992,7.537,1.553,4.545,4.545l-16.131,16.13c-1.229,1.181-3.216,1.194-4.486-0.058  L31.656,52.898c-2.992-2.992,1.553-7.537,4.545-4.545l10.585,10.585V17.839c0-4.232,6.428-4.232,6.428,0v41.098L63.799,48.352  L63.799,48.352z M88.571,78.906c4.232,0,4.232,6.428,0,6.428H11.429c-4.232,0-4.232-6.428,0-6.428H88.571z" />
-                        </svg>
-                        <span>הורדה</span>
+                <a :href="this.downloadURL" download="data.json" class="download">
+                    <button class="action-btn">
+                    <svg class="share-icon" viewBox="0 0 512 512">
+                        <g>
+                        	<path d="M188.821,377.6c37.49,37.491,98.274,37.491,135.765,0.001c0,0,0.001-0.001,0.001-0.001l68.523-68.523   c12.712-12.278,13.064-32.536,0.786-45.248c-12.278-12.712-32.536-13.064-45.248-0.786c-0.267,0.257-0.529,0.52-0.786,0.786   l-59.371,59.349L288,32c0-17.673-14.327-32-32-32l0,0c-17.673,0-32,14.327-32,32l0.448,290.709l-58.901-58.901   c-12.712-12.278-32.97-11.926-45.248,0.786c-11.977,12.401-11.977,32.061,0,44.462L188.821,377.6z" fill="currentColor"/>
+                        	<path d="M480,309.333c-17.673,0-32,14.327-32,32v97.941c-0.012,4.814-3.911,8.714-8.725,8.725H72.725   c-4.814-0.012-8.714-3.911-8.725-8.725v-97.941c0-17.673-14.327-32-32-32s-32,14.327-32,32v97.941   C0.047,479.42,32.58,511.953,72.725,512h366.549c40.146-0.047,72.678-32.58,72.725-72.725v-97.941   C512,323.66,497.673,309.333,480,309.333z" fill="currentColor"/>
+                        </g>
+                    </svg>
+                    <span>הורדה</span>
                     </button>
                 </a>
                 <button href="" @click="this.share" v-if="testFileForShare" class="action-btn">
@@ -218,7 +221,10 @@ a {
 .download {
     text-decoration: none;
     font-size: 1.2rem;
-    filter: brightness(1)
+    filter: brightness(1);
+    width: fit-content;
+    height: fit-content;
+    display: inline-block;
 }
 
 .flower-container {
@@ -240,10 +246,10 @@ a {
     border: 1px v-bind("theme.secondaryColor") solid;
     border-radius: 0.5rem;
     padding: 0.25rem 0.5rem;
-    gap: 0.3rem;
+    gap: 0.4rem;
     width: fit-content;
     font-size: 1.2rem;
-    margin-top: 1rem;
+    margin: 0.5rem 0.5rem 0rem;
 }
 
 .action-btn:hover {

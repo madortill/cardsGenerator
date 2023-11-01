@@ -2,6 +2,4 @@
 
 favicon
 
-text-area hiding the gradient
-
 Do a share option to the downloaded file.     
