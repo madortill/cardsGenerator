@@ -167,7 +167,7 @@ export default {
       return {
         "TITLE": this.title,
         "AMOUNT_EXAM_QUESTIONS": 0,
-        "TIME_FOR_EXAM ": "00:00",
+        "TIME_FOR_EXAM": "00:00",
         "DATA": this.cardsData,
         "THEME": this.theme
       }
