@@ -4,7 +4,7 @@
 2. clone this repository: [https://github.com/madortill/generic-cards.git](https://github.com/madortill/generic-cards.git)
 3. follow the instructions in the word file in the repository you cloned
 
-##clarity of code: 
+## clarity of code:  
     > theme = color set  
     > title = the name of the site as written in chrome tab (`<title>` tag)  
     > subject = main subject (נושא ראשי)  
