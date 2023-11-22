@@ -4,7 +4,7 @@
 2. clone this repository: [https://github.com/madortill/generic-cards.git](https://github.com/madortill/generic-cards.git)
 3. follow the instructions in the word file in the repository you cloned
 
-**clarity of code:**  
+##clarity of code: 
     > theme = color set  
     > title = the name of the site as written in chrome tab (`<title>` tag)  
     > subject = main subject (נושא ראשי)  
@@ -12,7 +12,7 @@
     > topic = card title  
     > page = the part of the card we see (and can switch between)  
 
- # So, how do things work around here?
+ ## So, how do things work around here?
  - There is a CardsData object which all components inherit. Each component recieves the part it needs as a prop and they can change it reactivly.  
 
  - All the values in inputs are props ("modalValue"). It means none of the input components change the value of the input by themselves, but just emit an event with the desired value as parmeter and the parent component updates it.    
@@ -43,7 +43,7 @@ PLEASE, IF YOU ARE CONSIDERING A SIMILIAR PROJECT USE PINIA AND NOT THIS MESSY W
 
 
 
-## Not Relevant
+### Not Relevant
 
 Recommended IDE Setup:
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
