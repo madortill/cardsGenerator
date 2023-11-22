@@ -1,8 +1,8 @@
 # Cards Lomda Generator
 ## Create new Lomda
-    1. ask the client to fill in the form at [https://github.com/madortill/generic-cards.git](madortill.github.io/cardsGenerator)
-    2. clone this repository: [https://github.com/madortill/generic-cards.git](https://github.com/madortill/generic-cards.git)
-    3. follow the instructions in the word file in the repository you cloned
+1. ask the client to fill in the form at [https://github.com/madortill/generic-cards.git](madortill.github.io/cardsGenerator)
+2. clone this repository: [https://github.com/madortill/generic-cards.git](https://github.com/madortill/generic-cards.git)
+3. follow the instructions in the word file in the repository you cloned
 
 clarity of code:  
     > theme = color set  
