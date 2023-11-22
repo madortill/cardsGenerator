@@ -1,4 +1,9 @@
 # Cards Lomda Generator
+## Create new Lomda
+    1. ask the client to fill in the form at (madortill.github.io/cardsGenerator)
+    2. clone this repository: (https://github.com/madortill/generic-cards.git)
+    3. follow the instructions in the word file in the repository you cloned
+
 clarity of code:
     > theme = color set
     > title = the name of the site as written in chrome tab (`<title>` tag)
@@ -6,8 +11,6 @@ clarity of code:
     > secondary = secondary subject (תת-נושא)
     > topic = card title
     > page = the part of the card we see (and can switch between)
-
-
 
  # So, how do things work around here?
  - There is a CardsData object which all components inherit. Each component recieves the part it needs as a prop and they can change it reactivly.  
