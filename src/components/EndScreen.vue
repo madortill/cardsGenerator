@@ -145,7 +145,7 @@ export default {
             navigator.share({
                 file: this.downloadFile,
                 title: 'מידע ללומדה🙂',
-                text: 'שולחים לכם את המידע שקיבלנו מתוך מחולל לומדת הכרטיסיות',
+                text: 'שולחים לכם את המידע שקיבלנו מתוך מחולל הלומדות',
             })
         },
         testFileForShare() {

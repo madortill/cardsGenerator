@@ -13,8 +13,7 @@ export default {
       currentStage: 0,
       lomdaTitle: '',
       theme: '',
-      jsonData: '',
-      finishedBase64Converting: false
+      jsonData: '', 
     }
   },
   methods: {
@@ -45,7 +44,7 @@ export default {
         if (key === "picFile" || key === "videoFile") {
           return undefined;
         } else {
-          return value
+          return value 
         }
       }
   },
