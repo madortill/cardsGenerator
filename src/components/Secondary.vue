@@ -1,7 +1,7 @@
 <template>
   <div id="Secondary">
     <div class="flex">
-      <span class="minus" @click="deleteSecondary"></span>
+      <span class="minus" @click="deleteSecondary" title="מחק תת-נושא"></span>
       <CustomInput class="secondary-name" placeholder="הכניסו תת-נושא" :placeholderStyle="{color: '#ffffffC7'}"
       :modelValue="secondary" @update:modelValue="(value) => this.$emit('update:secondary', value)"
       :errorMessage="errorMessage" @input="(value) => {this.$emit('secondary-input', value);}"

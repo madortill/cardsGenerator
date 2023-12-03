@@ -1,7 +1,7 @@
 <template>
     <div class="open-screen" id="OpenScreen">
         <div class="content">
-            <div class="title">ברוכים הבאים למחולל הלומדות</div>
+            <div class="title"><span class="main">ברוכים הבאים</span> למחולל הלומדות</div>
             <div class="text">בעזרת המחולל אתם תוכלו ליצור לומדה חדשה בעצמכם, עם תוכן שמותאם לקורס שאתם מעבירים.​
                 המחולל מסדר את התוכן שאתם מכניסים בתוך כרטיסיות, שמסודרות לפי תתי-נושאים ולפי נושאים גדולים יותר. אתם יכולים גם להוסיף מבחן על החומר או תרגולים לכל נושא.​</div>
                 <div class="button" @click="$emit('next-stage')">בואו נצא לדרך!</div>
@@ -41,7 +41,7 @@ export default {
 
     .content {
         align-self: flex-start;
-        width: 45%;
+        width: 65%;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -55,6 +55,7 @@ export default {
         font-family: Rubik-semiBold;
         font-size: 4.5rem;
         /* line-height: 1; */
+        font-weight: normal;
     }
 
     .text {
@@ -76,5 +77,12 @@ export default {
         margin: 1vh 9rem 4rem;
         text-align: center;
         cursor: pointer;
+    }
+
+    .main {
+        font-size: 6.5rem;
+        font-family: Rubik-semiBold;
+        display: block;
+        margin-bottom: -2vh;
     }
 </style>

@@ -18,7 +18,7 @@
                     <SubjectBtnSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></SubjectBtnSvg>
                     <div class="subject">{{ value }}</div>
                 </div>
-                <div class="subjCard"  @click="() => {if (!this.isDeleteMode) {$emit('go-to-subject', 'newSubject')}}">
+                <div class="subjCard" @click="() => {if (!this.isDeleteMode) {$emit('go-to-subject', 'newSubject')}}">
                     <SubjectBtnSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></SubjectBtnSvg>
                     <div class="subject">הוספת נושא</div>
                     <div class="add-subj-btn"></div>

@@ -19,15 +19,15 @@
                 <h2>רמ"ד טי"ל: &nbsp</h2><span>רס"מ שלומי אוגרן</span>
             </div>
             <div>
-                <h2>גרסה: &nbsp</h2><span>אוגוסט 2023</span>
+                <h2>גרסה: &nbsp</h2><span>1.0</span>
             </div>
             <br>
             <h2>צור קשר:</h2>
             <div class="contact">
-                טלפון אביב אואנונו: <a href="tel:052-8394566">052-8394566</a>
+                 אביב אואנונו: <a href="tel:052-8394566">052-8394566</a>
             </div>
             <div class="contact">
-                טלפון שלומי אוגרן: <a href="tel:052-5364232">052-5364232</a>
+                 שלומי אוגרן: <a href="tel:052-5364232">052-5364232</a>
             </div>
             <div class="contact">
                 מייל: <a href="mailto:mador.till@gmail.com">mador.till@gmail.com</a>
