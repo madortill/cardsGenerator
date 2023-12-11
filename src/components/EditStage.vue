@@ -1,6 +1,7 @@
 <template>
   <div id="EditStage">
-    <mainScreen v-if="(currentStage === 'main')" :theme="theme" :subjectArray="indexedKeys"
+    <InfoScreen v-if="currentStage === 'info'" @next="finishInfo"></InfoScreen>
+    <mainScreen v-else-if="(currentStage === 'main')" :theme="theme" :subjectArray="indexedKeys"
       @change-color="changeColor" @change-title="updateThings(newValue, 'title')" @go-to-subject="goToSubj" @delete-subject="deleteSubject" 
       @next-stage="nextStage" @update-title="changeTitle" :title="title"></mainScreen>
     <Input-screen v-else-if="(currentStage === 'input')" :subjData="this.cardsData[chosenSubject]" :chosenSubject="chosenSubject" :theme="theme"
@@ -15,12 +16,13 @@
 <script>
 import MainScreen from './MainScreen.vue'
 import InputScreen from './InputScreen.vue'
+import InfoScreen from './InfoScreen.vue'
 import swal from 'sweetalert';
 export default {
-  components: { MainScreen, InputScreen },
+  components: { MainScreen, InputScreen, InfoScreen },
   data() {
     return {
-      currentStage: 'main',
+      currentStage: 'info',
       chosenSubject: '',
       theme: {
         name: "lightBlue",
@@ -33,7 +35,9 @@ export default {
       cardsData: {},
       title: "",
       indexedKeys: [],
-      subjErrorMessage: ""
+      subjErrorMessage: "",
+      authorDetails: {},
+      deafultIcon: "../assets/images/learning/Artboard 4.svg"
     }
   },
   methods: {
@@ -43,12 +47,19 @@ export default {
     changeTitle(newTitle) {
       this.title = newTitle;
     },
+    finishInfo (infoObj, icon) {
+      this.authorDetails = infoObj;
+      this.currentStage = 'main';
+      if (icon) {
+        this.deafultIcon = icon;
+      }
+    },
     goToSubj(subjName) {
       if (subjName === "newSubject") {
         this.cardsData[`subject${this.indexedKeys.length}`] = {
           "amountOfQuestions": 0,
           "learningContent": {},
-          "icon": "../assets/images/learning/Artboard 4.svg"
+          "icon": this.deafultIcon
         };
         subjName = `subject${this.indexedKeys.length}`;
         this.indexedKeys.push(subjName)
@@ -169,7 +180,8 @@ export default {
         "AMOUNT_EXAM_QUESTIONS": 0,
         "TIME_FOR_EXAM": "00:00",
         "DATA": this.cardsData,
-        "THEME": this.theme
+        "THEME": this.theme,
+        "AUTHOR": this.authorDetails
       }
     }
   },

@@ -47,7 +47,7 @@ export default {
     justify-self: strech;
     display: flex;
     justify-content: space-between;
-    padding: 2rem 1rem;
+    padding: 0rem 1rem;
     align-items: center;
 }
 
