@@ -20,7 +20,7 @@
                     class="picture-warning" />
                 <span class="error-text text"> {{ imageOrVideo.emptyError }}</span>
             </div>
-            <div class="preview" ref="preview" v-else-if="cardInfo[imageOrVideo.propertyName] !== 'invalid'">
+            <div class="preview" v-else-if="cardInfo[imageOrVideo.propertyName] !== 'invalid'">
                 <div class="image-details">
                     <img v-if="cardInfo.cardType === 'picAndText'" :alt="imageOrVideo.alt" :src="chosenMediaURL"
                         class="image-preview" />
@@ -49,7 +49,7 @@
                     class="picture-warning" />
                 <span class="text"> {{ youtubeError }} </span>
             </div>
-            <div class="preview" ref="preview" v-else>
+            <div class="preview" v-else>
                 <iframe width="280" height="165" :src="cardInfo.youtube" class="image-preview" title="סרטון יוטיוב"
                     frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
                 gyroscope; picture-in-picture; web-share" allowfullscreen ref="youtubeIframe"></iframe>

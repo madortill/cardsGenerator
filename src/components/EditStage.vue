@@ -59,7 +59,7 @@ export default {
         this.cardsData[`subject${this.indexedKeys.length}`] = {
           "amountOfQuestions": 0,
           "learningContent": {},
-          "icon": this.deafultIcon
+          "icon": "deafult"
         };
         subjName = `subject${this.indexedKeys.length}`;
         this.indexedKeys.push(subjName)
@@ -181,7 +181,8 @@ export default {
         "TIME_FOR_EXAM": "00:00",
         "DATA": this.cardsData,
         "THEME": this.theme,
-        "AUTHOR": this.authorDetails
+        "AUTHOR": this.authorDetails,
+        "DEAFULT_ICON": this.deafultIcon
       }
     }
   },
