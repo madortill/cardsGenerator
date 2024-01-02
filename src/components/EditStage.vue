@@ -1,15 +1,17 @@
 <template>
   <div id="EditStage">
     <InfoScreen v-if="currentStage === 'info'" @next="finishInfo"></InfoScreen>
-    <mainScreen v-else-if="(currentStage === 'main')" :theme="theme" :subjectArray="indexedKeys"
+    <mainScreen v-else-if="(currentStage === 'main')" :theme="lomdaData['THEME']" :subjectArray="indexedKeys"
       @change-color="changeColor" @change-title="updateThings(newValue, 'title')" @go-to-subject="goToSubj" @delete-subject="deleteSubject" 
-      @next-stage="nextStage" @update-title="changeTitle" :title="title"></mainScreen>
-    <Input-screen v-else-if="(currentStage === 'input')" :subjData="this.cardsData[chosenSubject]" :chosenSubject="chosenSubject" :theme="theme"
+      @next-stage="nextStage" @update-title="changeTitle" :title="lomdaData['TITLE']"
+      @temp-save="saveToLocal"></mainScreen>
+    <Input-screen v-else-if="(currentStage === 'input')" :subjData="lomdaData['DATA'][chosenSubject]" :chosenSubject="chosenSubject" :theme="lomdaData['THEME']"
       @back-to-main="updateThanMain" @subject-input="hideErrorMessages" @subject-focusout="checkIfEmpty" 
-      :subjErrorMessage="subjErrorMessage" ref="input-screen" @subject-change="(value) => {this.updateKeyName(this.chosenSubject, value, this.cardsData);}"></Input-screen>
+      :subjErrorMessage="subjErrorMessage" ref="input-screen" @subject-change="(value) => {this.updateKeyName(this.chosenSubject, value, this.lomdaData['DATA']);}"></Input-screen>
     <!-- <add-questions type = "test" v-else-if="(currentStage === 'test')"></add-questions> -->
     <!-- <add-questions type = "practice" v-else-if="(currentStage === 'practice')"></add-questions> -->
     <img class="till-logo" src="@/assets/colorNeutralAssets/till-logo-text-white.svg" alt='לוגו מדור טי"ל'>
+    
   </div>
 </template>
 
@@ -20,11 +22,15 @@ import InfoScreen from './InfoScreen.vue'
 import swal from 'sweetalert';
 export default {
   components: { MainScreen, InputScreen, InfoScreen },
+  props: ["isSaved"],
   data() {
     return {
-      currentStage: 'info',
-      chosenSubject: '',
-      theme: {
+      lomdaData: {
+        "TITLE": "",
+        "AMOUNT_EXAM_QUESTIONS": 0,
+        "TIME_FOR_EXAM": "00:00",
+        "DATA": {},
+        "THEME": {
         name: "lightBlue",
         primaryColor: "#20c5f2",
         secondaryColor: "#1de8f7",
@@ -32,31 +38,32 @@ export default {
         gradient: "#27c5f2",
         buttonsColor: "#1c3f55"
       },
-      cardsData: {},
-      title: "",
+        "AUTHOR": {},
+        "DEAFULT_ICON": "../assets/images/learning/Artboard 4.svg"
+    },
+      currentStage: 'info',
+      chosenSubject: '',
       indexedKeys: [],
       subjErrorMessage: "",
-      authorDetails: {},
-      deafultIcon: "../assets/images/learning/Artboard 4.svg"
     }
   },
   methods: {
     changeColor(newTheme) {
-      this.theme = newTheme;
+      this.lomdaData["THEME"] = newTheme;
     },
     changeTitle(newTitle) {
-      this.title = newTitle;
+      this.lomdaData['TITLE'] = newTitle;
     },
     finishInfo (infoObj, icon) {
-      this.authorDetails = infoObj;
+      this.lomdaData["AUTHOR"] = infoObj;
       this.currentStage = 'main';
       if (icon) {
-        this.deafultIcon = icon;
+        this.lomdaData["DEAFULT_ICON"] = icon;
       }
     },
     goToSubj(subjName) {
       if (subjName === "newSubject") {
-        this.cardsData[`subject${this.indexedKeys.length}`] = {
+        this.lomdaData['DATA'][`subject${this.indexedKeys.length}`] = {
           "amountOfQuestions": 0,
           "learningContent": {},
           "icon": "deafult"
@@ -69,7 +76,7 @@ export default {
     },
     deleteSubject (subj) {
       this.indexedKeys.splice(this.indexedKeys.indexOf(subj), 1);
-      delete this.cardsData[subj];
+      delete this.lomdaData['DATA'][subj];
       this.chosenSubject = ""
     },
     updateThanMain() {
@@ -106,7 +113,7 @@ export default {
         });
       }
       if (document.querySelector(".swal-button")) {
-        document.querySelector(".swal-button").style.backgroundColor = this.theme.primaryColor;
+        document.querySelector(".swal-button").style.backgroundColor = this.lomdaData["THEME"].primaryColor;
       }
     },
     updateKeyName(key, newKey, objectRef) {
@@ -135,7 +142,7 @@ export default {
         return false;
     },
     hideErrorMessages(value) {
-        if ((value !== "" || !this.isDuplicateKey(this.cardsData, value)) && this.subjErrorMessage !== "") {
+        if ((value !== "" || !this.isDuplicateKey(this.lomdaData['DATA'], value)) && this.subjErrorMessage !== "") {
           this.subjErrorMessage = "";
         }
     },
@@ -169,25 +176,34 @@ export default {
       return(errorContent);
     },
     nextStage (title) {
-      this.title = title;
+      this.lomdaData['TITLE'] = title;
       this.$emit("next-stage", this.lomdaData)
     },
+    saveToLocal () {
+      swal({
+        title: "שמירה זמנית",
+        text: "המידע שלכם יישמר על המחשב שלכם בלבד! לנו אין גישה אליו. כלומר, אם הנתונים של הדפדפן שלכם נמחקים או חשבון הגוגל מתחלף, אין לנו אפשרות לשחזר את המידע!",
+        button: "אישור",
+        className: "swal-save-popup",
+      }).then(() => {
+        localStorage.setItem('savedData', JSON.stringify(this.lomdaData));
+        swal({
+          title: "המידע נשמר",
+          icon: "info",
+          button: "אישור",
+          className: "swal-save-popup",
+        })
+      })
+    }
   },
-  computed: {
-    lomdaData() {
-      return {
-        "TITLE": this.title,
-        "AMOUNT_EXAM_QUESTIONS": 0,
-        "TIME_FOR_EXAM": "00:00",
-        "DATA": this.cardsData,
-        "THEME": this.theme,
-        "AUTHOR": this.authorDetails,
-        "DEAFULT_ICON": this.deafultIcon
-      }
+  beforeMount () {
+    if (this.isSaved) {
+      this.currentStage = 'main';
+      this.lomdaData = JSON.parse(localStorage.getItem('savedData'));
     }
   },
   mounted () {
-    this.indexedKeys = Object.keys(this.cardsData);
+    this.indexedKeys = Object.keys(this.lomdaData["DATA"]);
   }
 }
 </script>
@@ -207,11 +223,11 @@ export default {
 }
 
 .till-logo {
-  /* max-width: 1rem; */
   position: absolute;
-  height: 4rem;
-  left: 2%;
-  top: 2%;
+  height: 3.5rem;
+  left: 1%;
+  top: 1%;
   opacity: v-bind("currentStage === 'input' ? 0.83: 1");
 }
+
 </style>  

@@ -27,6 +27,11 @@ textarea {
   resize: none;
 }
 
+.swal-save-popup .swal-text {
+  font-size: 21px;
+  text-align: right;
+}
+
 .svg {
   position: absolute;
   z-index: -1;

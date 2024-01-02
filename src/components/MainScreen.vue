@@ -30,7 +30,8 @@
                     <span class="button back-btn" @click="isDeleteMode = !isDeleteMode" v-show="isDeleteMode"><img src="@/assets/colorNeutralAssets/arrow-small-right.svg" class="trash-can" alt="trash icon" />חזרה</span>
                 </div>
             </div>
-            <div class="save-and-continue" @click="saveAndContinue">שמירה והמשך</div>
+            <img class="temp-save" @click="$emit('temp-save')" src="@/assets/colorNeutralAssets/save-icon.svg" title="שמירה"/>
+            <div class="save-and-continue" @click="saveAndContinue">המשך</div>
             <div class="footer"><span>יש להכניס תוכן בסיווג בלמ"ס בלבד!</span> <div class="svg gradient"></div></div>
         </div>
     </div>
@@ -401,5 +402,18 @@ export default {
     width: 100%;
     left: 0;
     bottom: 0;
+}
+
+.temp-save {
+    color: white;
+    max-height: 2.5rem;
+    z-index: 1;
+    margin-right: 1%;
+    margin-top: 1%;
+    font-size: 1.1rem;
+    grid-row: 1/ 2;
+    grid-column: 1/2;
+    justify-self: flex-start;
+    cursor: pointer;
 }
 </style>

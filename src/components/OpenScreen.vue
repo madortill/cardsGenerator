@@ -1,17 +1,51 @@
 <template>
     <div class="open-screen" id="OpenScreen">
-        <div class="icon-container">
-            <img src="@/assets/symbols/madortill.svg" alt='סמל מדור טי"ל' class="icon">
-            <img src="@/assets/symbols/hadracha.png" alt='סמל ענף הדרכה' class="icon">
+        <div class="dialog" v-if="!isReadyToRender">
+            <div class="swal-overlay swal-overlay--show-modal" tabindex="-1">
+                <div class="swal-modal swal-font" role="dialog" aria-modal="true">
+                    <div class="swal-title" style="">יש לכם לומדה שהתחלתם כבר. רוצים להמשיך?</div>
+                    <div class="swal-footer">
+                        <div class="swal-button-container">
+
+                            <button class="swal-button swal-button--cancel" @click="discontinue">לא</button>
+
+                            <div class="swal-button__loader">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+
+                        </div>
+                        <div class="swal-button-container">
+
+                            <button class="swal-button swal-button--confirm" @click="continueWork">כן</button>
+
+                            <div class="swal-button__loader">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="content">
-            <div class="title"><span class="main">ברוכים הבאים</span> למחולל הלומדות</div>
-            <div class="text">בעזרת המחולל אתם תוכלו ליצור לומדה חדשה בעצמכם, עם תוכן שמותאם לקורס שאתם מעבירים.​
-                המחולל מסדר את התוכן שאתם מכניסים בתוך כרטיסיות, שמסודרות לפי תתי-נושאים ולפי נושאים גדולים יותר. אתם יכולים
-                גם להוסיף מבחן על החומר או תרגולים לכל נושא.​</div>
-            <div class="button" @click="$emit('next-stage')">בואו נצא לדרך!</div>
+        <div class="actual-component" v-else>
+            <div class="icon-container">
+                <img src="@/assets/symbols/madortill.svg" alt='סמל מדור טי"ל' class="icon">
+                <img src="@/assets/symbols/hadracha.png" alt='סמל ענף הדרכה' class="icon">
+            </div>
+            <div class="content">
+                <div class="title"><span class="main">ברוכים הבאים</span> למחולל הלומדות</div>
+                <div class="text">בעזרת המחולל אתם תוכלו ליצור לומדה חדשה בעצמכם, עם תוכן שמותאם לקורס שאתם מעבירים.​
+                    המחולל מסדר את התוכן שאתם מכניסים בתוך כרטיסיות, שמסודרות לפי תתי-נושאים ולפי נושאים גדולים יותר. אתם
+                    יכולים
+                    גם להוסיף מבחן על החומר או תרגולים לכל נושא.​</div>
+                <div class="button" @click="$emit('next-stage')">בואו נצא לדרך!</div>
+            </div>
+            <img class="open-pic" src="@/assets/colorNeutralAssets/cardsOpenImage.png" alt="דוגמה ללומדות מוכנות" />
         </div>
-        <img class="open-pic" src="@/assets/colorNeutralAssets/cardsOpenImage.png" alt="דוגמה ללומדות מוכנות" />
     </div>
 </template>
 
@@ -20,11 +54,26 @@ export default {
     name: "open-screen",
     data() {
         return {
+            allData: '',
+            isReadyToRender: false
         }
     },
     component: {},
     props: [],
-    methods: {},
+    methods: {
+        discontinue () {
+            localStorage.removeItem("savedData");
+            this.isReadyToRender = true;
+        },
+        continueWork() {
+            this.$emit('next-stage', true);
+        }
+    },
+    beforeMount() {
+        if (!localStorage.getItem('savedData')) {
+            this.isReadyToRender = true;
+        }
+    },
 }
 </script>
 
@@ -39,6 +88,10 @@ export default {
     align-items: center;
     width: 100vw;
     height: 100vh;
+}
+
+.actual-component {
+    display: contents;
 }
 
 .icon-container {
@@ -110,5 +163,4 @@ export default {
     font-family: Rubik-semiBold;
     display: block;
     margin-bottom: -2vh;
-}
-</style>
+}</style>

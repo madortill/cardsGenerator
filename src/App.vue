@@ -13,7 +13,8 @@ export default {
       currentStage: 0,
       lomdaTitle: '',
       theme: '',
-      jsonData: '', 
+      jsonData: '',
+      isSaved: false
     }
   },
   methods: {
@@ -46,6 +47,12 @@ export default {
         } else {
           return value 
         }
+      },
+      startForm (saved=false) {
+        this.currentStage+=2;
+        if (saved) {
+          this.isSaved = true;
+        }
       }
   },
   mounted() {
@@ -57,9 +64,9 @@ export default {
 
 <template>
   <!-- there is no instructions yet, so openScreen increase currentStage by 2 to skip it -->
-    <open-screen @next-stage="currentStage+=2" v-if="currentStage === 0"></open-screen>
+    <open-screen @next-stage="startForm" v-if="currentStage === 0"></open-screen>
     <instructions v-else-if="currentStage === 1"></instructions>
-    <edit-stage v-else-if="currentStage === 2" @next-stage="initFetch"></edit-stage>
+    <edit-stage v-else-if="currentStage === 2" @next-stage="initFetch" :isSaved="isSaved"></edit-stage>
     <loading-screen v-else-if="currentStage === 3"></loading-screen>
     <end-screen v-else-if="currentStage === 4" :lomdaTitle="lomdaTitle" :theme="this.theme" :JsonData="JSON.stringify(this.jsonData, proccessData)"></end-screen>
 </template>
