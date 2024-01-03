@@ -152,6 +152,22 @@ export default {
         }
     },
     isErrorMessage () {
+      let inputList = document.querySelectorAll("input, textarea");
+      let isAllInputEmpty = true;
+      // check if all the inputs are empty
+      // if all the inputs are empty, do not return an error
+      for (let item of inputList) {
+        if (item.value !== "") {
+          isAllInputEmpty = false;
+        }
+      }
+
+      if (isAllInputEmpty) {
+        this.deleteSubject(this.chosenSubject);
+        return('');
+      }
+
+
       // Make sure there are no error messages
       let errorContent = "";
       let errorMessageList = document.querySelectorAll(".error-message");
@@ -164,7 +180,6 @@ export default {
       
 
       // Make sure there are not empty inputs without error
-      let inputList = document.querySelectorAll("input, textarea");
       for (let item of inputList) {
         if (item.value === "" && item.hasAttribute('required')) {
           console.log(item)
