@@ -8,18 +8,18 @@
       <CustomInput placeholder="הכניסו נושא לכרטיסיה" class="topic" :placeholderStyle="placeholderStyle" 
       :modelValue="topic" @update:modelValue="(value) => this.$emit('update:cardTopic', value)" :errorMessage="errorMessage"
       @input="(value) => {this.$emit('topic-input', value);}" @focusout = "(value) => {this.$emit('topic-focusout', value)}"></CustomInput>
-      <card-input :cardInfo="currentPageObj" :theme="theme" class="cardInput"></card-input>
+      <card-input :cardInfo="currentPageObj" class="cardInput"></card-input>
       <div class="buttons-container">
-        <page-button-svg :class="['button', currentPage === 0 ? 'invisible' : '']" type="back" :color="theme.textColor"
+        <page-button-svg :class="['button', currentPage === 0 ? 'invisible' : '']" type="back" :color="theme.themeColor.textColor"
           @btn-pressed="handleBtn"></page-button-svg>
         <button class="remove-btn" @click="removePage" :disabled="pageArray.length <= 1" title="הסרת עמוד">הסרת עמוד</button>
-        <page-button-svg class="button" v-if="currentPage === pageArray.length - 1" type="add" :color="theme.textColor"
+        <page-button-svg class="button" v-if="currentPage === pageArray.length - 1" type="add" :color="theme.themeColor.textColor"
           @btn-pressed="handleBtn"></page-button-svg>
-        <page-button-svg class="button" type="next" :color="theme.textColor" @btn-pressed="handleBtn"
+        <page-button-svg class="button" type="next" :color="theme.themeColor.textColor" @btn-pressed="handleBtn"
           v-else></page-button-svg>
       </div>
 
-      <DropDownCard v-if="isPopupShown" :theme="theme" @add-page="addCard" @cancel="closePopup" cancelable></DropDownCard>
+      <DropDownCard v-if="isPopupShown" @add-page="addCard" @cancel="closePopup" cancelable></DropDownCard>
       
     </div>
   </div>
@@ -32,14 +32,16 @@ import CardInput from "./CardInput.vue";
 import DropDownCard from "./DropDownCard.vue";
 import CustomInput from "./CustomInput.vue";
 import swal from 'sweetalert';
+import { theme } from '../store.js';
 
 export default {
   components: { CardSvg, PageButtonSvg, CardInput, DropDownCard, CustomInput },
   name: "card",
-  props: ["isQuestion", "cardTopic", "pageArray", "theme","errorMessage"],
+  props: ["isQuestion", "cardTopic", "pageArray","errorMessage"],
   emits: ['update:cardTopic', "topic-input", "topic-focusout", "delete-card"],
   data() {
     return {
+      theme,
       currentPage: 0,
       isPopupShown: false,
       choice: "",

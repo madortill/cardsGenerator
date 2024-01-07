@@ -2,8 +2,8 @@
     <div id="DropDownCard">
         <div class="black-screen" v-if="cancelable"></div>
         <div :class="['card', cancelable ? 'dropdown': '']">
-            <CloseBtnSvg :color="theme.textColor" class="close-btn" @click="$emit('cancel')" v-if="cancelable"></CloseBtnSvg>
-            <CardSvg :color="theme.secondaryColor"></CardSvg>
+            <CloseBtnSvg :color="theme.themeColor.textColor" class="close-btn" @click="$emit('cancel')" v-if="cancelable"></CloseBtnSvg>
+            <CardSvg :color="theme.themeColor.secondaryColor"></CardSvg>
             <div>איזו כרטיסיה תרצו להוסיף?</div>
             <DropDown @choice="saveChoice"
                 :optionList="{ 'videoAndText': 'וידיאו מהמחשב', 'youtube': 'וידיאו מהיוטיוב', 'text': 'טקסט', 'picAndText': 'תמונה וכיתוב' }"></DropDown>
@@ -19,14 +19,16 @@
 import DropDown from "./DropDown.vue";
 import CardSvg from "./svg/CardSvg.vue";
 import CloseBtnSvg from "./svg/CloseBtnSvg.vue";
+import { theme } from '../store.js';
 
 export default {
     name: "DropDownCard",
     components: { DropDown, CardSvg, CloseBtnSvg },
-    props: {"theme": Object, "cancelable": Boolean, btnText: {type: String, default: "הוספת עמוד"}},
+    props: {"cancelable": Boolean, btnText: {type: String, default: "הוספת עמוד"}},
     emits: ['cancel', 'add-page'],
     data() {
         return {
+            theme,
             choice: ""
         }
     },
@@ -78,7 +80,7 @@ export default {
 }
 
 .btn-bg {
-  background: v-bind("theme.secondaryColor");
+  background: v-bind("theme.themeColor.secondaryColor");
 }
 
 .dropdown {

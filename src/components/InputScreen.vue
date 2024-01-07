@@ -1,7 +1,7 @@
 <template>
     <div id="InputScreen">
         <div class="info-container scrollStyle" ref="infoContainer">
-            <Bg_svg class="background svg" :color="theme.primaryColor"></Bg_svg>
+            <Bg_svg class="background svg" :color="theme.themeColor.primaryColor"></Bg_svg>
             <div class="input-container paper-clip-title">
                 <CustomInput :modelValue="subject" placeholder="הכניסו את שם הנושא" class="paper-clip-content"
                 @input="(value) => {this.$emit('subject-input', value);}" @focusout = "(value) => {this.$emit('subject-focusout', value)}"
@@ -9,7 +9,7 @@
             </div>
             <div class="secondary-container">
                 <Secondary :secondaryName="secondaryKey" :secondaryData="subjData['learningContent'][secondaryKey]"
-                    :theme="theme" v-for="(secondaryKey, index) in indexedKeys" :key="'secondaryKey: ' + index"
+                    v-for="(secondaryKey, index) in indexedKeys" :key="'secondaryKey: ' + index"
                     @update:secondary="(value) => { updateKeyName(secondaryKey, value, index, this.subjData['learningContent']) }"
                     :errorMessage="errorList[index]" @secondary-input="(value) => hideErrorMessages(value, index)"
                     @secondary-focusout="(value) => checkIfEmpty(value, index)" @delete-secondary="deleteSecondary"></Secondary>
@@ -32,14 +32,16 @@
 import Bg_svg from './svg/Bg_svg.vue'
 import Secondary from './Secondary.vue'
 import CustomInput from './CustomInput.vue'
+import { theme } from '../store.js';
 
 export default {
     components: { Bg_svg, Secondary, CustomInput },
     name: "InputScreen",
-    props: { "subjData": Object, "chosenSubject": String, "theme": Object, "subjErrorMessage": String },
+    props: { "subjData": Object, "chosenSubject": String, "subjErrorMessage": String },
     emits: ["back-to-main", "subject-focusout", "subject-input", "subject-change"],
     data() {
         return {
+            theme,
             changesCounter: 0,
             showErrorMessage: false,
             indexedKeys: Object.keys(this.subjData['learningContent']),
@@ -184,7 +186,7 @@ export default {
 }
 
 .save-and-exit {
-    background-color: v-bind('theme.buttonsColor');
+    background-color: v-bind('theme.themeColor.buttonsColor');
     color: white;
     z-index: 1;
     padding: 0.5rem 1rem;
@@ -221,7 +223,7 @@ export default {
 
 
 .footer .gradient {
-    background-image: linear-gradient(180deg, rgba(103, 223, 203, 0) 0%, v-bind("theme.gradient") 73%);
+    background-image: linear-gradient(180deg, rgba(103, 223, 203, 0) 0%, v-bind("theme.themeColor.gradient") 73%);
     height: 100%;
     width: 100%;
     left: 0;

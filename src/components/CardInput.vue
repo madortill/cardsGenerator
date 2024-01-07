@@ -62,6 +62,8 @@
 </template>
 
 <script>
+import { theme } from '../store.js';
+
 export default {
     name: "CardInput",
     props: {
@@ -72,12 +74,10 @@ export default {
                 return ['videoAndText', 'youtube', 'text', 'picAndText'].includes(value.cardType);
             }
         },
-        theme: {
-            type: Object,
-        }
     },
     data() {
         return {
+            theme,
             isShowRedBorder: false,
             youtubeLink: this.cardInfo.youtube
         }
@@ -244,7 +244,7 @@ export default {
 
 .image-btn {
     cursor: pointer;
-    background-color: v-bind("theme.secondaryColor + '78'");
+    background-color: v-bind("theme.themeColor.secondaryColor + '78'");
     color: black;
     padding: 5px 10px;
     border-radius: 5px;

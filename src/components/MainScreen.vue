@@ -1,12 +1,12 @@
 <template>
     <div id="MainScreen">
         <div class="settings-container">
-            <ColorPicker :theme="theme" @change-color="changeColor"></ColorPicker>
+            <ColorPicker></ColorPicker>
             <button class="odot-btn" @click="showAbout=true">אודות</button>
             <about-screen v-show="showAbout" @hide-odot="showAbout=false"></about-screen>
         </div>
         <div class="grid subj-container">
-            <Bg_svg class="background svg" :color="theme.primaryColor"></Bg_svg>
+            <Bg_svg class="background svg" :color="theme.themeColor.primaryColor"></Bg_svg>
             <div class="paper-clip-title first-paper-clip">
                 <CustomInput :modelValue="title" @update:modelValue="onUpdateTitle" placeholder="הכניסו שם ללומדה" class="paper-clip-content" 
                 @focusout="titleFocusOut" @input="titleInput" :errorMessage="titleErrorMessage"></CustomInput>
@@ -15,11 +15,11 @@
                 <div :class="['subjCard', isDeleteMode === true ? 'rattle-animation': '']" v-for="(value, index) in subjectArray"
                    :key="'title' + index" @click="!this.isDeleteMode ? $emit('go-to-subject', value): this.deleteSubj(value)" :ref="'subj' + index">
                    <div class="delete" v-show="isDeleteMode"></div>
-                    <SubjectBtnSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></SubjectBtnSvg>
+                    <SubjectBtnSvg class="svg" :primaryColor="theme.themeColor.primaryColor" :secondaryColor="theme.themeColor.secondaryColor" ></SubjectBtnSvg>
                     <div class="subject">{{ value }}</div>
                 </div>
                 <div class="subjCard" @click="() => {if (!this.isDeleteMode) {$emit('go-to-subject', 'newSubject')}}">
-                    <SubjectBtnSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></SubjectBtnSvg>
+                    <SubjectBtnSvg class="svg" :primaryColor="theme.themeColor.primaryColor" :secondaryColor="theme.themeColor.secondaryColor" ></SubjectBtnSvg>
                     <div class="subject">הוספת נושא</div>
                     <div class="add-subj-btn"></div>
                 </div>
@@ -45,25 +45,24 @@ import MinusCircleSvg from './svg/MinusCircleSvg.vue';
 import Bg_svg from './svg/Bg_svg.vue';
 import CustomInput from './CustomInput.vue';
 import AboutScreen from './AboutScreen.vue';
+import { theme } from '../store.js';
 
 export default {
     name: "main-screen",
     data() {
         return {
             // title: "",
+            theme,
             showErrorMessage: false,
             titleErrorMessage: "",
             isDeleteMode: false,
             showAbout: false
         };
     },
-    props: {"subjectArray": Array, "theme": Object, "title": String},
-    emits: ["change-color", "update-title", "go-to-subject", "delete-subject", "next-stage" ],
+    props: {"subjectArray": Array, "title": String},
+    emits: ["update-title", "go-to-subject", "delete-subject", "next-stage" ],
     components: { ColorPicker, SubjectBtnSvg, CircleSvg, Bg_svg, CustomInput, MinusCircleSvg, AboutScreen },
     methods: {
-        changeColor(theme) {
-            this.$emit("change-color", theme);
-        },
         titleFocusOut (value) {
             if (value === "") {
                 this.titleErrorMessage = "יש למלא את השדה"
@@ -239,7 +238,7 @@ export default {
 }
 
 .subject {
-    color: v-bind("theme.textColor");
+    color: v-bind("theme.themeColor.textColor");
     width: 71%;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -297,7 +296,7 @@ export default {
 }
 
 .save-and-continue {
-    background-color: v-bind('theme.buttonsColor');
+    background-color: v-bind('theme.themeColor.buttonsColor');
     color: white;
     z-index: 1;
     padding: 0.5rem 1rem;
@@ -340,7 +339,7 @@ export default {
 
 .delete, .add-subj-btn{
     border-radius: 50%;
-    background: v-bind("theme.buttonsColor");
+    background: v-bind("theme.themeColor.buttonsColor");
     opacity: 1;
     transition: .4s ease;
     z-index: 1;
@@ -397,7 +396,7 @@ export default {
 }
 
 .footer .gradient {
-    background-image: linear-gradient(180deg, rgba(103, 223, 203, 0) 0%, v-bind("theme.gradient") 100%);
+    background-image: linear-gradient(180deg, rgba(103, 223, 203, 0) 0%, v-bind("theme.themeColor.gradient") 100%);
     height: 100%;
     width: 100%;
     left: 0;

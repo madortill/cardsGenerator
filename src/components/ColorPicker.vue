@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { theme } from '../store.js';
 import Bg_svg from './svg/Bg_svg.vue'
 
 let frozenColorArr = [];
@@ -17,9 +18,9 @@ let frozenColorArr = [];
 export default {
   components: { Bg_svg },
   name: "colorPicker",
-  props: ["theme"],
   data() {
     return {
+      theme,
       currentColorIndex: 0,
       colorArray: [
         // Make sure all colors are 6 digit hex
@@ -114,12 +115,12 @@ export default {
   methods: {
     changeTheme(event) {
       this.currentColorIndex = Number(event.currentTarget.id.slice(5));
-      this.$emit("change-color", this.colorArray[event.currentTarget.id.slice(5)]);
+      theme.changeColor(this.colorArray[event.currentTarget.id.slice(5)]);
     },
     // finds the curernt index by comparing primaryColor values
     returnIndex() {
       for (let index in this.colorArray) {
-        if (this.colorArray[index]["primaryColor"] === this.theme["primaryColor"]) {
+        if (this.colorArray[index]["primaryColor"] === this.theme.themeColor["primaryColor"]) {
           return Number(index);
         }
       }

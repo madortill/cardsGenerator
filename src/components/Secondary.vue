@@ -9,11 +9,11 @@
     </div>
     <div class="overflow-container scrollStyle" v-touch:swipe="handleSwipe" ref="overflowContainer">
         <card v-for="(topic, index) in indexedKeys" :key="index" :cardTopic="topic" :pageArray="secondaryData[topic]"
-          :isQuestion="false" :theme="theme" @update:cardTopic="(value) => {updateKeyName(topic, value, index, this.secondaryData)}"
+          :isQuestion="false" @update:cardTopic="(value) => {updateKeyName(topic, value, index, this.secondaryData)}"
           :errorMessage="errorList[index]" @topic-input="(value) => hideErrorMessages(value, index)"
           @topic-focusout="(value) => checkIfEmpty(value, index)" @delete-card="deleteCard(topic)"></card>
         <div> 
-          <DropDownCard :theme="theme" @add-page="addCard" :key="reRenderCounter" btnText="הוספת כרטיסיה"></DropDownCard>
+          <DropDownCard @add-page="addCard" :key="reRenderCounter" btnText="הוספת כרטיסיה"></DropDownCard>
         </div>
     </div>
   </div>
@@ -24,19 +24,21 @@ import CardSvg from "./svg/CardSvg.vue";
 import DropDownCard from "./DropDownCard.vue";
 import card from "./Card.vue";
 import CustomInput from "./CustomInput.vue";
+import { theme } from '../store.js';
 
 export default {
   components: { CardSvg, DropDownCard, card, CustomInput },
   name: "Secondary",
   data() {
     return {
+      theme: theme.themeColor,
       showErrorMessage: false,
       reRenderCounter: 0,
       indexedKeys: Object.keys(this.secondaryData),
       errorList: new Array(Object.keys(this.secondaryData).length),
     }
   },
-  props: ["secondaryName", "secondaryData", "theme", "errorMessage"],
+  props: ["secondaryName", "secondaryData", "errorMessage"],
   methods: {
     addCard(choice) {
       let newCard = {
