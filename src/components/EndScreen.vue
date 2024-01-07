@@ -1,11 +1,11 @@
 <template>
     <div id="endScreen">
         <div class="flower-container">
-            <FlowerSvg v-for="(flower, index) in flowersOnscreen" :theme="colorArray[flower.colorIndex]"
+            <FlowerSvg v-for="(flower, index) in flowersOnscreen" :flowerColors="colorArray[flower.colorIndex]"
                 :key="flower.leftPosition" class="flower" :style="`left: ${flower.leftPosition}`"></FlowerSvg>
         </div>
         <div class="end-text">
-            <SubjectBtnSvg class="svg" :secondaryColor="theme.secondaryColor" :primaryColor="theme.primaryColor">
+            <SubjectBtnSvg class="svg" :secondaryColor="theme.themeColor.secondaryColor" :primaryColor="theme.themeColor.primaryColor">
             </SubjectBtnSvg>
             <h1>יש לכם לומדה מוכנה!</h1>
             <div class="text">
@@ -47,13 +47,15 @@
 import VueQrcode from '@chenfengyuan/vue-qrcode';
 import FlowerSvg from './svg/FlowerSvg.vue';
 import SubjectBtnSvg from './svg/SubjectBtnSvg.vue';
+import { theme } from '../store.js';
 
 export default {
     name: "endingStage",
-    props: { "lomdaTitle": String, "theme": Object, "JsonData": String },
+    props: { "lomdaTitle": String, "JsonData": String },
     components: { VueQrcode, FlowerSvg, SubjectBtnSvg },
     data() {
         return {
+            theme,
             colorArray: [
                 // Make sure all colors are 6 digit hex
                 {
@@ -214,7 +216,7 @@ export default {
 }
 
 a {
-    color: v-bind("theme.secondaryColor");
+    color: v-bind("theme.themeColor.secondaryColor");
     filter: brightness(0.75);
 }
 
@@ -237,13 +239,13 @@ a {
 }
 
 .action-btn {
-    color: v-bind("theme.secondaryColor");
+    color: v-bind("theme.themeColor.secondaryColor");
     margin-top: 0.5rem;
     filter: brightness(0.75);
     /* border:  */
     display: inline-flex;
     align-items: center;
-    border: 1px v-bind("theme.secondaryColor") solid;
+    border: 1px v-bind("theme.themeColor.secondaryColor") solid;
     border-radius: 0.5rem;
     padding: 0.25rem 0.5rem;
     gap: 0.4rem;
@@ -258,7 +260,7 @@ a {
 
 .action-btn:active {
     filter: brightness(1);
-    background-color: v-bind("theme.secondaryColor");
+    background-color: v-bind("theme.themeColor.secondaryColor");
     color: white;
 }
 

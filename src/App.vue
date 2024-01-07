@@ -68,7 +68,7 @@ export default {
     <instructions v-else-if="currentStage === 1"></instructions>
     <edit-stage v-else-if="currentStage === 2" @next-stage="initFetch" :isSaved="isSaved"></edit-stage>
     <loading-screen v-else-if="currentStage === 3"></loading-screen>
-    <end-screen v-else-if="currentStage === 4" :lomdaTitle="lomdaTitle" :theme="this.theme" :JsonData="JSON.stringify(this.jsonData, proccessData)"></end-screen>
+    <end-screen v-else-if="currentStage === 4" :lomdaTitle="lomdaTitle" :JsonData="JSON.stringify(this.jsonData, proccessData)"></end-screen>
 </template>
 
 
@@ -104,5 +104,3 @@ export default {
   filter: contrast(120%);
 }
 </style>
-
-<!-- Add powershell file that enables to add new color (clone files and replace their colors based on three parameters). Add option to test it? -->

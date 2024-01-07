@@ -1,7 +1,7 @@
 <template>
   <div id="Card">
     <div class="card">
-      <CardSvg :color="theme.secondaryColor"></CardSvg>
+      <CardSvg :color="theme.themeColor.secondaryColor"></CardSvg>
       <button id="delete-btn" class="delete-btn">
         <img src="@/assets/colorNeutralAssets/trash-gray.svg" alt="פח אשפה" class="trash-can" @click="deleteCard" title="מחק כרטיסיה">
       </button>
