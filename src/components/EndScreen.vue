@@ -47,7 +47,7 @@
 import VueQrcode from '@chenfengyuan/vue-qrcode';
 import FlowerSvg from './svg/FlowerSvg.vue';
 import SubjectBtnSvg from './svg/SubjectBtnSvg.vue';
-import { theme } from '../store.js';
+import { theme } from '../stores/theme.js';
 
 export default {
     name: "endingStage",

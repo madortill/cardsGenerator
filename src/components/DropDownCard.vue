@@ -19,7 +19,7 @@
 import DropDown from "./DropDown.vue";
 import CardSvg from "./svg/CardSvg.vue";
 import CloseBtnSvg from "./svg/CloseBtnSvg.vue";
-import { theme } from '../store.js';
+import { theme } from '../stores/theme.js';
 
 export default {
     name: "DropDownCard",

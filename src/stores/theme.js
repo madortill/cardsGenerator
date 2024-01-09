@@ -1,9 +1,6 @@
 // store.js
 import { reactive } from 'vue'
 
-export const data = reactive({
-})
-
 export const theme = reactive({
     themeColor: {
     name: "lightBlue",

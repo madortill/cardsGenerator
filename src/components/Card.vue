@@ -32,7 +32,7 @@ import CardInput from "./CardInput.vue";
 import DropDownCard from "./DropDownCard.vue";
 import CustomInput from "./CustomInput.vue";
 import swal from 'sweetalert';
-import { theme } from '../store.js';
+import { theme } from '../stores/theme.js';
 
 export default {
   components: { CardSvg, PageButtonSvg, CardInput, DropDownCard, CustomInput },

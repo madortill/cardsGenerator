@@ -19,7 +19,9 @@ import MainScreen from './MainScreen.vue'
 import InputScreen from './InputScreen.vue'
 import InfoScreen from './InfoScreen.vue'
 import swal from 'sweetalert';
-import { data, theme } from '../store.js'
+import { theme } from '../stores/theme.js';
+import { data } from '../stores/lomdaData.js';
+
 
 export default {
   components: { MainScreen, InputScreen, InfoScreen },
@@ -35,7 +37,7 @@ export default {
         "TITLE": "",
         "AMOUNT_EXAM_QUESTIONS": 0,
         "TIME_FOR_EXAM": "00:00",
-        "DATA": data,
+        "DATA": data.state,
         "THEME": theme.themeColor,
         "AUTHOR": {},
         "DEAFULT_ICON": "../assets/images/learning/Artboard 4.svg"

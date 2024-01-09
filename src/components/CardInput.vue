@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { theme } from '../store.js';
+import { theme } from '../stores/theme.js';
 
 export default {
     name: "CardInput",

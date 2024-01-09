@@ -24,7 +24,7 @@ import CardSvg from "./svg/CardSvg.vue";
 import DropDownCard from "./DropDownCard.vue";
 import card from "./Card.vue";
 import CustomInput from "./CustomInput.vue";
-import { theme } from '../store.js';
+import { theme } from '../stores/theme.js';
 
 export default {
   components: { CardSvg, DropDownCard, card, CustomInput },

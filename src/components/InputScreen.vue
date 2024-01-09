@@ -32,7 +32,7 @@
 import Bg_svg from './svg/Bg_svg.vue'
 import Secondary from './Secondary.vue'
 import CustomInput from './CustomInput.vue'
-import { theme } from '../store.js';
+import { theme } from '../stores/theme.js';
 
 export default {
     components: { Bg_svg, Secondary, CustomInput },

@@ -45,7 +45,7 @@ import MinusCircleSvg from './svg/MinusCircleSvg.vue';
 import Bg_svg from './svg/Bg_svg.vue';
 import CustomInput from './CustomInput.vue';
 import AboutScreen from './AboutScreen.vue';
-import { theme } from '../store.js';
+import { theme } from '../stores/theme.js';
 
 export default {
     name: "main-screen",

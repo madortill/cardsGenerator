@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { theme } from '../store.js';
+import { theme } from '../stores/theme.js';
 import Bg_svg from './svg/Bg_svg.vue'
 
 let frozenColorArr = [];
