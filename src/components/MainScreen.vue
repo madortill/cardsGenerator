@@ -13,12 +13,12 @@
             </div>
             <div class="cardsContainer scrollStyle">
                 <div :class="['subjCard', isDeleteMode === true ? 'rattle-animation': '']" v-for="(value, index) in subjectArray"
-                   :key="'title' + index" @click="!this.isDeleteMode ? $emit('go-to-subject', value): this.deleteSubj(value)" :ref="'subj' + index">
+                   :key="'title' + index" @click="!this.isDeleteMode ? $emit('go-to-subject', value, index): this.deleteSubj(value)" :ref="'subj' + index">
                    <div class="delete" v-show="isDeleteMode"></div>
                     <SubjectBtnSvg class="svg" :primaryColor="theme.themeColor.primaryColor" :secondaryColor="theme.themeColor.secondaryColor" ></SubjectBtnSvg>
                     <div class="subject">{{ value }}</div>
                 </div>
-                <div class="subjCard" @click="() => {if (!this.isDeleteMode) {$emit('go-to-subject', 'newSubject')}}">
+                <div class="subjCard" @click="() => {if (!this.isDeleteMode) {$emit('go-to-subject', 'newSubject', -1)}}">
                     <SubjectBtnSvg class="svg" :primaryColor="theme.themeColor.primaryColor" :secondaryColor="theme.themeColor.secondaryColor" ></SubjectBtnSvg>
                     <div class="subject">הוספת נושא</div>
                     <div class="add-subj-btn"></div>
@@ -45,7 +45,8 @@ import MinusCircleSvg from './svg/MinusCircleSvg.vue';
 import Bg_svg from './svg/Bg_svg.vue';
 import CustomInput from './CustomInput.vue';
 import AboutScreen from './AboutScreen.vue';
-import { theme } from '../stores/theme.js';
+import { theme } from '../stores/theme.js';import { useDataStore } from '../stores/data';
+import { mapState } from 'pinia';
 
 export default {
     name: "main-screen",
@@ -59,7 +60,7 @@ export default {
             showAbout: false
         };
     },
-    props: {"subjectArray": Array, "title": String},
+    props: {"title": String},
     emits: ["update-title", "go-to-subject", "delete-subject", "next-stage" ],
     components: { ColorPicker, SubjectBtnSvg, CircleSvg, Bg_svg, CustomInput, MinusCircleSvg, AboutScreen },
     methods: {
@@ -123,6 +124,16 @@ export default {
 
         }
     },
+    computed: {
+    ...mapState(useDataStore, {
+      "subjectArray": (store) => {
+        return store.subjects.reduce((accumulator, currentValue) => {
+          accumulator.push(currentValue.name);
+          return accumulator;
+        }, [])
+      }
+    }),
+    }
 }
 
 </script>

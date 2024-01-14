@@ -39,7 +39,8 @@
 - some of the general styles are in src/assets/main.css make sure no to miss them!
 - All the final checks (that no input is empty and no error messages appear) happen in EditStage.vue
 
-PLEASE, IF YOU ARE CONSIDERING A SIMILIAR PROJECT USE PINIA AND NOT THIS MESSY WAY I DID!🍍
+* Theme is in store without library because it was more simple and I didn't want to have to use computed all the time.
+* DataStore uses pina
 
 
 

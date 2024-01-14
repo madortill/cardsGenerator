@@ -3,19 +3,24 @@
         <div class="info-container scrollStyle" ref="infoContainer">
             <Bg_svg class="background svg" :color="theme.themeColor.primaryColor"></Bg_svg>
             <div class="input-container paper-clip-title">
-                <CustomInput :modelValue="subject" placeholder="הכניסו את שם הנושא" class="paper-clip-content"
-                @input="(value) => {this.$emit('subject-input', value);}" @focusout = "(value) => {this.$emit('subject-focusout', value)}"
-                 :errorMessage="subjErrorMessage" ref="subject-input-el" @update:modelValue="(value) => {this.$emit('subject-change', value)}"></CustomInput>
+                <CustomInput :modelValue="this.currSubArr.name" placeholder="הכניסו את שם הנושא"
+                    class="paper-clip-content" @input="(value) => { this.$emit('subject-input', value); }"
+                    :errorMessage="currSubArr.error" ref="subject-input-el"
+                    @update:modelValue="updateInput"></CustomInput>
             </div>
             <div class="secondary-container">
-                <Secondary :secondaryName="secondaryKey" :secondaryData="subjData['learningContent'][secondaryKey]"
-                    v-for="(secondaryKey, index) in indexedKeys" :key="'secondaryKey: ' + index"
-                    @update:secondary="(value) => { updateKeyName(secondaryKey, value, index, this.subjData['learningContent']) }"
-                    :errorMessage="errorList[index]" @secondary-input="(value) => hideErrorMessages(value, index)"
-                    @secondary-focusout="(value) => checkIfEmpty(value, index)" @delete-secondary="deleteSecondary"></Secondary>
+                <Secondary v-for="(secondaryObj, index) in this.currSubArr['learningContent']" :secondaryName="secondaryObj.name"
+                    :secondaryData="secondaryObj" :key="'secondaryKey: ' + index"
+                    @update:secondary="(value) => { updateKeyName(index, value, this.currSubArr['learningContent']) }"
+                    :errorMessage="secondaryObj.error" :index="index"></Secondary>
+                <!-- Secondary attributes -->
+                <!--  @secondary-input="(value) => hideErrorMessages(value, index)"
+                    @secondary-focusout="(value) => checkIfEmpty(value, index)" @delete-secondary="deleteSecondary" -->
                 <div class="button-container">
-                    <span :class="['button', changesCounter]" @click="addSecondary">
-                        <img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button"  alt="plus icon"/> הוספת תת נושא</span>
+                    <span :class="['button', changesCounter]"
+                        @click="addLevel([chosenSubjIndex, 'learningContent', 'subSubject'])">
+                        <img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" alt="plus icon" /> הוספת
+                        תת נושא</span>
                     <!-- <span class="button" @click="$emit('to-practice')" v-if="(Object.keys(subjData['learningContent']).length > 0)">
                         <img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" alt="plus icon"/>הוספת תרגול</span> -->
                 </div>
@@ -23,7 +28,9 @@
             <div class="save-container">
                 <div class="save-and-exit" @click="$emit('back-to-main');">חזרה לדף הבית</div>
             </div>
-            <div class="footer"><span>יש להכניס תוכן בסיווג בלמ"ס בלבד!</span> <div class="svg gradient"></div></div>
+            <div class="footer"><span>יש להכניס תוכן בסיווג בלמ"ס בלבד!</span>
+                <div class="svg gradient"></div>
+            </div>
         </div>
     </div>
 </template>
@@ -33,42 +40,44 @@ import Bg_svg from './svg/Bg_svg.vue'
 import Secondary from './Secondary.vue'
 import CustomInput from './CustomInput.vue'
 import { theme } from '../stores/theme.js';
+import { useDataStore } from '../stores/data';
+import { mapState, mapActions } from 'pinia';
 
 export default {
     components: { Bg_svg, Secondary, CustomInput },
     name: "InputScreen",
-    props: { "subjData": Object, "chosenSubject": String, "subjErrorMessage": String },
+    props: { "chosenSubject": String, "chosenSubjIndex": Number },
     emits: ["back-to-main", "subject-focusout", "subject-input", "subject-change"],
     data() {
         return {
             theme,
             changesCounter: 0,
             showErrorMessage: false,
-            indexedKeys: Object.keys(this.subjData['learningContent']),
-            errorList: new Array(Object.keys(this.subjData['learningContent']).length),
+            // indexedKeys: Object.keys(this.subjData['learningContent']),
+            // errorList: new Array(Object.keys(this.subjData['learningContent']).length),
             duplicateKey: "",
             titleRenderCounter: 0,
         }
     },
     methods: {
-        addSecondary() {
-            let newKey = `secondary${Object.keys(this.subjData["learningContent"]).length}`;
-            this.subjData["learningContent"][newKey] = {};
-            this.indexedKeys.push(newKey);
-        },
+        ...mapActions(useDataStore, ["updateKeyName", "addLevel"]),
         // handle error messages and customInput events
-        updateKeyName(key, newKey, itemIndex, objectRef) {
-            // let objectRef = this.subjData["learningContent"];
-            if (key !== newKey) {
-                if (!this.isDuplicateKey(objectRef, newKey)) {
-                    objectRef[newKey] = objectRef[key]; 
-                    let index = this.indexedKeys.indexOf(key);
-                    this.indexedKeys[index] = newKey;
-                    delete objectRef[key];
-                } else if (this.errorList[itemIndex] !== "יש למלא את השדה") {
-                    this.errorList[itemIndex] = "הכותרת כבר בשימוש";
-                }
-            }
+        // updateKeyName(key, newKey, itemIndex, objectRef) {
+        //     // let objectRef = this.subjData["learningContent"];
+        //     if (key !== newKey) {
+        //         if (!this.isDuplicateKey(objectRef, newKey)) {
+        //             objectRef[newKey] = objectRef[key]; 
+        //             let index = this.indexedKeys.indexOf(key);
+        //             this.indexedKeys[index] = newKey;
+        //             delete objectRef[key];
+        //         } else if (this.errorList[itemIndex] !== "יש למלא את השדה") {
+        //             this.errorList[itemIndex] = "הכותרת כבר בשימוש";
+        //         }
+        //     }
+        // },
+        updateInput(value) { 
+            this.updateKeyName(value, this.currSubArr, this.subjects)
+            // this.subjects[this.chosenSubjIndex].name = value;
         },
         isDuplicateKey(object, newKey) {
             for (const keyName in object) {
@@ -89,13 +98,15 @@ export default {
                 this.errorList[index] = "יש למלא את השדה";
             }
         },
-        deleteSecondary (secondaryName) {
-          this.indexedKeys.splice(this.indexedKeys.indexOf(secondaryName), 1);
-          delete this.subjData["learningContent"][secondaryName];
+        deleteSecondary(index) {
+            currSubArr['learningContent'].splice(index, 1);
         },
     },
     computed: {
-        subject() {return(this.chosenSubject.includes("subject") ? "" : this.chosenSubject);}
+        ...mapState(useDataStore, ['subjects']),
+        currSubArr() {
+            return this.subjects[this.chosenSubjIndex]
+        }
     }
 }
 </script>
@@ -234,5 +245,4 @@ export default {
 .footer span {
     margin-top: 1rem;
 }
-
 </style>
