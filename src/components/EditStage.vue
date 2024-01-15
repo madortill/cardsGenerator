@@ -47,7 +47,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useDataStore, ["addSubject"]),
+    ...mapActions(useDataStore, ["addSubject", "deleteItem"]),
     changeTitle(newTitle) {
       this.lomdaData['TITLE'] = newTitle;
     },
@@ -69,8 +69,9 @@ export default {
     this.chosenSubjIndex = goToIndex;
     },
     deleteSubject (subj) {
-      this.indexedKeys.splice(this.indexedKeys.indexOf(subj), 1);
-      delete this.lomdaData['DATA'][subj];
+      // this.indexedKeys.splice(this.indexedKeys.indexOf(subj), 1);
+      // delete this.lomdaData['DATA'][subj];
+      this.deleteItem(["DATA", subj])
       this.chosenSubject = ""
     },
     updateThanMain() {

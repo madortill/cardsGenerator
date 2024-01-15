@@ -8,12 +8,11 @@
         <div class="grid subj-container">
             <Bg_svg class="background svg" :color="theme.themeColor.primaryColor"></Bg_svg>
             <div class="paper-clip-title first-paper-clip">
-                <CustomInput :modelValue="title" @update:modelValue="onUpdateTitle" placeholder="הכניסו שם ללומדה" class="paper-clip-content" 
-                @focusout="titleFocusOut" @input="titleInput" :errorMessage="titleErrorMessage" :path-array="['TITLE']"></CustomInput>
+                <CustomInput placeholder="הכניסו שם ללומדה" class="paper-clip-content" :path-array="['TITLE']"></CustomInput>
             </div>
             <div class="cardsContainer scrollStyle">
                 <div :class="['subjCard', isDeleteMode === true ? 'rattle-animation': '']" v-for="(value, index) in subjectArray"
-                   :key="'title' + index" @click="!this.isDeleteMode ? $emit('go-to-subject', value, index): this.deleteSubj(value)" :ref="'subj' + index">
+                   :key="'title' + index" @click="!this.isDeleteMode ? $emit('go-to-subject', value, index): this.deleteSubj(index)" :ref="'subj' + index">
                    <div class="delete" v-show="isDeleteMode"></div>
                     <SubjectBtnSvg class="svg" :primaryColor="theme.themeColor.primaryColor" :secondaryColor="theme.themeColor.secondaryColor" ></SubjectBtnSvg>
                     <div class="subject">{{ value }}</div>
@@ -61,31 +60,17 @@ export default {
         };
     },
     props: {"title": String},
-    emits: ["update-title", "go-to-subject", "delete-subject", "next-stage" ],
+    emits: ["go-to-subject", "delete-subject", "next-stage", "temp-save"],
     components: { ColorPicker, SubjectBtnSvg, CircleSvg, Bg_svg, CustomInput, MinusCircleSvg, AboutScreen },
     methods: {
-        titleFocusOut (value) {
-            if (value === "") {
-                this.titleErrorMessage = "יש למלא את השדה"
-            }
-        },
-        titleInput (value) {
-            if (value !== "") {
-                this.titleErrorMessage = "";
-                // this.$emit('update-title', this.title)
-            }
-        },
-        onUpdateTitle (value) {
-            this.$emit('update-title', value)
-        },
         toggleDeleteMode () {
             this.isDeleteMode = !this.isDeleteMode;
         },
-        deleteSubj (subj) {
+        deleteSubj (subjIndex) {
             console.log('delete subject')
             swal({
                 icon: "warning",
-                title: `בטוחים שאתם רוצים למחוק את הנושא ${subj}?`,
+                title: `בטוחים שאתם רוצים למחוק את הנושא ${this.subjectArray[subjIndex]}?`,
                 buttons: {cancel: "לבטל", confirm: "למחוק"},
                 dangerMode: true,
                 className: "swal-font",
@@ -93,7 +78,7 @@ export default {
             .then((willDelete) => {
               if (willDelete) {
                 this.isDeleteMode = false;
-                this.$emit('delete-subject', subj)
+                this.$emit('delete-subject', subjIndex)
               }
             });
         },

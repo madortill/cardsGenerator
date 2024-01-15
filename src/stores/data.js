@@ -91,7 +91,6 @@ export const useDataStore = defineStore('data', {
     getNestedItem(path, state) {
       // // Access the nested element
       let originalObj = state ? state : this;
-      console.log(originalObj)
         let pathArray;
         if (Array.isArray(path)) {
           pathArray = [...path];
@@ -99,7 +98,6 @@ export const useDataStore = defineStore('data', {
           console.error('path is not a array')
         }
         let result = pathArray.reduce((acc, index) =>  {
-          console.log(this[index])
           if (index in acc) {
             return acc[index];
           } else {
@@ -126,6 +124,10 @@ export const useDataStore = defineStore('data', {
         obj.error = "יש למלא את השדה";
       }
     },
+    deleteItem(path, index) {
+      const parentArr = path.slice(0, -1);
+      this.getNestedItem(parentArr).splice(index, 1);
+    }
   },
 })
 

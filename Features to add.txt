@@ -6,9 +6,6 @@
 שגיאות בהטמעת סרטון יוטיוב בעזרת youtube api
 embed youtube videos with youtube player api and not in html
 
-option for temporary save - download txt or blob file to the computer and then option to 'continue from saved' and upload a file. 
-Make sure there is no malicious code! (consider using Sanitizer() constructor)
-
 Text cards will be rich text format with options for unordered list, ordered list, bold, title (using cards freeForm option)
 
 use history API to return from InputScreen to MainScreen when back button in chrome or android is pressed
