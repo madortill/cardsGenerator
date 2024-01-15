@@ -3,7 +3,11 @@ import { defineStore } from 'pinia'
 export const useDataStore = defineStore('data', {
   state: () => {
     return {
-      "subjects": [
+      "TITLE": {
+        "name": "",
+        "error": ""
+      },
+      "DATA": [
         {
           "name": "Subject 1",
           "error": '',
@@ -40,23 +44,9 @@ export const useDataStore = defineStore('data', {
       ]
     }
   },
-  getters: {
-    getSubArr: (state) => {
-      return (path) => {
-        let pathArray;
-        if (typeof (path) === 'array') {
-          pathArray = [...path];
-        } else {
-          console.error('path is not a array')
-        }
-        let result = pathArray.reduce((acc, index) => acc[index], state.subjects);
-        return result;
-      }
-    },
-  },
   actions: {
     addSubject() {
-      this.subjects.push({
+      this.DATA.push({
         "name": "",
         "amountOfQuestions": 0,
         "learningContent": [],
@@ -70,7 +60,10 @@ export const useDataStore = defineStore('data', {
      * @param {Array} subArray An arry. result of calling getNestedItem one level above the level we want to change
      * @returns 
      */
-    updateKeyName(newName, obj, parentArr) {
+    updateKeyName(newName, path) {
+      const obj = this.getNestedItem(path);
+      const parentArr = path.slice(0, -2);
+      console.log(obj, parentArr)
       console.log(newName);
       const key = obj.name;
       if (key !== newName) {
@@ -84,7 +77,7 @@ export const useDataStore = defineStore('data', {
         }
       }
       obj.name = newName;
-      this.chosenSubject = newName;
+      // this.chosenSubject = newName;
     },
     isDuplicateKey(arr, newName) {
       for (let i = 0; i < arr.length; i++) {
@@ -94,27 +87,45 @@ export const useDataStore = defineStore('data', {
         }
       }
       return false;
-    }
-  },
-  getNestedItem(joinedIndex, bigObj) {
-    // // Access the nested element
-    let pathArray;
-    if (typeof (joinedIndex) === 'array') {
-      pathArray = [...joinedIndex];
-    } else {
-      console.error('joinedIndex is not a array')
-    }
-    let result = pathArray.reduce((acc, index) => acc[index], bigObj);
-    return result;
-  },
-  addLevel(path) {
-    // let newKey = `secondary${Object.keys(this.subjData["learningContent"]).length}`;
-    // this.subjData["learningContent"][newKey] = {};
-    // this.indexedKeys.push(newKey);
-    this.getNestedItem(path, this.subSubjects).push({
-      "name": "",
-      "error": ""
-    })
+    },
+    getNestedItem(path, state) {
+      // // Access the nested element
+      let originalObj = state ? state : this;
+      console.log(originalObj)
+        let pathArray;
+        if (Array.isArray(path)) {
+          pathArray = [...path];
+        } else {
+          console.error('path is not a array')
+        }
+        let result = pathArray.reduce((acc, index) =>  {
+          console.log(this[index])
+          if (index in acc) {
+            return acc[index];
+          } else {
+            console.error(`cannot find the path ${acc}][${index}]`);
+          }
+        }, originalObj);
+        return result;
+    },
+    addLevel(path) {
+      this.getNestedItem(path, this.subSubjects).push({
+        "name": "",
+        "error": ""
+      })
+    },
+    onInput (path) {
+      const obj = this.getNestedItem(path); 
+      if ((obj.name !== "" || !this.isDuplicateKey(path.slice(0, -2), obj.name)) && obj.error !== "") {
+        obj.error = "";
+      }
+    },
+    onFocusout (path) {
+      const obj = this.getNestedItem(path);
+      if (!obj.name) {
+        obj.error = "יש למלא את השדה";
+      }
+    },
   },
 })
 

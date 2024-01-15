@@ -9,7 +9,7 @@
             <Bg_svg class="background svg" :color="theme.themeColor.primaryColor"></Bg_svg>
             <div class="paper-clip-title first-paper-clip">
                 <CustomInput :modelValue="title" @update:modelValue="onUpdateTitle" placeholder="הכניסו שם ללומדה" class="paper-clip-content" 
-                @focusout="titleFocusOut" @input="titleInput" :errorMessage="titleErrorMessage"></CustomInput>
+                @focusout="titleFocusOut" @input="titleInput" :errorMessage="titleErrorMessage" :path-array="['TITLE']"></CustomInput>
             </div>
             <div class="cardsContainer scrollStyle">
                 <div :class="['subjCard', isDeleteMode === true ? 'rattle-animation': '']" v-for="(value, index) in subjectArray"
@@ -127,7 +127,7 @@ export default {
     computed: {
     ...mapState(useDataStore, {
       "subjectArray": (store) => {
-        return store.subjects.reduce((accumulator, currentValue) => {
+        return store.DATA.reduce((accumulator, currentValue) => {
           accumulator.push(currentValue.name);
           return accumulator;
         }, [])

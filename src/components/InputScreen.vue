@@ -61,23 +61,9 @@ export default {
     },
     methods: {
         ...mapActions(useDataStore, ["updateKeyName", "addLevel"]),
-        // handle error messages and customInput events
-        // updateKeyName(key, newKey, itemIndex, objectRef) {
-        //     // let objectRef = this.subjData["learningContent"];
-        //     if (key !== newKey) {
-        //         if (!this.isDuplicateKey(objectRef, newKey)) {
-        //             objectRef[newKey] = objectRef[key]; 
-        //             let index = this.indexedKeys.indexOf(key);
-        //             this.indexedKeys[index] = newKey;
-        //             delete objectRef[key];
-        //         } else if (this.errorList[itemIndex] !== "יש למלא את השדה") {
-        //             this.errorList[itemIndex] = "הכותרת כבר בשימוש";
-        //         }
-        //     }
-        // },
         updateInput(value) { 
-            this.updateKeyName(value, this.currSubArr, this.subjects)
-            // this.subjects[this.chosenSubjIndex].name = value;
+            this.updateKeyName(value, this.currSubArr, this.DATA)
+            // this.DATA[this.chosenSubjIndex].name = value;
         },
         isDuplicateKey(object, newKey) {
             for (const keyName in object) {
@@ -103,9 +89,10 @@ export default {
         },
     },
     computed: {
-        ...mapState(useDataStore, ['subjects']),
+        ...mapState(useDataStore, ['DATA']),
         currSubArr() {
-            return this.subjects[this.chosenSubjIndex]
+            console.log(this.DATA[this.chosenSubjIndex])
+            return this.DATA[this.chosenSubjIndex]
         }
     }
 }

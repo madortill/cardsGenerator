@@ -1,18 +1,22 @@
 <template>
 	<div style="position: relative">
-		<input :class="{'input': true, 'placeholder-custom-style' : placeholderStyle}" type="text" :placeholder="placeholder" :value="inputValue"
-		@focus="inputFocus" @focusout="inputFocus" @input="onInput" @change="onChange" required/>
-		<div class="error-message error-message-position" v-show="errorMessage">
+		<input :class="{ 'input': true, 'placeholder-custom-style': placeholderStyle }" type="text"
+			:placeholder="placeholder" :value="currentObj.name" @focus="inputFocus" @focusout="inputFocus" @input="() => this.onInput(this.pathArray)"
+			@change="onChange" required />
+		<div class="error-message error-message-position" v-show="currentObj.error">
 			<div class="up-error-triangle"></div>
 			<div class="message">
 				<img src="@/assets/colorNeutralAssets/triangle-warning.svg" alt="warning symbol" class="warning" />
-				<span class="text"> {{ errorMessage }} </span>
+				<span class="text"> {{ currentObj.error }} </span>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import { useDataStore } from '../stores/data';
+import { mapState, mapActions } from 'pinia';
+
 export default {
 	name: "CustomInput",
 	props: {
@@ -24,31 +28,35 @@ export default {
 				return (obj.color || obj["font-size"]);
 			}
 		},
-		"errorMessage": String
+		"pathArray": Array,
 	},
-	emits: ["update:modelValue", "input", "focusout"],
-	data () {
+	// emits: ["update:modelValue", "input", "focusout"],
+	data() {
 		return {
-			inputValue: this.modelValue,
+			// inputValue: "",
 		}
 	},
 	methods: {
+		...mapActions(useDataStore, ["getNestedItem", "updateKeyName", "onInput", "onFocusout"]),
 		inputFocus(event) {
 			if (event.currentTarget === document.activeElement) {
 				event.currentTarget.setAttribute("placeholder", "");
 			} else {
 				event.currentTarget.setAttribute("placeholder", this.placeholder);
-				this.$emit("focusout", event.currentTarget.value);
+				this.onFocusout(this.pathArray)
 			}
 		},
-		onInput(event) {
-			this.inputValue = event.currentTarget.value;
-			this.$emit("input", event.currentTarget.value);
+		onChange(event) {
+			this.updateKeyName(event.target.value, this.pathArray);
 		},
-		onChange (event) {
-			this.$emit("update:modelValue", event.target.value);
+	},
+	computed: {
+		currentObj () {
+			return this.getNestedItem(this.pathArray)
 		},
-	}
+
+
+	},
 };
 </script>
 
@@ -74,10 +82,10 @@ export default {
 }
 
 .error-message-position {
-    top: 120%;
-    right: 50%;
-    transform: translateX(50%);
-    min-width: max-content;
+	top: 120%;
+	right: 50%;
+	transform: translateX(50%);
+	min-width: max-content;
 
 }
 
@@ -92,6 +100,7 @@ export default {
 	line-height: 0px;
 	margin: auto;
 }
+
 .message {
 	background-color: #ffbeb7;
 	width: fit-content;

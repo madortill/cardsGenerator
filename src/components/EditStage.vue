@@ -4,7 +4,7 @@
     <mainScreen v-else-if="(currentStage === 'main')"
       @change-title="updateThings(newValue, 'title')" @go-to-subject="goToSubj" @delete-subject="deleteSubject" 
       @next-stage="nextStage" @update-title="changeTitle" :title="lomdaData['TITLE']"
-      @temp-save="saveToLocal" :infoPath="['subjects']"></mainScreen>
+      @temp-save="saveToLocal" :infoPath="['DATA']"></mainScreen>
     <Input-screen v-else-if="(currentStage === 'input')" 
       :chosenSubject="chosenSubject" :chosenSubjIndex="chosenSubjIndex"
       @back-to-main="updateThanMain" @subject-input="hideErrorMessages"></Input-screen>
@@ -36,7 +36,7 @@ export default {
       subjErrorMessage: "",
       chosenSubjIndex: -1,
       lomdaData: {
-        "TITLE": "",
+        // "TITLE": this.title,
         "AMOUNT_EXAM_QUESTIONS": 0,
         "TIME_FOR_EXAM": "00:00",
         "DATA": {},
@@ -207,9 +207,9 @@ export default {
   },
   computed: {
     ...mapState(useDataStore, {
-      "data": "subjects"
+      "data": "DATA"
     }),
-    // ...mapState(useDataStore, ["subjects"])
+    // ...mapState(useDataStore, ["DATA"])
   },
   beforeMount () {
     if (this.isSaved) {
