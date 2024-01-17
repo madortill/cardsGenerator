@@ -1,12 +1,9 @@
 <template>
   <div id="EditStage">
     <InfoScreen v-if="currentStage === 'info'" @next="finishInfo"></InfoScreen>
-    <mainScreen v-else-if="(currentStage === 'main')"
-      @change-title="updateThings(newValue, 'title')" @go-to-subject="goToSubj" @delete-subject="deleteSubject" 
-      @next-stage="nextStage" @update-title="changeTitle" :title="lomdaData['TITLE']"
-      @temp-save="saveToLocal" :infoPath="['DATA']"></mainScreen>
+    <mainScreen v-else-if="(currentStage === 'main')" @go-to-subject="goToSubj" @next-stage="nextStage" @temp-save="saveToLocal"></mainScreen>
     <Input-screen v-else-if="(currentStage === 'input')" 
-      :chosenSubject="chosenSubject" :chosenSubjIndex="chosenSubjIndex"
+      :chosenSubjIndex="chosenSubjIndex" :path-array="['DATA', chosenSubjIndex]"
       @back-to-main="updateThanMain" @subject-input="hideErrorMessages"></Input-screen>
     <!-- <add-questions type = "test" v-else-if="(currentStage === 'test')"></add-questions> -->
     <!-- <add-questions type = "practice" v-else-if="(currentStage === 'practice')"></add-questions> -->
@@ -31,7 +28,6 @@ export default {
     return {
       theme,
       currentStage: 'info',
-      chosenSubject: '',
       indexedKeys: [],
       subjErrorMessage: "",
       chosenSubjIndex: -1,
@@ -42,15 +38,13 @@ export default {
         "DATA": {},
         "THEME": theme.themeColor,
         "AUTHOR": {},
-        "DEAFULT_ICON": "../assets/images/learning/Artboard 4.svg"
+        "DEAFULT_ICON": "../assets/images/learning/Artboard 4.svg",
+        "TITLE": ""
       }
     }
   },
   methods: {
     ...mapActions(useDataStore, ["addSubject", "deleteItem"]),
-    changeTitle(newTitle) {
-      this.lomdaData['TITLE'] = newTitle;
-    },
     finishInfo (infoObj, icon) {
       this.lomdaData["AUTHOR"] = infoObj;
       this.currentStage = 'main';
@@ -62,22 +56,19 @@ export default {
       let goToIndex = index;
       if (subjName === "newSubject") {
         this.addSubject(subjName);
-        goToIndex = this.data.length - 1;
+        goToIndex = this.DATA.length - 1;
     }
     this.currentStage = "input";
-    // this.chosenSubject = subjName;
     this.chosenSubjIndex = goToIndex;
     },
     deleteSubject (subj) {
-      // this.indexedKeys.splice(this.indexedKeys.indexOf(subj), 1);
-      // delete this.lomdaData['DATA'][subj];
       this.deleteItem(["DATA", subj])
-      this.chosenSubject = ""
     },
     updateThanMain() {
       let error = this.isErrorMessage();
       if (error === "") {
         this.currentStage = 'main';
+        this.chosenSubjIndex = -1;
       } else if (error.includes("הכותרת כבר בשימוש")) {
         swal({
           title: "בטוחים שלא התבלבלתם?",
@@ -111,22 +102,7 @@ export default {
         document.querySelector(".swal-button").style.backgroundColor = this.lomdaData["THEME"].primaryColor;
       }
     },
-    updateKeyName(key, newKey, objectRef) {
-      if (key !== newKey) {
-          if (!this.isDuplicateKey(objectRef, newKey)) {
-            // changes the key name while recording its index by indexedKeys
-              objectRef[newKey] = objectRef[key];
-              let index = this.indexedKeys.indexOf(key);
-              this.indexedKeys[index] = newKey;
-              delete objectRef[key];
-              this.chosenSubject = newKey;
-              // Error message about duplicate titles
-          } else if (this.subjErrorMessage !== "יש למלא את השדה") {
-              this.subjErrorMessage = "הכותרת כבר בשימוש"; 
-          }
-      } 
-      return true;
-    },
+
     isDuplicateKey(object, newKey) {
         for (const keyName in object) {
             if (keyName === newKey) {
@@ -158,7 +134,9 @@ export default {
       }
 
       if (isAllInputEmpty) {
-        this.deleteSubject(this.chosenSubject);
+        console.log(`All inputs empty. Deleting Subject number ${this.chosenSubjIndex}`);
+        console.log(["DATA", this.chosenSubjIndex]);
+        this.deleteItem(["DATA", this.chosenSubjIndex]);
         return('');
       }
 
@@ -168,6 +146,7 @@ export default {
       let errorMessageList = document.querySelectorAll(".error-message");
       for (let item of errorMessageList) {
         errorContent = item.querySelector(".text").innerText;
+        console.log(item)
         if (errorContent !== "") {
           return(errorContent);
         }
@@ -207,10 +186,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(useDataStore, {
-      "data": "DATA"
-    }),
-    // ...mapState(useDataStore, ["DATA"])
+    ...mapState(useDataStore, ["DATA"]),
   },
   beforeMount () {
     if (this.isSaved) {

@@ -33,12 +33,10 @@
 </template>
 
 <script>
-import CustomInput from './CustomInput.vue';
 
 
 export default {
     name: 'InfoScreen',
-    components: { CustomInput },
     data() {
         return {
             inputValues: {

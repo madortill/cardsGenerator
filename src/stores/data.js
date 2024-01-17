@@ -13,31 +13,31 @@ export const useDataStore = defineStore('data', {
           "error": '',
           "amountOfQuestions": 0,
           "learningContent": [
-              {
-                "name": "Sub-subject 1",
-                "error": '',
-                "topics": [
-                  { "cardType": "text", "content": "hii" }
-                  // Add more topics as needed
-                ]
-              }
-              // Add more sub-subjects as needed
-            ],
+            {
+              "name": "Sub-subject 1",
+              "error": '',
+              "topics": [
+                { "cardType": "text", "content": "hii" }
+                // Add more topics as needed
+              ]
+            }
+            // Add more sub-subjects as needed
+          ],
           "icon": "default"
         },
         {
           "name": "Subject 2",
           "amountOfQuestions": 0,
           "learningContent": [
-              {
-                "name": "Sub-subject 1",
-                "topics": [
-                  { "cardType": "text", "content": "hii" }
-                  // Add more topics as needed
-                ]
-              }
-              // Add more sub-subjects as needed
-            ],
+            {
+              "name": "Sub-subject 1",
+              "topics": [
+                { "cardType": "text", "content": "hii" }
+                // Add more topics as needed
+              ]
+            }
+            // Add more sub-subjects as needed
+          ],
           "icon": "default"
         },
         // Add more subjects as needed
@@ -45,26 +45,55 @@ export const useDataStore = defineStore('data', {
     }
   },
   actions: {
-    addSubject() {
-      this.DATA.push({
-        "name": "",
-        "amountOfQuestions": 0,
-        "learningContent": [],
-        "icon": "deafult"
-      })
+    /* --------------------------------- Utility functions-------------------------------------- */
+    getNestedItem(path, state) {
+      // // Access the nested element
+      let originalObj = state ? state : this;
+      let pathArray;
+      if (Array.isArray(path)) {
+        pathArray = [...path];
+      } else {
+        console.error('path is not a array')
+      }
+
+      let result = pathArray.reduce((acc, index) => {
+        if (index in acc) {
+          return acc[index];
+        } else {
+          console.error(`cannot find the ${index} in`, acc);
+        }
+      }, originalObj);
+      return result;
     },
-    /**
-     *  updated the name of the subject/subSubject/topic
-     * @param {Number} index a number that defines the place in arr
-     * @param {String} newName the name to be replaced
-     * @param {Array} subArray An arry. result of calling getNestedItem one level above the level we want to change
-     * @returns 
-     */
+    isDuplicateKey(arr, newName) {
+      let iterator = this.getNestedItem(arr)
+      for (let i = 0; i < iterator.length; i++) {
+        console.log(iterator[i])
+        if (iterator[i].name === newName) {
+          // this.duplicateKey = newName;
+          return true;
+        }
+      }
+      return false;
+    },
+    /* ------------------------------- Input events ------------------------------------------------- */
+    onInput(path) {
+      const obj = this.getNestedItem(path);
+      if ((obj.name !== "" || !this.isDuplicateKey(path.slice(0, -2), obj.name)) && obj.error !== "") {
+        obj.error = "";
+      }
+    },
+    onFocusout(path) {
+      const obj = this.getNestedItem(path);
+      if (!obj.name) {
+        obj.error = "יש למלא את השדה";
+      }
+    },
+    // onChange
     updateKeyName(newName, path) {
       const obj = this.getNestedItem(path);
-      const parentArr = path.slice(0, -2);
-      console.log(obj, parentArr)
-      console.log(newName);
+      const parentArr = path.slice(0, -1);
+      console.log('parentArr: ', parentArr)
       const key = obj.name;
       if (key !== newName) {
         // Error message about duplicate titles
@@ -77,34 +106,15 @@ export const useDataStore = defineStore('data', {
         }
       }
       obj.name = newName;
-      // this.chosenSubject = newName;
     },
-    isDuplicateKey(arr, newName) {
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i].name === newName) {
-          // this.duplicateKey = newName;
-          return true;
-        }
-      }
-      return false;
-    },
-    getNestedItem(path, state) {
-      // // Access the nested element
-      let originalObj = state ? state : this;
-        let pathArray;
-        if (Array.isArray(path)) {
-          pathArray = [...path];
-        } else {
-          console.error('path is not a array')
-        }
-        let result = pathArray.reduce((acc, index) =>  {
-          if (index in acc) {
-            return acc[index];
-          } else {
-            console.error(`cannot find the path ${acc}][${index}]`);
-          }
-        }, originalObj);
-        return result;
+    /*---------------------------- Actions in an array (add + delete) --------------------------------------- */
+    addSubject() {
+      this.DATA.push({
+        "name": "",
+        "amountOfQuestions": 0,
+        "learningContent": [],
+        "icon": "deafult"
+      })
     },
     addLevel(path) {
       this.getNestedItem(path, this.subSubjects).push({
@@ -112,33 +122,13 @@ export const useDataStore = defineStore('data', {
         "error": ""
       })
     },
-    onInput (path) {
-      const obj = this.getNestedItem(path); 
-      if ((obj.name !== "" || !this.isDuplicateKey(path.slice(0, -2), obj.name)) && obj.error !== "") {
-        obj.error = "";
-      }
-    },
-    onFocusout (path) {
-      const obj = this.getNestedItem(path);
-      if (!obj.name) {
-        obj.error = "יש למלא את השדה";
-      }
-    },
-    deleteItem(path, index) {
+    deleteItem(path) {
       const parentArr = path.slice(0, -1);
+      const index = path.slice(-1);
       this.getNestedItem(parentArr).splice(index, 1);
     }
   },
 })
-
-
-// let arr1 = [1, [[2, 3, [4]]]];
-// let pathArray = [1, 0, 2, 0];
-
-// // Access the nested element
-// let result = pathArray.reduce((acc, index) => acc[index], arr1);
-
-// console.log(result); // Output: 4
 
 
 

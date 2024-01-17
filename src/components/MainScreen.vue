@@ -45,27 +45,21 @@ import Bg_svg from './svg/Bg_svg.vue';
 import CustomInput from './CustomInput.vue';
 import AboutScreen from './AboutScreen.vue';
 import { theme } from '../stores/theme.js';import { useDataStore } from '../stores/data';
-import { mapState } from 'pinia';
+import { mapState, mapActions } from 'pinia';
 
 export default {
     name: "main-screen",
     data() {
         return {
-            // title: "",
             theme,
-            showErrorMessage: false,
-            titleErrorMessage: "",
             isDeleteMode: false,
             showAbout: false
         };
     },
-    props: {"title": String},
     emits: ["go-to-subject", "delete-subject", "next-stage", "temp-save"],
     components: { ColorPicker, SubjectBtnSvg, CircleSvg, Bg_svg, CustomInput, MinusCircleSvg, AboutScreen },
     methods: {
-        toggleDeleteMode () {
-            this.isDeleteMode = !this.isDeleteMode;
-        },
+        ...mapActions(useDataStore, ["deleteItem"]),
         deleteSubj (subjIndex) {
             console.log('delete subject')
             swal({
@@ -78,7 +72,8 @@ export default {
             .then((willDelete) => {
               if (willDelete) {
                 this.isDeleteMode = false;
-                this.$emit('delete-subject', subjIndex)
+                // this.$emit('delete-subject', subjIndex)
+                this.deleteItem(["DATA", subjIndex])
               }
             });
         },
@@ -91,7 +86,7 @@ export default {
             })
             .then((willContinue) => {
               if (willContinue) {
-                if (this.title === '') {
+                if (this.TITLE.name === '') {
                     swal({
                     title: "איך אתם רוצים לקרוא ללומדה?",
                     buttons: {confirm: "אישור"},
@@ -102,7 +97,7 @@ export default {
                       this.$emit("next-stage", value)
                     });
                 } else {
-                    this.$emit("next-stage", this.title)
+                    this.$emit("next-stage", this.TITLE.name)
                 }
               }
             });
@@ -118,7 +113,8 @@ export default {
         }, [])
       }
     }),
-    }
+    ...mapState(useDataStore, ["TITLE"]),
+    },
 }
 
 </script>

@@ -52,7 +52,7 @@ export default {
 	},
 	computed: {
 		currentObj () {
-			return this.getNestedItem(this.pathArray)
+			return this.getNestedItem(this.pathArray);
 		},
 
 

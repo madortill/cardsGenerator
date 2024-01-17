@@ -1,1 +1,5 @@
-לעשות משתנים גלובליים של הודעות שגיאה?
+MainScreen.vue: What is the "title" prop?
+
+Make lomdaData computed OR put all the info in the store and access it in finishScreen
+
+In the middle of working on InputScreen (So it will get the pathArray)

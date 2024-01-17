@@ -3,19 +3,13 @@
         <div class="info-container scrollStyle" ref="infoContainer">
             <Bg_svg class="background svg" :color="theme.themeColor.primaryColor"></Bg_svg>
             <div class="input-container paper-clip-title">
-                <CustomInput :modelValue="this.currSubArr.name" placeholder="הכניסו את שם הנושא"
-                    class="paper-clip-content" @input="(value) => { this.$emit('subject-input', value); }"
-                    :errorMessage="currSubArr.error" ref="subject-input-el"
-                    @update:modelValue="updateInput"></CustomInput>
+                <CustomInput  placeholder="הכניסו את שם הנושא" class="paper-clip-content"  ref="subject-input-el" :path-array="pathArray"></CustomInput>
             </div>
             <div class="secondary-container">
-                <Secondary v-for="(secondaryObj, index) in this.currSubArr['learningContent']" :secondaryName="secondaryObj.name"
+                <!-- <Secondary v-for="(secondaryObj, index) in this.currSubArr['learningContent']" :secondaryName="secondaryObj.name"
                     :secondaryData="secondaryObj" :key="'secondaryKey: ' + index"
                     @update:secondary="(value) => { updateKeyName(index, value, this.currSubArr['learningContent']) }"
-                    :errorMessage="secondaryObj.error" :index="index"></Secondary>
-                <!-- Secondary attributes -->
-                <!--  @secondary-input="(value) => hideErrorMessages(value, index)"
-                    @secondary-focusout="(value) => checkIfEmpty(value, index)" @delete-secondary="deleteSecondary" -->
+                    :errorMessage="secondaryObj.error" :index="index" :pathArray="pathArray"></Secondary> -->
                 <div class="button-container">
                     <span :class="['button', changesCounter]"
                         @click="addLevel([chosenSubjIndex, 'learningContent', 'subSubject'])">
@@ -46,15 +40,13 @@ import { mapState, mapActions } from 'pinia';
 export default {
     components: { Bg_svg, Secondary, CustomInput },
     name: "InputScreen",
-    props: { "chosenSubject": String, "chosenSubjIndex": Number },
+    props: { "chosenSubjIndex": Number, "pathArray": Array },
     emits: ["back-to-main", "subject-focusout", "subject-input", "subject-change"],
     data() {
         return {
             theme,
             changesCounter: 0,
             showErrorMessage: false,
-            // indexedKeys: Object.keys(this.subjData['learningContent']),
-            // errorList: new Array(Object.keys(this.subjData['learningContent']).length),
             duplicateKey: "",
             titleRenderCounter: 0,
         }
@@ -85,7 +77,7 @@ export default {
             }
         },
         deleteSecondary(index) {
-            currSubArr['learningContent'].splice(index, 1);
+            this.currSubArr['learningContent'].splice(index, 1);
         },
     },
     computed: {
