@@ -3,7 +3,7 @@
         <div class="info-container scrollStyle" ref="infoContainer">
             <Bg_svg class="background svg" :color="theme.themeColor.primaryColor"></Bg_svg>
             <div class="input-container paper-clip-title">
-                <CustomInput  placeholder="הכניסו את שם הנושא" class="paper-clip-content"  ref="subject-input-el" :path-array="pathArray"></CustomInput>
+                <CustomInput placeholder="הכניסו את שם הנושא" class="paper-clip-content"  ref="subject-input-el" :path-array="pathArray"></CustomInput>
             </div>
             <div class="secondary-container">
                 <!-- <Secondary v-for="(secondaryObj, index) in this.currSubArr['learningContent']" :secondaryName="secondaryObj.name"
@@ -12,7 +12,7 @@
                     :errorMessage="secondaryObj.error" :index="index" :pathArray="pathArray"></Secondary> -->
                 <div class="button-container">
                     <span :class="['button', changesCounter]"
-                        @click="addLevel([chosenSubjIndex, 'learningContent', 'subSubject'])">
+                        @click="addSubsubject([...pathArray, 'learningContent'])">
                         <img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" alt="plus icon" /> הוספת
                         תת נושא</span>
                     <!-- <span class="button" @click="$emit('to-practice')" v-if="(Object.keys(subjData['learningContent']).length > 0)">
@@ -28,6 +28,8 @@
         </div>
     </div>
 </template>
+
+
 
 <script>
 import Bg_svg from './svg/Bg_svg.vue'
@@ -52,30 +54,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(useDataStore, ["updateKeyName", "addLevel"]),
-        updateInput(value) { 
-            this.updateKeyName(value, this.currSubArr, this.DATA)
-            // this.DATA[this.chosenSubjIndex].name = value;
-        },
-        isDuplicateKey(object, newKey) {
-            for (const keyName in object) {
-                if (keyName === newKey) {
-                    this.duplicateKey = newKey;
-                    return true;
-                }
-            }
-            return false;
-        },
-        hideErrorMessages(value, index) {
-            if ((value !== "" || !this.isDuplicateKey(this.subjData["learningContent"], value)) && this.errorList[index] !== "") {
-                this.errorList[index] = "";
-            }
-        },
-        checkIfEmpty(value, index) {
-            if (!value) {
-                this.errorList[index] = "יש למלא את השדה";
-            }
-        },
+        ...mapActions(useDataStore, ["handleErrors", "addSubsubject"]),
         deleteSecondary(index) {
             this.currSubArr['learningContent'].splice(index, 1);
         },
@@ -88,6 +67,7 @@ export default {
         }
     }
 }
+
 </script>
 
 <style scoped>

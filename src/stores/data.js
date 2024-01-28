@@ -66,19 +66,28 @@ export const useDataStore = defineStore('data', {
       return result;
     },
     isDuplicateKey(arr, newName) {
-      let iterator = this.getNestedItem(arr)
+      console.log('arr:', arr);
+      console.log('newName: ', newName)
+      let iterator = this.getNestedItem(arr);
+      console.log('iterator: ', iterator);
+      /* since the change happens before checking if the key is duplicate, the newName will appear at least once. 
+        If it's duplicated, it will appear twice or more */
+      let appearances = 0;
       for (let i = 0; i < iterator.length; i++) {
-        console.log(iterator[i])
         if (iterator[i].name === newName) {
-          // this.duplicateKey = newName;
-          return true;
+          appearances++;
         }
+      }
+      if (appearances > 1) {
+        return true;
       }
       return false;
     },
     /* ------------------------------- Input events ------------------------------------------------- */
-    onInput(path) {
+    onInput(path, newName) {
+      console.log(path);
       const obj = this.getNestedItem(path);
+      obj.name = newName;
       if ((obj.name !== "" || !this.isDuplicateKey(path.slice(0, -2), obj.name)) && obj.error !== "") {
         obj.error = "";
       }
@@ -89,23 +98,17 @@ export const useDataStore = defineStore('data', {
         obj.error = "יש למלא את השדה";
       }
     },
-    // onChange
-    updateKeyName(newName, path) {
+    /* onChange */
+    handleErrors(newName, path) {
       const obj = this.getNestedItem(path);
       const parentArr = path.slice(0, -1);
-      console.log('parentArr: ', parentArr)
-      const key = obj.name;
-      if (key !== newName) {
-        // Error message about duplicate titles
-        if (newName === "") {
-          obj.error = "יש למלא את השדה";
-        } else if (this.isDuplicateKey(parentArr, newName)) {
-          obj.error = "הכותרת כבר בשימוש";
-        } else {
-          obj.error = "";
-        }
+      if (newName === "") {
+        obj.error = "יש למלא את השדה";
+      } else if (this.isDuplicateKey(parentArr, newName)) {
+        obj.error = "הכותרת כבר בשימוש";
+      } else {
+        obj.error = "";
       }
-      obj.name = newName;
     },
     /*---------------------------- Actions in an array (add + delete) --------------------------------------- */
     addSubject() {
@@ -116,8 +119,9 @@ export const useDataStore = defineStore('data', {
         "icon": "deafult"
       })
     },
-    addLevel(path) {
-      this.getNestedItem(path, this.subSubjects).push({
+    addSubsubject(path) {
+      console.log('adding subSubject: ', path)
+      this.getNestedItem(path).push({
         "name": "",
         "error": ""
       })

@@ -1,7 +1,7 @@
 <template>
 	<div style="position: relative">
 		<input :class="{ 'input': true, 'placeholder-custom-style': placeholderStyle }" type="text"
-			:placeholder="placeholder" :value="currentObj.name" @focus="inputFocus" @focusout="inputFocus" @input="() => this.onInput(this.pathArray)"
+			:placeholder="placeholder" :value="currentObj.name" @focus="inputFocus" @focusout="inputFocus" @input="(e) => this.onInput(this.pathArray, e.target.value)"
 			@change="onChange" required />
 		<div class="error-message error-message-position" v-show="currentObj.error">
 			<div class="up-error-triangle"></div>
@@ -16,6 +16,8 @@
 <script>
 import { useDataStore } from '../stores/data';
 import { mapState, mapActions } from 'pinia';
+
+// console.log('what if I register the store here?')
 
 export default {
 	name: "CustomInput",
@@ -37,7 +39,7 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(useDataStore, ["getNestedItem", "updateKeyName", "onInput", "onFocusout"]),
+		...mapActions(useDataStore, ["getNestedItem", "handleErrors", "onInput", "onFocusout"]),
 		inputFocus(event) {
 			if (event.currentTarget === document.activeElement) {
 				event.currentTarget.setAttribute("placeholder", "");
@@ -47,7 +49,7 @@ export default {
 			}
 		},
 		onChange(event) {
-			this.updateKeyName(event.target.value, this.pathArray);
+			this.handleErrors(event.target.value, this.pathArray);
 		},
 	},
 	computed: {
@@ -55,7 +57,9 @@ export default {
 			return this.getNestedItem(this.pathArray);
 		},
 
-
+		mounted() {
+			console.log(this.pathArray);
+		},
 	},
 };
 </script>

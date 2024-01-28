@@ -3,7 +3,7 @@
     <InfoScreen v-if="currentStage === 'info'" @next="finishInfo"></InfoScreen>
     <mainScreen v-else-if="(currentStage === 'main')" @go-to-subject="goToSubj" @next-stage="nextStage" @temp-save="saveToLocal"></mainScreen>
     <Input-screen v-else-if="(currentStage === 'input')" 
-      :chosenSubjIndex="chosenSubjIndex" :path-array="['DATA', chosenSubjIndex]"
+      :chosenSubjIndex="chosenSubjIndex" :pathArray="['DATA', chosenSubjIndex]"
       @back-to-main="updateThanMain" @subject-input="hideErrorMessages"></Input-screen>
     <!-- <add-questions type = "test" v-else-if="(currentStage === 'test')"></add-questions> -->
     <!-- <add-questions type = "practice" v-else-if="(currentStage === 'practice')"></add-questions> -->
@@ -60,9 +60,6 @@ export default {
     }
     this.currentStage = "input";
     this.chosenSubjIndex = goToIndex;
-    },
-    deleteSubject (subj) {
-      this.deleteItem(["DATA", subj])
     },
     updateThanMain() {
       let error = this.isErrorMessage();
@@ -134,8 +131,6 @@ export default {
       }
 
       if (isAllInputEmpty) {
-        console.log(`All inputs empty. Deleting Subject number ${this.chosenSubjIndex}`);
-        console.log(["DATA", this.chosenSubjIndex]);
         this.deleteItem(["DATA", this.chosenSubjIndex]);
         return('');
       }
