@@ -2,4 +2,18 @@ custom input not typing when first typing
 
 Make lomdaData computed OR put all the info in the store and access it in finishScreen
 
-In the middle of working on InputScreen (So it will get the pathArray). Actually, its children
+In the middle of working on Card (So it will get the pathArray). Actually, its children
+
+ check card type only in one place, so it will be easier to add card types
+
+ be more clear on who makes the changes in Card.vue
+
+Each parent gives prop (pathArray) to the child with the path to the child, meaning the entries to reach
+ the parent + the level name of the child ('DATA', 'learningContent', 'topic') and its index
+
+
+
+
+add page in Card.vue should be executed by the store
+
+למחוק את האופציה של וידיאו מהמחשב?

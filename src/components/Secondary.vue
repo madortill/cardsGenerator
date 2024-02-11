@@ -1,20 +1,16 @@
 <template>
   <div id="Secondary">
     <div class="flex">
-      <span class="minus" @click="deleteSecondary" title="מחק תת-נושא"></span>
-      <CustomInput class="secondary-name" placeholder="הכניסו תת-נושא" :placeholderStyle="{color: '#ffffffC7'}"
-      :modelValue="secondary" @update:modelValue="(value) => this.$emit('update:secondary', value)"
-      :errorMessage="errorMessage" @input="(value) => {this.$emit('secondary-input', value);}"
-      @focusout = "(value) => {this.$emit('secondary-focusout', value)}"></CustomInput>
+      <span class="minus" @click="deleteSecondary(pathArray)" title="מחק תת-נושא"></span>
+      <CustomInput class="secondary-name" placeholder="הכניסו תת-נושא" :placeholderStyle="{ color: '#ffffffC7' }"
+        :path-array="pathArray"></CustomInput>
     </div>
     <div class="overflow-container scrollStyle" v-touch:swipe="handleSwipe" ref="overflowContainer">
-        <card v-for="(topic, index) in indexedKeys" :key="index" :cardTopic="topic" :pageArray="secondaryData[topic]"
-          :isQuestion="false" @update:cardTopic="(value) => {updateKeyName(topic, value, index, this.secondaryData)}"
-          :errorMessage="errorList[index]" @topic-input="(value) => hideErrorMessages(value, index)"
-          @topic-focusout="(value) => checkIfEmpty(value, index)" @delete-card="deleteCard(topic)"></card>
-        <div> 
-          <DropDownCard @add-page="addCard" :key="reRenderCounter" btnText="הוספת כרטיסיה"></DropDownCard>
-        </div>
+      <card v-for="(topicObj, index) in topicArr" :key="index" :pathArray="[...pathArray, 'topics', index]"
+        :isQuestion="false" @delete-card="deleteCard(topicObj)"></card>
+      <div>
+        <DropDownCard @add-page="createNewCard" :key="reRenderCounter" btnText="הוספת כרטיסיה"></DropDownCard>
+      </div>
     </div>
   </div>
 </template>
@@ -25,6 +21,8 @@ import DropDownCard from "./DropDownCard.vue";
 import card from "./Card.vue";
 import CustomInput from "./CustomInput.vue";
 import { theme } from '../stores/theme.js';
+import { useDataStore } from '../stores/data';
+import { mapState, mapActions } from 'pinia';
 
 export default {
   components: { CardSvg, DropDownCard, card, CustomInput },
@@ -34,34 +32,40 @@ export default {
       theme: theme.themeColor,
       showErrorMessage: false,
       reRenderCounter: 0,
-      indexedKeys: Object.keys(this.secondaryData),
-      errorList: new Array(Object.keys(this.secondaryData).length),
     }
   },
-  props: ["secondaryName", "secondaryData", "errorMessage"],
+  props: ["pathArray"],
   methods: {
-    addCard(choice) {
+    ...mapActions(useDataStore, ["deleteItem", "getNestedItem", "addItem"]),
+    createNewCard(choice) {
       let newCard = {
-        cardType: choice,
-        content: "",
+        "name": "",
+        "error": "",
+        "pageArray": [
+          {
+            cardType: choice,
+            content: "",
+          }
+        ]
       }
+
       switch (choice) {
         case ("youtube"): {
-          newCard.youtube = "";
+          newCard.pageArray[0].youtube = "";
           break;
         } case ("videoAndText"): {
-          newCard.video = "";
+          newCard.pageArray[0].video = "";
           break;
         } case ("picAndText"): {
-          newCard.pic = "";
+          newCard.pageArray[0].pic = "";
           break;
         }
       }
-      this.secondaryData[`card${this.indexedKeys.length}`] = [newCard];
-      this.indexedKeys.push(`card${this.indexedKeys.length}`);
+      this.addItem([...this.pathArray, 'topics'], newCard)
       this.reRenderCounter++;
       this.scrollToHorizontalEnd();
     },
+    /* swipes and scrolls */
     async scrollToHorizontalEnd() {
       await this.$nextTick()
       this.$refs.overflowContainer.scrollLeft = -this.$refs.overflowContainer.scrollWidth;
@@ -70,60 +74,35 @@ export default {
       let pixelsToMove = direction === "right" ? 600 : -600;
       event.currentTarget.scrollLeft = event.currentTarget.scrollLeft - pixelsToMove;
     },
-    // handle error messages and customInput events. Happens not on change but when coming back to main screen or after error message
-    updateKeyName (key ,newKey, itemIndex, objectRef) {
-      if (key !== newKey) {
-        if (!this.isDuplicateKey(objectRef, newKey)) {
-             objectRef[newKey] =  [...objectRef[key]];
-             let index = this.indexedKeys.indexOf(key);
-             this.indexedKeys[index] = newKey;
-             delete objectRef[key];
-         } else if (this.errorList[itemIndex] !== "יש למלא את השדה") {
-           this.errorList[itemIndex] = "הכותרת כבר בשימוש";
-         }
-      }
-    },
-    isDuplicateKey (object, newKey) {
-        for (const keyName in object) {
-            if (keyName === newKey) {
-                return true;
-            }
-        }
-        return false;
-    },
-    hideErrorMessages (value, index) {
-      if ((value !== "" || !this.isDuplicateKey(this.secondaryData, value)) && this.errorList[index] !== "") {
-        this.errorList[index] = "";
-      }
-    },
-    checkIfEmpty (value, index) {
-      if (!value) {
-        this.errorList[index] = "יש למלא את השדה";
-      }
-    },
-    // shows delete popup and if the user says yes, emits delete-secondary event and updates indexedKeys
+    /* shows delete popup and if the user says yes, deletes the secondary */
     deleteSecondary() {
       swal({
         icon: "warning",
-        title: `בטוחים שאתם רוצים למחוק? כל מה שכתבתם בתת הנושא "${this.secondary}" יימחק!`,
-        buttons: {cancel: "לבטל", confirm: "למחוק"},
+        title: `בטוחים שאתם רוצים למחוק? כל מה שכתבתם בתת הנושא "${this.secondaryName}" יימחק!`,
+        buttons: { cancel: "לבטל", confirm: "למחוק" },
         dangerMode: true,
         className: "swal-font",
       })
-      .then((willDelete) => {
-        if (willDelete) {
-          this.$emit("delete-secondary", this.secondaryName);
-          this.indexedKeys =  Object.keys(this.secondaryData);
-        }
-      });
+        .then((willDelete) => {
+          if (willDelete) {
+            this.deleteItem(this.pathArray);
+          }
+        });
     },
-    deleteCard (cardName) {
+    deleteCard(cardName) {
       this.indexedKeys.splice(this.indexedKeys.indexOf(cardName), 1);
       delete this.secondaryData[cardName];
     },
   },
   computed: {
-    secondary() {return(this.secondaryName.includes("secondary") ? "" : this.secondaryName)}
+    topicArr() {
+      console.log(this.getNestedItem([...this.pathArray, "topics"]));
+      return this.getNestedItem([...this.pathArray, "topics"]);
+    },
+    secondaryName() {
+      console.log(this.getNestedItem([...this.pathArray, "name"]))
+      return this.getNestedItem([...this.pathArray, "name"]);
+    }
   }
 } 
 </script>
@@ -145,14 +124,14 @@ export default {
 }
 
 .minus {
-    border-radius: 50%;
-    position: relative;
-    /* padding: 0.1rem 1rem; */
-    flex-shrink: 0;
-    flex-grow: 0;
-    flex-basis: 1.5rem;
-    height: 1.5rem;
-    cursor: pointer;
+  border-radius: 50%;
+  position: relative;
+  /* padding: 0.1rem 1rem; */
+  flex-shrink: 0;
+  flex-grow: 0;
+  flex-basis: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
 }
 
 .minus::before {
@@ -193,7 +172,7 @@ export default {
   overflow-y: hidden;
   height: 31rem;
   margin-bottom: 1rem;
-  scroll-behavior: smooth;  
+  scroll-behavior: smooth;
   display: flex;
   flex-direction: row;
   gap: 1.5rem;

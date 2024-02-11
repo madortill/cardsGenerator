@@ -3,13 +3,11 @@
         <div class="info-container scrollStyle" ref="infoContainer">
             <Bg_svg class="background svg" :color="theme.themeColor.primaryColor"></Bg_svg>
             <div class="input-container paper-clip-title">
-                <CustomInput placeholder="הכניסו את שם הנושא" class="paper-clip-content"  ref="subject-input-el" :path-array="pathArray"></CustomInput>
+                <CustomInput placeholder="הכניסו את שם הנושא" class="paper-clip-content" :path-array="pathArray"></CustomInput>
             </div>
             <div class="secondary-container">
-                <!-- <Secondary v-for="(secondaryObj, index) in this.currSubArr['learningContent']" :secondaryName="secondaryObj.name"
-                    :secondaryData="secondaryObj" :key="'secondaryKey: ' + index"
-                    @update:secondary="(value) => { updateKeyName(index, value, this.currSubArr['learningContent']) }"
-                    :errorMessage="secondaryObj.error" :index="index" :pathArray="pathArray"></Secondary> -->
+                <Secondary v-for="(secondaryObj, index) in this.secondaryArr" :key="'secondaryKey: ' + index" :index="index"
+                 :pathArray="[...pathArray, 'learningContent', index]"></Secondary>
                 <div class="button-container">
                     <span :class="['button', changesCounter]"
                         @click="addSubsubject([...pathArray, 'learningContent'])">
@@ -54,16 +52,11 @@ export default {
         }
     },
     methods: {
-        ...mapActions(useDataStore, ["handleErrors", "addSubsubject"]),
-        deleteSecondary(index) {
-            this.currSubArr['learningContent'].splice(index, 1);
-        },
+        ...mapActions(useDataStore, ["addSubsubject", "getNestedItem"]),
     },
     computed: {
-        ...mapState(useDataStore, ['DATA']),
-        currSubArr() {
-            console.log(this.DATA[this.chosenSubjIndex])
-            return this.DATA[this.chosenSubjIndex]
+        secondaryArr() {
+            return this.getNestedItem([...this.pathArray, "learningContent"]);
         }
     }
 }

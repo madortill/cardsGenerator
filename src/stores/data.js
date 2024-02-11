@@ -17,7 +17,13 @@ export const useDataStore = defineStore('data', {
               "name": "Sub-subject 1",
               "error": '',
               "topics": [
-                { "cardType": "text", "content": "hii" }
+                {
+                  "name": 'topic',
+                  "pageArray": [
+                    { "cardType": "text", "content": "hii" },
+                    { "cardType": "youtube", youtube: "", "content": "hii" }
+                  ]
+                }
                 // Add more topics as needed
               ]
             }
@@ -32,7 +38,12 @@ export const useDataStore = defineStore('data', {
             {
               "name": "Sub-subject 1",
               "topics": [
-                { "cardType": "text", "content": "hii" }
+                {
+                  "name": 'topic',
+                  "pageArray": [
+                    { "cardType": "text", "content": "hii" }
+                  ]
+                }
                 // Add more topics as needed
               ]
             }
@@ -66,7 +77,6 @@ export const useDataStore = defineStore('data', {
       return result;
     },
     isDuplicateKey(arr, newName) {
-      console.log('arr:', arr);
       console.log('newName: ', newName)
       let iterator = this.getNestedItem(arr);
       console.log('iterator: ', iterator);
@@ -85,7 +95,6 @@ export const useDataStore = defineStore('data', {
     },
     /* ------------------------------- Input events ------------------------------------------------- */
     onInput(path, newName) {
-      console.log(path);
       const obj = this.getNestedItem(path);
       obj.name = newName;
       if ((obj.name !== "" || !this.isDuplicateKey(path.slice(0, -2), obj.name)) && obj.error !== "") {
@@ -126,11 +135,14 @@ export const useDataStore = defineStore('data', {
         "error": ""
       })
     },
+    addItem (path, item) {
+      this.getNestedItem(path).push(item)
+    },
     deleteItem(path) {
       const parentArr = path.slice(0, -1);
       const index = path.slice(-1);
       this.getNestedItem(parentArr).splice(index, 1);
-    }
+    },
   },
 })
 

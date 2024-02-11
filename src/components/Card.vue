@@ -5,9 +5,7 @@
       <button id="delete-btn" class="delete-btn">
         <img src="@/assets/colorNeutralAssets/trash-gray.svg" alt="פח אשפה" class="trash-can" @click="deleteCard" title="מחק כרטיסיה">
       </button>
-      <CustomInput placeholder="הכניסו נושא לכרטיסיה" class="topic" :placeholderStyle="placeholderStyle" 
-      :modelValue="topic" @update:modelValue="(value) => this.$emit('update:cardTopic', value)" :errorMessage="errorMessage"
-      @input="(value) => {this.$emit('topic-input', value);}" @focusout = "(value) => {this.$emit('topic-focusout', value)}"></CustomInput>
+      <CustomInput placeholder="הכניסו נושא לכרטיסיה" class="topic" :placeholderStyle="placeholderStyle" :path-array="pathArray"></CustomInput>
       <card-input :cardInfo="currentPageObj" class="cardInput"></card-input>
       <div class="buttons-container">
         <page-button-svg :class="['button', currentPage === 0 ? 'invisible' : '']" type="back" :color="theme.themeColor.textColor"
@@ -33,22 +31,24 @@ import DropDownCard from "./DropDownCard.vue";
 import CustomInput from "./CustomInput.vue";
 import swal from 'sweetalert';
 import { theme } from '../stores/theme.js';
+import { useDataStore } from '../stores/data';
+import { mapState, mapActions } from 'pinia';
+
 
 export default {
   components: { CardSvg, PageButtonSvg, CardInput, DropDownCard, CustomInput },
   name: "card",
-  props: ["isQuestion", "cardTopic", "pageArray","errorMessage"],
-  emits: ['update:cardTopic', "topic-input", "topic-focusout", "delete-card"],
+  props: ["isQuestion", "pathArray"],
   data() {
     return {
       theme,
       currentPage: 0,
       isPopupShown: false,
-      choice: "",
       placeholderStyle: { "color": "#808080", "font-size": "0.7em", },
     }
   },
   methods: {
+    ...mapActions(useDataStore, ["deleteItem", "addItem", "getNestedItem"]),
     handleBtn(btnType) {
       if (btnType === "add") {
         this.isPopupShown = true;
@@ -57,9 +57,6 @@ export default {
       } else if (btnType === "next") {
         this.currentPage++;
       }
-    },
-    saveChoice(cardType) {
-      this.choice = cardType;
     },
     addCard(choice) {
       let newCard = {
@@ -78,19 +75,15 @@ export default {
           break;
         }
       }
-      this.pageArray.push(newCard);
+      this.addItem([...this.pathArray, "pageArray"], newCard);
       this.closePopup();
       this.currentPage = this.pageArray.length - 1;
     },
     closePopup() {
-      this.choice = "";
       this.isPopupShown = false;
     },
     removePage() {
-      this.pageArray.splice(this.currentPage, 1);
-      if (this.currentPage >= this.pageArray.length) {
-        this.currentPage = this.pageArray.length - 1
-      }
+      this.deleteItem([...this.pathArray, "pageArray", this.currentPage]);
     },
     deleteCard() {
       swal({
@@ -102,22 +95,18 @@ export default {
       })
       .then((willDelete) => {
         if (willDelete) {
-          this.$emit("delete-card");
+          this.deleteItem(this.pathArray);
         }
       });
     }
   },
   computed: {
+    pageArray() {
+      return this.getNestedItem([...this.pathArray, "pageArray"]);
+    },
     currentPageObj() {
       return (this.pageArray[this.currentPage])
     },
-    topic () {
-      if (this.cardTopic.includes("card")) {
-        return("");
-      } else {
-        return(this.cardTopic);
-      }
-    }
   },
 }
 </script>

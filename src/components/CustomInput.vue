@@ -56,7 +56,6 @@ export default {
 		currentObj () {
 			return this.getNestedItem(this.pathArray);
 		},
-
 		mounted() {
 			console.log(this.pathArray);
 		},
