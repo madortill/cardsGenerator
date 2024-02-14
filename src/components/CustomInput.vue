@@ -15,7 +15,7 @@
 
 <script>
 import { useDataStore } from '../stores/data';
-import { mapState, mapActions } from 'pinia';
+import { mapActions } from 'pinia';
 
 // console.log('what if I register the store here?')
 
@@ -55,9 +55,6 @@ export default {
 	computed: {
 		currentObj () {
 			return this.getNestedItem(this.pathArray);
-		},
-		mounted() {
-			console.log(this.pathArray);
 		},
 	},
 };

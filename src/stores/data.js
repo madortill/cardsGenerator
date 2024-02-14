@@ -7,6 +7,18 @@ export const useDataStore = defineStore('data', {
         "name": "",
         "error": ""
       },
+      "AMOUNT_EXAM_QUESTIONS": 0,
+      "TIME_FOR_EXAM": "00:00",
+      "AUTHOR": {},
+      "DEAFULT_ICON": "../assets/images/learning/Artboard 4.svg",
+      "THEME": {
+        name: "lightBlue",
+        primaryColor: "#20c5f2",
+        secondaryColor: "#1de8f7",
+        textColor: "#1c3f55",
+        gradient: "#27c5f2",
+        buttonsColor: "#1c3f55"
+      },
       "DATA": [
         {
           "name": "Subject 1",
@@ -52,7 +64,8 @@ export const useDataStore = defineStore('data', {
           "icon": "default"
         },
         // Add more subjects as needed
-      ]
+      ],
+
     }
   },
   actions: {
@@ -120,15 +133,7 @@ export const useDataStore = defineStore('data', {
       }
     },
     /*---------------------------- Actions in an array (add + delete) --------------------------------------- */
-    addSubject() {
-      this.DATA.push({
-        "name": "",
-        "amountOfQuestions": 0,
-        "learningContent": [],
-        "icon": "deafult"
-      })
-    },
-    addItem (path, item) {
+    addItem(path, item) {
       this.getNestedItem(path).push(item)
     },
     deleteItem(path) {

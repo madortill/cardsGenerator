@@ -11,5 +11,8 @@ In the middle of working on Card (So it will get the pathArray). Actually, its c
 Each parent gives prop (pathArray) to the child with the path to the child, meaning the entries to reach
  the parent + the level name of the child ('DATA', 'learningContent', 'topic') and its index
 
+svg gets colors from the father component
+
+
 
 למחוק את האופציה של וידיאו מהמחשב?

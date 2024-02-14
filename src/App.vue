@@ -48,8 +48,8 @@ export default {
           return value 
         }
       },
-      startForm (saved=false) {
-        this.currentStage+=2;
+      startForm (saved = false) {
+        this.currentStage +=2;
         if (saved) {
           this.isSaved = true;
         }

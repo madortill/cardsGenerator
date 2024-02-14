@@ -1,13 +1,13 @@
 <template>
     <div id="InputScreen">
         <div class="info-container scrollStyle" ref="infoContainer">
-            <Bg_svg class="background svg" :color="theme.themeColor.primaryColor"></Bg_svg>
+            <Bg_svg class="background svg" :color="theme.primaryColor"></Bg_svg>
             <div class="input-container paper-clip-title">
                 <CustomInput placeholder="הכניסו את שם הנושא" class="paper-clip-content" :path-array="pathArray">
                 </CustomInput>
             </div>
             <div class="secondary-container">
-                <Secondary v-for="(secondaryObj, index) in this.secondaryArr" :key="'secondaryKey: ' + index" :index="index"
+                <Secondary v-for="(secondaryObj, index) in this.secondaryArr" :key="'secondaryKey: ' + index"
                     :pathArray="[...pathArray, 'learningContent', index]"></Secondary>
                 <div class="button-container">
                     <span :class="['button', changesCounter]" @click="addSubSubject">
@@ -33,18 +33,16 @@
 import Bg_svg from './svg/Bg_svg.vue'
 import Secondary from './Secondary.vue'
 import CustomInput from './CustomInput.vue'
-import { theme } from '../stores/theme.js';
 import { useDataStore } from '../stores/data';
-import { mapState, mapActions } from 'pinia';
+import { mapState ,mapActions } from 'pinia';
 
 export default {
     components: { Bg_svg, Secondary, CustomInput },
     name: "InputScreen",
-    props: { "chosenSubjIndex": Number, "pathArray": Array },
-    emits: ["back-to-main", "subject-focusout", "subject-input", "subject-change"],
+    props: {"pathArray": Array },
+    emits: ["back-to-main"],
     data() {
         return {
-            theme,
             changesCounter: 0,
             showErrorMessage: false,
             duplicateKey: "",
@@ -64,7 +62,8 @@ export default {
     computed: {
         secondaryArr() {
             return this.getNestedItem([...this.pathArray, "learningContent"]);
-        }
+        },
+        ...mapState(useDataStore, {theme: "THEME"}),
     }
 }
 
@@ -156,7 +155,7 @@ export default {
 }
 
 .save-and-exit {
-    background-color: v-bind('theme.themeColor.buttonsColor');
+    background-color: v-bind('theme.buttonsColor');
     color: white;
     z-index: 1;
     padding: 0.5rem 1rem;
@@ -193,7 +192,7 @@ export default {
 
 
 .footer .gradient {
-    background-image: linear-gradient(180deg, rgba(103, 223, 203, 0) 0%, v-bind("theme.themeColor.gradient") 73%);
+    background-image: linear-gradient(180deg, rgba(103, 223, 203, 0) 0%, v-bind("theme.gradient") 73%);
     height: 100%;
     width: 100%;
     left: 0;

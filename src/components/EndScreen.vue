@@ -1,11 +1,11 @@
 <template>
     <div id="endScreen">
         <div class="flower-container">
-            <FlowerSvg v-for="(flower, index) in flowersOnscreen" :flowerColors="colorArray[flower.colorIndex]"
+            <FlowerSvg v-for="(flower) in flowersOnscreen" :flowerColors="colorArray[flower.colorIndex]"
                 :key="flower.leftPosition" class="flower" :style="`left: ${flower.leftPosition}`"></FlowerSvg>
         </div>
         <div class="end-text">
-            <SubjectBtnSvg class="svg" :secondaryColor="theme.themeColor.secondaryColor" :primaryColor="theme.themeColor.primaryColor">
+            <SubjectBtnSvg class="svg" :secondaryColor="theme.secondaryColor" :primaryColor="theme.primaryColor">
             </SubjectBtnSvg>
             <h1>יש לכם לומדה מוכנה!</h1>
             <div class="text">
@@ -18,13 +18,17 @@
             <div>
                 <a :href="this.downloadURL" download="data.json" class="download">
                     <button class="action-btn">
-                    <svg class="share-icon" viewBox="0 0 512 512">
-                        <g>
-                        	<path d="M188.821,377.6c37.49,37.491,98.274,37.491,135.765,0.001c0,0,0.001-0.001,0.001-0.001l68.523-68.523   c12.712-12.278,13.064-32.536,0.786-45.248c-12.278-12.712-32.536-13.064-45.248-0.786c-0.267,0.257-0.529,0.52-0.786,0.786   l-59.371,59.349L288,32c0-17.673-14.327-32-32-32l0,0c-17.673,0-32,14.327-32,32l0.448,290.709l-58.901-58.901   c-12.712-12.278-32.97-11.926-45.248,0.786c-11.977,12.401-11.977,32.061,0,44.462L188.821,377.6z" fill="currentColor"/>
-                        	<path d="M480,309.333c-17.673,0-32,14.327-32,32v97.941c-0.012,4.814-3.911,8.714-8.725,8.725H72.725   c-4.814-0.012-8.714-3.911-8.725-8.725v-97.941c0-17.673-14.327-32-32-32s-32,14.327-32,32v97.941   C0.047,479.42,32.58,511.953,72.725,512h366.549c40.146-0.047,72.678-32.58,72.725-72.725v-97.941   C512,323.66,497.673,309.333,480,309.333z" fill="currentColor"/>
-                        </g>
-                    </svg>
-                    <span>הורדה</span>
+                        <svg class="share-icon" viewBox="0 0 512 512">
+                            <g>
+                                <path
+                                    d="M188.821,377.6c37.49,37.491,98.274,37.491,135.765,0.001c0,0,0.001-0.001,0.001-0.001l68.523-68.523   c12.712-12.278,13.064-32.536,0.786-45.248c-12.278-12.712-32.536-13.064-45.248-0.786c-0.267,0.257-0.529,0.52-0.786,0.786   l-59.371,59.349L288,32c0-17.673-14.327-32-32-32l0,0c-17.673,0-32,14.327-32,32l0.448,290.709l-58.901-58.901   c-12.712-12.278-32.97-11.926-45.248,0.786c-11.977,12.401-11.977,32.061,0,44.462L188.821,377.6z"
+                                    fill="currentColor" />
+                                <path
+                                    d="M480,309.333c-17.673,0-32,14.327-32,32v97.941c-0.012,4.814-3.911,8.714-8.725,8.725H72.725   c-4.814-0.012-8.714-3.911-8.725-8.725v-97.941c0-17.673-14.327-32-32-32s-32,14.327-32,32v97.941   C0.047,479.42,32.58,511.953,72.725,512h366.549c40.146-0.047,72.678-32.58,72.725-72.725v-97.941   C512,323.66,497.673,309.333,480,309.333z"
+                                    fill="currentColor" />
+                            </g>
+                        </svg>
+                        <span>הורדה</span>
                     </button>
                 </a>
                 <button href="" @click="this.share" v-if="testFileForShare" class="action-btn">
@@ -47,7 +51,8 @@
 import VueQrcode from '@chenfengyuan/vue-qrcode';
 import FlowerSvg from './svg/FlowerSvg.vue';
 import SubjectBtnSvg from './svg/SubjectBtnSvg.vue';
-import { theme } from '../stores/theme.js';
+import { useDataStore } from '../stores/data';
+import { mapState } from 'pinia';
 
 export default {
     name: "endingStage",
@@ -55,7 +60,6 @@ export default {
     components: { VueQrcode, FlowerSvg, SubjectBtnSvg },
     data() {
         return {
-            theme,
             colorArray: [
                 // Make sure all colors are 6 digit hex
                 {
@@ -154,6 +158,9 @@ export default {
             navigator.canShare(this.downloadFile)
         }
     },
+    computed: {
+        ...mapState(useDataStore, { theme: "THEME" }),
+    },
     mounted() {
         this.flowersOnscreen.push({ leftPosition: `${Math.ceil(Math.ceil(Math.random() * 100 / 2) * 2)}%`, colorIndex: this.colorIndex });
         let savedIndex;
@@ -216,7 +223,7 @@ export default {
 }
 
 a {
-    color: v-bind("theme.themeColor.secondaryColor");
+    color: v-bind("theme.secondaryColor");
     filter: brightness(0.75);
 }
 
@@ -239,13 +246,13 @@ a {
 }
 
 .action-btn {
-    color: v-bind("theme.themeColor.secondaryColor");
+    color: v-bind("theme.secondaryColor");
     margin-top: 0.5rem;
     filter: brightness(0.75);
     /* border:  */
     display: inline-flex;
     align-items: center;
-    border: 1px v-bind("theme.themeColor.secondaryColor") solid;
+    border: 1px v-bind("theme.secondaryColor") solid;
     border-radius: 0.5rem;
     padding: 0.25rem 0.5rem;
     gap: 0.4rem;
@@ -260,7 +267,7 @@ a {
 
 .action-btn:active {
     filter: brightness(1);
-    background-color: v-bind("theme.themeColor.secondaryColor");
+    background-color: v-bind("theme.secondaryColor");
     color: white;
 }
 
@@ -280,13 +287,11 @@ a {
         top: 100%;
     }
 }
+
 /* SVG class */
 .st0 {
     fill-rule: evenodd;
     clip-rule: evenodd;
     fill: currentColor;
     stroke-width: 16;
-}
-
-
-</style>
+}</style>

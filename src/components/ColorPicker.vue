@@ -10,17 +10,15 @@
 </template>
 
 <script>
-import { theme } from '../stores/theme.js';
 import Bg_svg from './svg/Bg_svg.vue'
-
-let frozenColorArr = [];
+import { useDataStore } from '../stores/data';
+import { mapWritableState  } from 'pinia';
 
 export default {
   components: { Bg_svg },
   name: "colorPicker",
   data() {
     return {
-      theme,
       currentColorIndex: 0,
       colorArray: [
         // Make sure all colors are 6 digit hex
@@ -115,17 +113,20 @@ export default {
   methods: {
     changeTheme(event) {
       this.currentColorIndex = Number(event.currentTarget.id.slice(5));
-      theme.changeColor(this.colorArray[event.currentTarget.id.slice(5)]);
+      this.theme = this.colorArray[event.currentTarget.id.slice(5)];
     },
     // finds the curernt index by comparing primaryColor values
     returnIndex() {
       for (let index in this.colorArray) {
-        if (this.colorArray[index]["primaryColor"] === this.theme.themeColor["primaryColor"]) {
+        if (this.colorArray[index]["primaryColor"] === this.theme["primaryColor"]) {
           return Number(index);
         }
       }
       return 0;
     }
+  },
+  computed: {
+    ...mapWritableState(useDataStore, {theme: "THEME"}),
   },
   mounted () {
     this.currentColorIndex = this.returnIndex();

@@ -2,8 +2,8 @@
     <div id="DropDownCard">
         <div class="black-screen" v-if="cancelable"></div>
         <div :class="['card', cancelable ? 'dropdown': '']">
-            <CloseBtnSvg :color="theme.themeColor.textColor" class="close-btn" @click="$emit('cancel')" v-if="cancelable"></CloseBtnSvg>
-            <CardSvg :color="theme.themeColor.secondaryColor"></CardSvg>
+            <CloseBtnSvg :color="theme.textColor" class="close-btn" @click="$emit('cancel')" v-if="cancelable"></CloseBtnSvg>
+            <CardSvg :color="theme.secondaryColor"></CardSvg>
             <div>איזו כרטיסיה תרצו להוסיף?</div>
             <DropDown @choice="saveChoice"
                 :optionList="{ 'videoAndText': 'וידיאו מהמחשב', 'youtube': 'וידיאו מהיוטיוב', 'text': 'טקסט', 'picAndText': 'תמונה וכיתוב' }"></DropDown>
@@ -19,7 +19,8 @@
 import DropDown from "./DropDown.vue";
 import CardSvg from "./svg/CardSvg.vue";
 import CloseBtnSvg from "./svg/CloseBtnSvg.vue";
-import { theme } from '../stores/theme.js';
+import { useDataStore } from "../stores/data";
+import { mapState } from "pinia";
 
 export default {
     name: "DropDownCard",
@@ -28,7 +29,6 @@ export default {
     emits: ['cancel', 'add-page'],
     data() {
         return {
-            theme,
             choice: ""
         }
     },
@@ -36,6 +36,9 @@ export default {
         saveChoice(cardType) {
             this.choice = cardType;
         },
+    },
+    computed: {
+    ...mapState(useDataStore, {theme: "THEME"}),
     }
 }
 </script>
@@ -80,7 +83,7 @@ export default {
 }
 
 .btn-bg {
-  background: v-bind("theme.themeColor.secondaryColor");
+  background: v-bind("theme.secondaryColor");
 }
 
 .dropdown {

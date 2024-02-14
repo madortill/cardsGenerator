@@ -19,7 +19,9 @@
 </template>
 
 <script scoped>
-import { theme } from '../../stores/theme.js';
+// import { theme } from '../../stores/theme.js';
+import { useDataStore } from '../../stores/data';
+import { mapState } from 'pinia';
 
 export default {
     data() {
@@ -48,6 +50,7 @@ export default {
         },
     },
     computed: {
+        ...mapState(useDataStore, {theme: "THEME"}),
         youtubeInputDirection() {
             if (this.youtubeLink === '' || /[\u0590-\u05fe]/g.test(this.youtubeLink)) {
                 return 'rtl';
@@ -102,7 +105,7 @@ export default {
 
 .load-youtube {
     cursor: pointer;
-    background-color: v-bind("theme.themeColor.secondaryColor + '78'");
+    background-color: v-bind("theme.secondaryColor + '78'");
     color: black;
     border-radius: 5px;
     border: 1px ridge rgb(118, 118, 118);

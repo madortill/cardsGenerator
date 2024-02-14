@@ -4,22 +4,22 @@
             <div class="exit" @click="disappearAnimation"></div>
             <h1>אודות</h1>
             <div>
-                <h2>פיתוח: &nbsp</h2><span>רב"ט תמר סטופ</span>
+                <h2>פיתוח: &nbsp;</h2><span>רב"ט תמר סטופ</span>
             </div>
             <div>
-                <h2>גרפיקה: &nbsp</h2><span>סמל דור סגיב</span>
+                <h2>גרפיקה: &nbsp;</h2><span>סמל דור סגיב</span>
             </div>
             <div>
-                <h2>איפיון: &nbsp</h2><span>רב"ט תמר סטופ</span>
+                <h2>איפיון: &nbsp;</h2><span>רב"ט תמר סטופ</span>
             </div>
             <div>
-                <h2>רת"ח מו"פ: &nbsp</h2><span>רס"ל אביב אואנונו </span>
+                <h2>רת"ח מו"פ: &nbsp;</h2><span>רס"ל אביב אואנונו </span>
             </div>
             <div>
-                <h2>רמ"ד טי"ל: &nbsp</h2><span>רס"מ שלומי אוגרן</span>
+                <h2>רמ"ד טי"ל: &nbsp;</h2><span>רס"מ שלומי אוגרן</span>
             </div>
             <div>
-                <h2>גרסה: &nbsp</h2><span>1.0</span>
+                <h2>גרסה: &nbsp;</h2><span>1.0</span>
             </div>
             <br>
             <h2>צור קשר:</h2>

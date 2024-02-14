@@ -2,9 +2,7 @@
   <div id="EditStage">
     <InfoScreen v-if="currentStage === 'info'" @next="finishInfo"></InfoScreen>
     <mainScreen v-else-if="(currentStage === 'main')" @go-to-subject="goToSubj" @next-stage="nextStage" @temp-save="saveToLocal"></mainScreen>
-    <Input-screen v-else-if="(currentStage === 'input')" 
-      :chosenSubjIndex="chosenSubjIndex" :pathArray="['DATA', chosenSubjIndex]"
-      @back-to-main="updateThanMain" @subject-input="hideErrorMessages"></Input-screen>
+    <Input-screen v-else-if="(currentStage === 'input')" :pathArray="['DATA', chosenSubjIndex]" @back-to-main="updateThanMain"></Input-screen>
     <!-- <add-questions type = "test" v-else-if="(currentStage === 'test')"></add-questions> -->
     <!-- <add-questions type = "practice" v-else-if="(currentStage === 'practice')"></add-questions> -->
     <img class="till-logo" src="@/assets/colorNeutralAssets/till-logo-text-white.svg" alt='לוגו מדור טי"ל'>
@@ -16,9 +14,9 @@ import MainScreen from './MainScreen.vue'
 import InputScreen from './InputScreen.vue'
 import InfoScreen from './InfoScreen.vue'
 import swal from 'sweetalert';
-import { theme } from '../stores/theme.js';
 import { useDataStore } from '../stores/data';
 import { mapState, mapActions } from 'pinia';
+
 
 
 export default {
@@ -26,17 +24,15 @@ export default {
   props: ["isSaved"],
   data() {
     return {
-      theme,
       currentStage: 'info',
       indexedKeys: [],
       subjErrorMessage: "",
       chosenSubjIndex: -1,
       lomdaData: {
-        // "TITLE": this.title,
         "AMOUNT_EXAM_QUESTIONS": 0,
         "TIME_FOR_EXAM": "00:00",
         "DATA": {},
-        "THEME": theme.themeColor,
+        // "THEME": theme,
         "AUTHOR": {},
         "DEAFULT_ICON": "../assets/images/learning/Artboard 4.svg",
         "TITLE": ""
@@ -44,7 +40,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useDataStore, ["addSubject", "deleteItem"]),
+    ...mapActions(useDataStore, ["addItem", "deleteItem"]),
     finishInfo (infoObj, icon) {
       this.lomdaData["AUTHOR"] = infoObj;
       this.currentStage = 'main';
@@ -55,7 +51,12 @@ export default {
     goToSubj(subjName, index) {
       let goToIndex = index;
       if (subjName === "newSubject") {
-        this.addSubject(subjName);
+        this.addItem(["DATA"], {
+        "name": "",
+        "amountOfQuestions": 0,
+        "learningContent": [],
+        "icon": "deafult"
+      });
         goToIndex = this.DATA.length - 1;
     }
     this.currentStage = "input";
@@ -99,31 +100,10 @@ export default {
         document.querySelector(".swal-button").style.backgroundColor = this.lomdaData["THEME"].primaryColor;
       }
     },
-
-    isDuplicateKey(object, newKey) {
-        for (const keyName in object) {
-            if (keyName === newKey) {
-                this.duplicateKey = newKey;
-                return true;
-            }
-        }
-        return false;
-    },
-    hideErrorMessages(value) {
-        if ((value !== "" || !this.isDuplicateKey(this.lomdaData['DATA'], value)) && this.subjErrorMessage !== "") {
-          this.subjErrorMessage = "";
-        }
-    },
-    checkIfEmpty(value) {
-        if (value === "") {
-            this.subjErrorMessage = "יש למלא את השדה";
-        }
-    },
     isErrorMessage () {
       let inputList = document.querySelectorAll("input, textarea");
       let isAllInputEmpty = true;
-      // check if all the inputs are empty
-      // if all the inputs are empty, do not return an error
+      /* check if all the inputs are empty, if all the inputs are empty - deletes the subject*/
       for (let item of inputList) {
         if (item.value !== "") {
           isAllInputEmpty = false;
@@ -181,7 +161,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(useDataStore, ["DATA"]),
+    ...mapState(useDataStore, ["DATA", "THEME"]),
   },
   beforeMount () {
     if (this.isSaved) {
@@ -189,9 +169,6 @@ export default {
       this.lomdaData = JSON.parse(localStorage.getItem('savedData'));
     }
   },
-  mounted () {
-    this.indexedKeys = Object.keys(this.lomdaData["DATA"]);
-  }
 }
 </script>
 

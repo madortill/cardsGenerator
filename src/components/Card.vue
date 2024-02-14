@@ -1,19 +1,19 @@
 <template>
   <div id="Card">
     <div class="card">
-      <CardSvg :color="theme.themeColor.secondaryColor"></CardSvg>
+      <CardSvg :color="theme.secondaryColor"></CardSvg>
       <button id="delete-btn" class="delete-btn">
         <img src="@/assets/colorNeutralAssets/trash-gray.svg" alt="פח אשפה" class="trash-can" @click="deleteCard" title="מחק כרטיסיה">
       </button>
       <CustomInput placeholder="הכניסו נושא לכרטיסיה" class="topic" :placeholderStyle="placeholderStyle" :path-array="pathArray"></CustomInput>
       <card-input :path-array="[...pathArray, 'pageArray', this.currentPage]"  class="cardInput"></card-input>
       <div class="buttons-container">
-        <page-button-svg :class="['button', currentPage === 0 ? 'invisible' : '']" type="back" :color="theme.themeColor.textColor"
+        <page-button-svg :class="['button', currentPage === 0 ? 'invisible' : '']" type="back" :color="theme.textColor"
           @btn-pressed="handleBtn"></page-button-svg>
         <button class="remove-btn" @click="removePage" :disabled="pageArray.length <= 1" title="הסרת עמוד">הסרת עמוד</button>
-        <page-button-svg class="button" v-if="currentPage === pageArray.length - 1" type="add" :color="theme.themeColor.textColor"
+        <page-button-svg class="button" v-if="currentPage === pageArray.length - 1" type="add" :color="theme.textColor"
           @btn-pressed="handleBtn"></page-button-svg>
-        <page-button-svg class="button" type="next" :color="theme.themeColor.textColor" @btn-pressed="handleBtn"
+        <page-button-svg class="button" type="next" :color="theme.textColor" @btn-pressed="handleBtn"
           v-else></page-button-svg>
       </div>
       <DropDownCard v-if="isPopupShown" @add-page="addCard" @cancel="closePopup" cancelable></DropDownCard>
@@ -29,9 +29,8 @@ import CardInput from "./CardInput.vue";
 import DropDownCard from "./DropDownCard.vue";
 import CustomInput from "./CustomInput.vue";
 import swal from 'sweetalert';
-import { theme } from '../stores/theme.js';
 import { useDataStore } from '../stores/data';
-import { mapActions } from 'pinia';
+import { mapActions, mapState} from 'pinia';
 
 
 export default {
@@ -40,7 +39,6 @@ export default {
   props: ["isQuestion", "pathArray"],
   data() {
     return {
-      theme,
       currentPage: 0,
       isPopupShown: false,
       placeholderStyle: { "color": "#808080", "font-size": "0.7em", },
@@ -103,6 +101,7 @@ export default {
     pageArray() {
       return this.getNestedItem([...this.pathArray, "pageArray"]);
     },
+    ...mapState(useDataStore, {theme: "THEME"}),
   },
 }
 </script>

@@ -23,6 +23,7 @@ import { mapActions } from 'pinia';
 export default {
     name: "CardInput",
     components: { TextInput, ImageVideoInput, YoutubeInput },
+    props: ["pathArray"],
     methods: {
         ...mapActions(useDataStore, ["getNestedItem"]),
     },
@@ -30,10 +31,10 @@ export default {
         cardInfo () {
             let value = this.getNestedItem(this.pathArray);
             if (['videoAndText', 'youtube', 'text', 'picAndText'].includes(value.cardType)) {
-                return value;
             } else {
                 console.error(`the item in path ${this.pathArray} contains invalid cardType`);
             }
+            return value
         }
     }
 }

@@ -20,16 +20,14 @@ import CardSvg from "./svg/CardSvg.vue";
 import DropDownCard from "./DropDownCard.vue";
 import card from "./Card.vue";
 import CustomInput from "./CustomInput.vue";
-import { theme } from '../stores/theme.js';
 import { useDataStore } from '../stores/data';
-import { mapState, mapActions } from 'pinia';
+import { mapActions, mapState } from 'pinia';
 
 export default {
   components: { CardSvg, DropDownCard, card, CustomInput },
   name: "Secondary",
   data() {
     return {
-      theme: theme.themeColor,
       showErrorMessage: false,
       reRenderCounter: 0,
     }
@@ -96,14 +94,13 @@ export default {
   },
   computed: {
     topicArr() {
-      console.log(this.getNestedItem([...this.pathArray, "topics"]));
       return this.getNestedItem([...this.pathArray, "topics"]);
     },
     secondaryName() {
-      console.log(this.getNestedItem([...this.pathArray, "name"]))
       return this.getNestedItem([...this.pathArray, "name"]);
-    }
-  }
+    },
+    ...mapState(useDataStore, {theme: "THEME"}),
+  },
 } 
 </script>
 <style scoped>

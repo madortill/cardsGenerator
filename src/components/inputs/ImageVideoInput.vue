@@ -26,14 +26,11 @@
 </template>
 
 <script>
-import { theme } from '../../stores/theme.js';
+// import { theme } from '../../stores/theme.js';
+import { useDataStore } from '../../stores/data';
+import { mapState } from 'pinia';
 
 export default {
-    data() {
-        return {
-            theme,
-        }
-    },
     props: ["cardInfo"],
     methods: {
         // Image and video functions
@@ -97,6 +94,7 @@ export default {
         },
     },
     computed: {
+        ...mapState(useDataStore, {theme: "THEME"}),
         // Image and video computed
         chosenMediaURL() {
             if (this.cardInfo[`${this.imageOrVideo.propertyName}File`] instanceof File) {
@@ -146,7 +144,7 @@ export default {
 
 .image-btn {
     cursor: pointer;
-    background-color: v-bind("theme.themeColor.secondaryColor + '78'");
+    background-color: v-bind("theme.secondaryColor + '78'");
     color: black;
     padding: 5px 10px;
     border-radius: 5px;
