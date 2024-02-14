@@ -18,13 +18,17 @@
             <div>
                 <a :href="this.downloadURL" download="data.json" class="download">
                     <button class="action-btn">
-                    <svg class="share-icon" viewBox="0 0 512 512">
-                        <g>
-                        	<path d="M188.821,377.6c37.49,37.491,98.274,37.491,135.765,0.001c0,0,0.001-0.001,0.001-0.001l68.523-68.523   c12.712-12.278,13.064-32.536,0.786-45.248c-12.278-12.712-32.536-13.064-45.248-0.786c-0.267,0.257-0.529,0.52-0.786,0.786   l-59.371,59.349L288,32c0-17.673-14.327-32-32-32l0,0c-17.673,0-32,14.327-32,32l0.448,290.709l-58.901-58.901   c-12.712-12.278-32.97-11.926-45.248,0.786c-11.977,12.401-11.977,32.061,0,44.462L188.821,377.6z" fill="currentColor"/>
-                        	<path d="M480,309.333c-17.673,0-32,14.327-32,32v97.941c-0.012,4.814-3.911,8.714-8.725,8.725H72.725   c-4.814-0.012-8.714-3.911-8.725-8.725v-97.941c0-17.673-14.327-32-32-32s-32,14.327-32,32v97.941   C0.047,479.42,32.58,511.953,72.725,512h366.549c40.146-0.047,72.678-32.58,72.725-72.725v-97.941   C512,323.66,497.673,309.333,480,309.333z" fill="currentColor"/>
-                        </g>
-                    </svg>
-                    <span>הורדה</span>
+                        <svg class="share-icon" viewBox="0 0 512 512">
+                            <g>
+                                <path
+                                    d="M188.821,377.6c37.49,37.491,98.274,37.491,135.765,0.001c0,0,0.001-0.001,0.001-0.001l68.523-68.523   c12.712-12.278,13.064-32.536,0.786-45.248c-12.278-12.712-32.536-13.064-45.248-0.786c-0.267,0.257-0.529,0.52-0.786,0.786   l-59.371,59.349L288,32c0-17.673-14.327-32-32-32l0,0c-17.673,0-32,14.327-32,32l0.448,290.709l-58.901-58.901   c-12.712-12.278-32.97-11.926-45.248,0.786c-11.977,12.401-11.977,32.061,0,44.462L188.821,377.6z"
+                                    fill="currentColor" />
+                                <path
+                                    d="M480,309.333c-17.673,0-32,14.327-32,32v97.941c-0.012,4.814-3.911,8.714-8.725,8.725H72.725   c-4.814-0.012-8.714-3.911-8.725-8.725v-97.941c0-17.673-14.327-32-32-32s-32,14.327-32,32v97.941   C0.047,479.42,32.58,511.953,72.725,512h366.549c40.146-0.047,72.678-32.58,72.725-72.725v-97.941   C512,323.66,497.673,309.333,480,309.333z"
+                                    fill="currentColor" />
+                            </g>
+                        </svg>
+                        <span>הורדה</span>
                     </button>
                 </a>
                 <button href="" @click="this.share" v-if="testFileForShare" class="action-btn">
@@ -36,6 +40,9 @@
                     <span>שיתוף</span>
                 </button>
             </div>
+        </div>
+        <div class="MSword text"><span>רוצים להוסיף שאלות תרגול או מבחן? האפשרות לא קיימת במחולל, אבל ניתן להוריד פורמט ולשלוח לנו
+            במייל. </span><a href="https://drive.google.com/uc?export=download&id=1oJLD_auw7hNwke97bWl2IjjDUP8cQst1">להורדה</a>
         </div>
     </div>
     <!-- <a :href="`https://madortill.github.io/${this.lomdaTitle}/code/`">https://madortill.github.io/{{ this.lomdaTitle }}/code/</a> -->
@@ -178,6 +185,7 @@ export default {
     overflow-y: hidden;
     position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #f0ffff;
@@ -278,6 +286,7 @@ a {
         top: 100%;
     }
 }
+
 /* SVG class */
 .st0 {
     fill-rule: evenodd;
@@ -286,5 +295,31 @@ a {
     stroke-width: 16;
 }
 
+.MSword {
+    position: relative;
+    padding: 0.4rem 0.2rem;
+    border-radius: 0.3rem;
+    margin-top: 2rem;
+    background-color: white;
+    border: 1px solid v-bind("theme.primaryColor");
+    max-width: 40rem;
+}
+ /* .MSword::before {
+    border-radius: 0.5rem;
+    content: '';
+    background-color: v-bind("theme.primaryColor");
+    opacity: 0.2;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+ }
+
+ .MSword span{
+    position: relative;
+    z-index: 1;
+ } */
 
 </style>
