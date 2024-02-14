@@ -20,49 +20,6 @@ export const useDataStore = defineStore('data', {
         buttonsColor: "#1c3f55"
       },
       "DATA": [
-        {
-          "name": "Subject 1",
-          "error": '',
-          "amountOfQuestions": 0,
-          "learningContent": [
-            {
-              "name": "Sub-subject 1",
-              "error": '',
-              "topics": [
-                {
-                  "name": 'topic',
-                  "pageArray": [
-                    { "cardType": "text", "content": "hii" },
-                    { "cardType": "youtube", youtube: "", "content": "hii" }
-                  ]
-                }
-                // Add more topics as needed
-              ]
-            }
-            // Add more sub-subjects as needed
-          ],
-          "icon": "default"
-        },
-        {
-          "name": "Subject 2",
-          "amountOfQuestions": 0,
-          "learningContent": [
-            {
-              "name": "Sub-subject 1",
-              "topics": [
-                {
-                  "name": 'topic',
-                  "pageArray": [
-                    { "cardType": "text", "content": "hii" }
-                  ]
-                }
-                // Add more topics as needed
-              ]
-            }
-            // Add more sub-subjects as needed
-          ],
-          "icon": "default"
-        },
         // Add more subjects as needed
       ],
 
@@ -90,9 +47,7 @@ export const useDataStore = defineStore('data', {
       return result;
     },
     isDuplicateKey(arr, newName) {
-      console.log('newName: ', newName)
       let iterator = this.getNestedItem(arr);
-      console.log('iterator: ', iterator);
       /* since the change happens before checking if the key is duplicate, the newName will appear at least once. 
         If it's duplicated, it will appear twice or more */
       let appearances = 0;

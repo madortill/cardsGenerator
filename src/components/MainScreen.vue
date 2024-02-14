@@ -2,36 +2,50 @@
     <div id="MainScreen">
         <div class="settings-container">
             <ColorPicker></ColorPicker>
-            <button class="odot-btn" @click="showAbout=true">אודות</button>
-            <about-screen v-show="showAbout" @hide-odot="showAbout=false"></about-screen>
+            <button class="odot-btn" @click="showAbout = true">אודות</button>
+            <about-screen v-show="showAbout" @hide-odot="showAbout = false"></about-screen>
         </div>
         <div class="grid subj-container">
             <Bg_svg class="background svg" :color="theme.primaryColor"></Bg_svg>
             <div class="paper-clip-title first-paper-clip">
-                <CustomInput placeholder="הכניסו שם ללומדה" class="paper-clip-content" :path-array="['TITLE']"></CustomInput>
+                <CustomInput placeholder="הכניסו שם ללומדה" class="paper-clip-content" :path-array="['TITLE']">
+                </CustomInput>
             </div>
             <div class="cardsContainer scrollStyle">
-                <div :class="['subjCard', isDeleteMode === true ? 'rattle-animation': '']" v-for="(value, index) in subjectArray"
-                   :key="'title' + index" @click="!this.isDeleteMode ? $emit('go-to-subject', value, index): this.deleteSubj(index)" :ref="'subj' + index">
-                   <div class="delete" v-show="isDeleteMode"></div>
-                    <SubjectBtnSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></SubjectBtnSvg>
+                <div :class="['subjCard', isDeleteMode === true ? 'rattle-animation' : '']"
+                    v-for="(value, index) in subjectArray" :key="'title' + index"
+                    @click="!this.isDeleteMode ? $emit('go-to-subject', value, index) : this.deleteSubj(index)"
+                    :ref="'subj' + index">
+                    <div class="delete" v-show="isDeleteMode"></div>
+                    <SubjectBtnSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor">
+                    </SubjectBtnSvg>
                     <div class="subject">{{ value }}</div>
                 </div>
-                <div class="subjCard" @click="() => {if (!this.isDeleteMode) {$emit('go-to-subject', 'newSubject', -1)}}">
-                    <SubjectBtnSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor" ></SubjectBtnSvg>
+                <div class="subjCard"
+                    @click="() => { if (!this.isDeleteMode) { $emit('go-to-subject', 'newSubject', -1) } }">
+                    <SubjectBtnSvg class="svg" :primaryColor="theme.primaryColor" :secondaryColor="theme.secondaryColor">
+                    </SubjectBtnSvg>
                     <div class="subject">הוספת נושא</div>
                     <div class="add-subj-btn"></div>
                 </div>
                 <div class="button-container">
                     <!-- <span class="button" @click="$emit('to-exam')"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" alt="plus icon"/> הוספת מבחן</span> -->
                     <!-- <span class="button" @click="$emit('to-practice')"><img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" alt="plus icon" />הוספת תרגול</span> -->
-                    <span class="button" @click="isDeleteMode = !isDeleteMode" v-show="!isDeleteMode && subjectArray.length > 0"><img src="@/assets/colorNeutralAssets/trash-white.svg" class="trash-can" alt="trash icon" />מצב מחיקה</span>
-                    <span class="button back-btn" @click="isDeleteMode = !isDeleteMode" v-show="isDeleteMode"><img src="@/assets/colorNeutralAssets/arrow-small-right.svg" class="trash-can" alt="trash icon" />חזרה</span>
+                    <span class="button" @click="isDeleteMode = !isDeleteMode"
+                        v-show="!isDeleteMode && subjectArray.length > 0"><img
+                            src="@/assets/colorNeutralAssets/trash-white.svg" class="trash-can" alt="trash icon" />מצב
+                        מחיקה</span>
+                    <span class="button back-btn" @click="isDeleteMode = !isDeleteMode" v-show="isDeleteMode"><img
+                            src="@/assets/colorNeutralAssets/arrow-small-right.svg" class="trash-can"
+                            alt="trash icon" />חזרה</span>
                 </div>
             </div>
-            <img class="temp-save" @click="$emit('temp-save')" src="@/assets/colorNeutralAssets/save-icon.svg" title="שמירה"/>
+            <img class="temp-save" @click="$emit('temp-save')" src="@/assets/colorNeutralAssets/save-icon.svg"
+                title="שמירה" />
             <div class="save-and-continue" @click="saveAndContinue">המשך</div>
-            <div class="footer"><span>יש להכניס תוכן בסיווג בלמ"ס בלבד!</span> <div class="svg gradient"></div></div>
+            <div class="footer"><span>יש להכניס תוכן בסיווג בלמ"ס בלבד!</span>
+                <div class="svg gradient"></div>
+            </div>
         </div>
     </div>
 </template>
@@ -46,6 +60,7 @@ import CustomInput from './CustomInput.vue';
 import AboutScreen from './AboutScreen.vue';
 import { useDataStore } from '../stores/data';
 import { mapState, mapActions } from 'pinia';
+import swal from 'sweetalert';
 
 export default {
     name: "main-screen",
@@ -59,60 +74,66 @@ export default {
     components: { ColorPicker, SubjectBtnSvg, CircleSvg, Bg_svg, CustomInput, MinusCircleSvg, AboutScreen },
     methods: {
         ...mapActions(useDataStore, ["deleteItem"]),
-        deleteSubj (subjIndex) {
+        deleteSubj(subjIndex) {
             console.log('delete subject')
             swal({
                 icon: "warning",
                 title: `בטוחים שאתם רוצים למחוק את הנושא ${this.subjectArray[subjIndex]}?`,
-                buttons: {cancel: "לבטל", confirm: "למחוק"},
+                buttons: { cancel: "לבטל", confirm: "למחוק" },
                 dangerMode: true,
                 className: "swal-font",
             })
-            .then((willDelete) => {
-              if (willDelete) {
-                this.isDeleteMode = false;
-                // this.$emit('delete-subject', subjIndex)
-                this.deleteItem(["DATA", subjIndex])
-              }
-            });
+                .then((willDelete) => {
+                    if (willDelete) {
+                        this.isDeleteMode = false;
+                        this.deleteItem(["DATA", subjIndex])
+                    }
+                });
         },
-        saveAndContinue () {
+        saveAndContinue() {
             swal({
                 icon: "info",
                 title: `בטוחים שאתם רוצים להמשיך? אחרי שתמשיכו אי אפשר יהיה לשנות את התוכן.`,
-                buttons: {cancel: "ביטול", confirm: "המשך"},
+                buttons: { cancel: "ביטול", confirm: "המשך" },
                 className: "swal-font",
             })
-            .then((willContinue) => {
-              if (willContinue) {
-                if (this.TITLE.name === '') {
-                    swal({
-                    title: "איך אתם רוצים לקרוא ללומדה?",
-                    buttons: {confirm: "אישור"},
-                    className: "swal-font",
-                    content: "input", 
-                    })
-                    .then((value) => {
-                      this.$emit("next-stage", value)
-                    });
-                } else {
-                    this.$emit("next-stage", this.TITLE.name)
-                }
-              }
-            });
+                .then((willContinue) => {
+                    if (willContinue) {
+                        if (this.TITLE.name === '') {
+                            swal({
+                                title: "איך אתם רוצים לקרוא ללומדה?",
+                                buttons: { confirm: "אישור" },
+                                className: "swal-font",
+                                content: "input",
+                            }).then((value) => {
+                                if (value) { // makes sure the user pressed confirm
+                                    this.$emit("next-stage", value)
+                                } else if (value === '') {
+                                    swal({
+                                        title: "אופס! נראה שלא הזנתם כותרת",
+                                        icon: "error",
+                                        button: "אישור"
+                                    })
+                                }
+                            });
+                        } else {
+                            this.$emit("next-stage", this.TITLE.name)
+                        }
+                    }
+                });
 
         }
     },
     computed: {
-    ...mapState(useDataStore, {
-      "subjectArray": (store) => {
-        return store.DATA.reduce((accumulator, currentValue) => {
-          accumulator.push(currentValue.name);
-          return accumulator;
-        }, [])
-      }
-    }),
-    ...mapState(useDataStore, {"TITLE": "TITLE", theme: "THEME"}),
+        ...mapState(useDataStore, {
+            "subjectArray": (store) => {
+                return store.DATA.reduce((accumulator, currentValue) => {
+                    accumulator.push(currentValue.name);
+                    return accumulator;
+                }, [])
+            }
+        }),
+        ...mapState(useDataStore, { "TITLE": "TITLE", theme: "THEME" }),
     },
 }
 
@@ -152,11 +173,12 @@ export default {
 }
 
 .grid {
-  position: absolute;
-  left: 0;
-  display: grid;
-  grid-template-rows: 1fr 7.3fr 0.7fr;
+    position: absolute;
+    left: 0;
+    display: grid;
+    grid-template-rows: 1fr 7.3fr 0.7fr;
 }
+
 .subj-container {
     height: 100vh;
     width: 66.67vw;
@@ -174,29 +196,29 @@ export default {
 }
 
 .paper-clip-title {
-  background-image: url("@/assets/colorNeutralAssets/home_header.svg");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  padding: 2rem 0rem 1rem 2rem;
-  height: fit-content;
-  justify-self: center;
-  box-sizing: border-box;
-  width: 24rem;
+    background-image: url("@/assets/colorNeutralAssets/home_header.svg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    padding: 2rem 0rem 1rem 2rem;
+    height: fit-content;
+    justify-self: center;
+    box-sizing: border-box;
+    width: 24rem;
 }
 
 .paper-clip-content {
-  width: 24rem;
-  font-size: 1.7rem;
-  border: none;
-  background-color: transparent;
-  text-align: center;
-  padding: 0.6rem 1.3rem 0.8rem;
-  margin-top: 0.5rem;
-  border-radius: 0.8rem;
-  box-sizing: border-box;
+    width: 24rem;
+    font-size: 1.7rem;
+    border: none;
+    background-color: transparent;
+    text-align: center;
+    padding: 0.6rem 1.3rem 0.8rem;
+    margin-top: 0.5rem;
+    border-radius: 0.8rem;
+    box-sizing: border-box;
 }
 
-.paper-clip-content:focus-within { 
+.paper-clip-content:focus-within {
     outline: black solid 2px;
 }
 
@@ -272,7 +294,7 @@ export default {
     border-radius: 50%;
     position: relative;
     top: 0.5rem;
-    margin-left: 0.4rem; 
+    margin-left: 0.4rem;
 }
 
 .trash-can {
@@ -281,7 +303,7 @@ export default {
     border-radius: 50%;
     position: relative;
     top: 0.5rem;
-    margin-left: 0.4rem; 
+    margin-left: 0.4rem;
     padding: 0.3rem;
     box-sizing: border-box;
 }
@@ -310,13 +332,14 @@ export default {
 
 .add-subj-btn:before {
     height: 56%;
-	/* transform: translate(40%,39%); */
-	transform: translate(47%,36%);
-    
+    /* transform: translate(40%,39%); */
+    transform: translate(47%, 36%);
+
 }
+
 .add-subj-btn:after {
     height: 56%;
-	transform: translate(40%,39%) rotate(90deg);
+    transform: translate(40%, 39%) rotate(90deg);
 }
 
 /* Delete mode */
@@ -328,7 +351,8 @@ export default {
     height: 2rem;
 }
 
-.delete, .add-subj-btn{
+.delete,
+.add-subj-btn {
     border-radius: 50%;
     background: v-bind("theme.buttonsColor");
     opacity: 1;
@@ -338,31 +362,41 @@ export default {
 
 
 
-.delete:before, .delete:after, .add-subj-btn:before, .add-subj-btn:after {
+.delete:before,
+.delete:after,
+.add-subj-btn:before,
+.add-subj-btn:after {
     content: '';
     width: 9%;
     position: absolute;
     background: #fff;
     border-radius: 6px;
 }
+
 .delete:before {
     height: 59%;
-	transform: translate(40%,30%) rotate(45deg);
+    transform: translate(40%, 30%) rotate(45deg);
 }
+
 .delete:after {
     height: 59%;
-	transform: translate(40%,30%) rotate(-45deg);
+    transform: translate(40%, 30%) rotate(-45deg);
 }
 
 @keyframes rattle {
     0% {
         transform: rotate(-0.5deg);
-    } 50% {
+    }
+
+    50% {
         transform: rotate(0.5deg);
-    } 100% {
+    }
+
+    100% {
         transform: rotate(-0.5deg);
     }
 }
+
 .rattle-animation {
     animation: rattle 0.2s ease-in-out infinite;
 }

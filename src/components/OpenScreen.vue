@@ -50,6 +50,9 @@
 </template>
 
 <script>
+import { mapStores } from 'pinia';
+import { useDataStore } from '../stores/data';
+
 export default {
     name: "open-screen",
     data() {
@@ -66,8 +69,12 @@ export default {
             this.isReadyToRender = true;
         },
         continueWork() {
+            this.dataStore.$state = JSON.parse(localStorage.getItem('savedData')); // saves data from localStorage
             this.$emit('next-stage', true);
         }
+    },
+    computed: {
+        ...mapStores(useDataStore)
     },
     beforeMount() {
         if (!localStorage.getItem('savedData')) {

@@ -15,8 +15,8 @@ import InputScreen from './InputScreen.vue'
 import InfoScreen from './InfoScreen.vue'
 import swal from 'sweetalert';
 import { useDataStore } from '../stores/data';
-import { mapState, mapActions } from 'pinia';
-
+// import { mapState, mapActions } from 'pinia';
+import { mapStores } from 'pinia'
 
 
 export default {
@@ -40,24 +40,23 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useDataStore, ["addItem", "deleteItem"]),
     finishInfo (infoObj, icon) {
-      this.lomdaData["AUTHOR"] = infoObj;
+      this.dataStore["AUTHOR"] = infoObj;
       this.currentStage = 'main';
       if (icon) {
-        this.lomdaData["DEAFULT_ICON"] = icon;
+        this.dataStore["DEAFULT_ICON"] = icon;
       }
     },
     goToSubj(subjName, index) {
       let goToIndex = index;
       if (subjName === "newSubject") {
-        this.addItem(["DATA"], {
+        this.dataStore.addItem(["DATA"], {
         "name": "",
         "amountOfQuestions": 0,
         "learningContent": [],
         "icon": "deafult"
       });
-        goToIndex = this.DATA.length - 1;
+        goToIndex = this.dataStore.DATA.length - 1;
     }
     this.currentStage = "input";
     this.chosenSubjIndex = goToIndex;
@@ -97,7 +96,8 @@ export default {
         });
       }
       if (document.querySelector(".swal-button")) {
-        document.querySelector(".swal-button").style.backgroundColor = this.lomdaData["THEME"].primaryColor;
+        console.log('change btn color')
+        document.querySelector(".swal-button").style.backgroundColor = this.dataStore.THEME.primaryColor;
       }
     },
     isErrorMessage () {
@@ -111,7 +111,7 @@ export default {
       }
 
       if (isAllInputEmpty) {
-        this.deleteItem(["DATA", this.chosenSubjIndex]);
+        this.dataStore.deleteItem(["DATA", this.chosenSubjIndex]);
         return('');
       }
 
@@ -140,8 +140,8 @@ export default {
       return(errorContent);
     },
     nextStage (title) {
-      this.lomdaData['TITLE'] = title;
-      this.$emit("next-stage", this.lomdaData)
+      this.dataStore['TITLE'] = title;
+      this.$emit("next-stage", this.dataStore)
     },
     saveToLocal () {
       swal({
@@ -150,7 +150,7 @@ export default {
         button: "אישור",
         className: "swal-save-popup",
       }).then(() => {
-        localStorage.setItem('savedData', JSON.stringify(this.lomdaData));
+        localStorage.setItem('savedData', JSON.stringify(this.dataStore));
         swal({
           title: "המידע נשמר",
           icon: "info",
@@ -161,12 +161,11 @@ export default {
     }
   },
   computed: {
-    ...mapState(useDataStore, ["DATA", "THEME"]),
+    ...mapStores(useDataStore)
   },
   beforeMount () {
     if (this.isSaved) {
       this.currentStage = 'main';
-      this.lomdaData = JSON.parse(localStorage.getItem('savedData'));
     }
   },
 }

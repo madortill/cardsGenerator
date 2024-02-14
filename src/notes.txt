@@ -13,6 +13,10 @@ Each parent gives prop (pathArray) to the child with the path to the child, mean
 
 svg gets colors from the father component
 
+input components change their own (do not use a setter)
 
+InfoScreen sends its info to editStage and editStage updates the store
+
+what to do with isSaved? Get it from author's state?
 
 למחוק את האופציה של וידיאו מהמחשב?
