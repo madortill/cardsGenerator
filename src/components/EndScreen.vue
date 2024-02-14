@@ -41,8 +41,8 @@
                 </button>
             </div>
         </div>
-        <div class="MSword text"><span>רוצים להוסיף שאלות תרגול או מבחן? האפשרות לא קיימת במחולל, אבל ניתן להוריד פורמט ולשלוח לנו
-            במייל. </span><a href="https://drive.google.com/uc?export=download&id=1oJLD_auw7hNwke97bWl2IjjDUP8cQst1">להורדה</a>
+        <div class="MSword text"><span>רוצים להוסיף שאלות תרגול או מבחן? האפשרות לא קיימת במחולל, אבל ניתן להוריד פורמט, למלא אותו ולשלוח לנו
+            במייל ואנחנו נכניס את השאלות בשבילכם. </span><a href="https://drive.google.com/uc?export=download&id=1oJLD_auw7hNwke97bWl2IjjDUP8cQst1">להורדה</a>
         </div>
     </div>
     <!-- <a :href="`https://madortill.github.io/${this.lomdaTitle}/code/`">https://madortill.github.io/{{ this.lomdaTitle }}/code/</a> -->
