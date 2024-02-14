@@ -12,8 +12,4 @@ Each parent gives prop (pathArray) to the child with the path to the child, mean
  the parent + the level name of the child ('DATA', 'learningContent', 'topic') and its index
 
 
-
-
-add page in Card.vue should be executed by the store
-
 למחוק את האופציה של וידיאו מהמחשב?

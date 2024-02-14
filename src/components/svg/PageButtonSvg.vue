@@ -1,5 +1,5 @@
 <template>
-    <svg xmlns="http://www.w3.org/2000/svg" width="104" height="88.526" viewBox="0 0 104 88.526" :class="type"
+    <svg xmlns="http://www.w3.org/2000/svg" width="104" height="40.526" viewBox="0 0 104 88.526" :class="type"
         @click="$emit('btn-pressed', type)" id="PageButtonSvg">
         <title> {{ title }} </title>
         <g v-if="type === 'next'" id="Group_361" data-name="Group 361" transform="translate(-332.686 -1002.877)">

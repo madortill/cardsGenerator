@@ -3,14 +3,14 @@
         <div class="info-container scrollStyle" ref="infoContainer">
             <Bg_svg class="background svg" :color="theme.themeColor.primaryColor"></Bg_svg>
             <div class="input-container paper-clip-title">
-                <CustomInput placeholder="הכניסו את שם הנושא" class="paper-clip-content" :path-array="pathArray"></CustomInput>
+                <CustomInput placeholder="הכניסו את שם הנושא" class="paper-clip-content" :path-array="pathArray">
+                </CustomInput>
             </div>
             <div class="secondary-container">
                 <Secondary v-for="(secondaryObj, index) in this.secondaryArr" :key="'secondaryKey: ' + index" :index="index"
-                 :pathArray="[...pathArray, 'learningContent', index]"></Secondary>
+                    :pathArray="[...pathArray, 'learningContent', index]"></Secondary>
                 <div class="button-container">
-                    <span :class="['button', changesCounter]"
-                        @click="addSubsubject([...pathArray, 'learningContent'])">
+                    <span :class="['button', changesCounter]" @click="addSubSubject">
                         <img src="@/assets/colorNeutralAssets/plus-small.svg" class="plus-button" alt="plus icon" /> הוספת
                         תת נושא</span>
                     <!-- <span class="button" @click="$emit('to-practice')" v-if="(Object.keys(subjData['learningContent']).length > 0)">
@@ -52,7 +52,14 @@ export default {
         }
     },
     methods: {
-        ...mapActions(useDataStore, ["addSubsubject", "getNestedItem"]),
+        ...mapActions(useDataStore, ["addItem", "getNestedItem"]),
+        addSubSubject() {
+            this.addItem([...this.pathArray, 'learningContent'], {
+                "name": "",
+                "error": "",
+                "topics": []
+            })
+        }
     },
     computed: {
         secondaryArr() {

@@ -128,13 +128,6 @@ export const useDataStore = defineStore('data', {
         "icon": "deafult"
       })
     },
-    addSubsubject(path) {
-      console.log('adding subSubject: ', path)
-      this.getNestedItem(path).push({
-        "name": "",
-        "error": ""
-      })
-    },
     addItem (path, item) {
       this.getNestedItem(path).push(item)
     },

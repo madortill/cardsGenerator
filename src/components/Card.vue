@@ -6,7 +6,7 @@
         <img src="@/assets/colorNeutralAssets/trash-gray.svg" alt="פח אשפה" class="trash-can" @click="deleteCard" title="מחק כרטיסיה">
       </button>
       <CustomInput placeholder="הכניסו נושא לכרטיסיה" class="topic" :placeholderStyle="placeholderStyle" :path-array="pathArray"></CustomInput>
-      <card-input :cardInfo="currentPageObj" class="cardInput"></card-input>
+      <card-input :path-array="[...pathArray, 'pageArray', this.currentPage]"  class="cardInput"></card-input>
       <div class="buttons-container">
         <page-button-svg :class="['button', currentPage === 0 ? 'invisible' : '']" type="back" :color="theme.themeColor.textColor"
           @btn-pressed="handleBtn"></page-button-svg>
@@ -16,7 +16,6 @@
         <page-button-svg class="button" type="next" :color="theme.themeColor.textColor" @btn-pressed="handleBtn"
           v-else></page-button-svg>
       </div>
-
       <DropDownCard v-if="isPopupShown" @add-page="addCard" @cancel="closePopup" cancelable></DropDownCard>
       
     </div>
@@ -32,7 +31,7 @@ import CustomInput from "./CustomInput.vue";
 import swal from 'sweetalert';
 import { theme } from '../stores/theme.js';
 import { useDataStore } from '../stores/data';
-import { mapState, mapActions } from 'pinia';
+import { mapActions } from 'pinia';
 
 
 export default {
@@ -103,9 +102,6 @@ export default {
   computed: {
     pageArray() {
       return this.getNestedItem([...this.pathArray, "pageArray"]);
-    },
-    currentPageObj() {
-      return (this.pageArray[this.currentPage])
     },
   },
 }
