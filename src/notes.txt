@@ -1,22 +1,24 @@
 custom input not typing when first typing
 
-Make lomdaData computed OR put all the info in the store and access it in finishScreen
+check card type only in one place, so it will be easier to add card types
 
-In the middle of working on Card (So it will get the pathArray). Actually, its children
 
- check card type only in one place, so it will be easier to add card types
-
- be more clear on who makes the changes in Card.vue
-
+----------- Explanation -------------------
 Each parent gives prop (pathArray) to the child with the path to the child, meaning the entries to reach
  the parent + the level name of the child ('DATA', 'learningContent', 'topic') and its index
 
 svg gets colors from the father component
 
-input components change their own (do not use a setter)
+components that ends with "Input" change their own (do not use a setter)
 
 InfoScreen sends its info to editStage and editStage updates the store
+
+-----------------------------------------------
+
+
 
 what to do with isSaved? Get it from author's state?
 
 למחוק את האופציה של וידיאו מהמחשב?
+
+turn initFetch to mixin of vue3 subittute. Make a loop that goes through the array and turns it to object. Ask GPT?

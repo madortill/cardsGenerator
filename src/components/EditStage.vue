@@ -28,15 +28,6 @@ export default {
       indexedKeys: [],
       subjErrorMessage: "",
       chosenSubjIndex: -1,
-      lomdaData: {
-        "AMOUNT_EXAM_QUESTIONS": 0,
-        "TIME_FOR_EXAM": "00:00",
-        "DATA": {},
-        // "THEME": theme,
-        "AUTHOR": {},
-        "DEAFULT_ICON": "../assets/images/learning/Artboard 4.svg",
-        "TITLE": ""
-      }
     }
   },
   methods: {

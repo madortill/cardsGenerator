@@ -26,7 +26,6 @@
 </template>
 
 <script>
-// import { theme } from '../../stores/theme.js';
 import { useDataStore } from '../../stores/data';
 import { mapState } from 'pinia';
 
