@@ -38,9 +38,11 @@ textarea {
 }
 
 /* scrollbar style */
-.scrollStyle {
-  scrollbar-color: #e5e5e5 darkgrey;
-  scrollbar-width: 11px;
+@supports not selector(::-webkit-scrollbar) {
+  .scrollStyle {
+    scrollbar-color: #e5e5e5 darkgrey;
+    scrollbar-width: 11px;
+  }
 }
 
 .scrollStyle::-webkit-scrollbar {
