@@ -26,7 +26,6 @@ export default {
     data() {
         return {
             youtubeLink: this.cardInfo.youtube,
-            theme,
         }
     },
     props: ["cardInfo"],
@@ -39,7 +38,8 @@ export default {
         updateYoutubeValue(event) {
             let inputValue = this.$refs.youtubeInput.value;
             let validateRegEx = new RegExp(/https?.*\youtu\.?be\.*/g);
-            if (validateRegEx.test(inputValue)) {
+            if (validateRegEx.test(inputValue) && !inputValue.includes("/results?search_query")) {
+                console.log(this.extractYoutubeId(inputValue))
                 this.cardInfo.youtube = this.extractYoutubeId(inputValue) === null ? '' : `https://www.youtube-nocookie.com/embed/${this.extractYoutubeId(inputValue)}`;
             } else if (inputValue === '') {
                 this.cardInfo.youtube = '';

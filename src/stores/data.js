@@ -22,7 +22,6 @@ export const useDataStore = defineStore('data', {
       "DATA": [
         // Add more subjects as needed
       ],
-
     }
   },
   actions: {

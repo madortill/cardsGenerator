@@ -5,7 +5,7 @@
                 :key="flower.leftPosition" class="flower" :style="`left: ${flower.leftPosition}`"></FlowerSvg>
         </div>
         <div class="end-text">
-            <SubjectBtnSvg class="svg" :secondaryColor="theme.secondaryColor" :primaryColor="theme.primaryColor">
+            <SubjectBtnSvg class="svg" :secondaryColor="dataStore.THEME.secondaryColor" :primaryColor="dataStore.THEME.primaryColor">
             </SubjectBtnSvg>
             <h1>יש לכם לומדה מוכנה!</h1>
             <div class="text">
@@ -42,8 +42,8 @@
             </div>
         </div>
     </div>
-    <!-- <a :href="`https://madortill.github.io/${this.lomdaTitle}/code/`">https://madortill.github.io/{{ this.lomdaTitle }}/code/</a> -->
-    <!-- <vue-qrcode :value="`https://madortill.github.io/${this.lomdaTitle}/code/`" tag="svg"
+    <!-- <a :href="`https://madortill.github.io/${this.finalData.TITLE.name}/code/`">https://madortill.github.io/{{ this.finalData.TITLE.name }}/code/</a> -->
+    <!-- <vue-qrcode :value="`https://madortill.github.io/${this.finalData.TITLE.name}/code/`" tag="svg"
         :options="{ width: 148, color: {light: '#00000000'} }"></vue-qrcode> -->
 </template>
 
@@ -52,11 +52,10 @@ import VueQrcode from '@chenfengyuan/vue-qrcode';
 import FlowerSvg from './svg/FlowerSvg.vue';
 import SubjectBtnSvg from './svg/SubjectBtnSvg.vue';
 import { useDataStore } from '../stores/data';
-import { mapState } from 'pinia';
+import { mapStores } from 'pinia';
 
 export default {
     name: "endingStage",
-    props: { "lomdaTitle": String, "JsonData": String },
     components: { VueQrcode, FlowerSvg, SubjectBtnSvg },
     data() {
         return {
@@ -142,7 +141,8 @@ export default {
             flowersOnscreen: [],
             colorIndex: 0,
             downloadFile: '',
-            downloadURL: ''
+            downloadURL: '',
+            // finalData: JSON.stringify(this.dataStore, proccessData)
         }
     },
     methods: {
@@ -156,10 +156,21 @@ export default {
         },
         testFileForShare() {
             navigator.canShare(this.downloadFile)
+        },
+        proccessData (key, value) {
+            if (key === "picFile" || key === "videoFile" || key === "error" || key === "$id" || key === "_isOptionsAPI") {
+                console.log(`ignoring key: ${key}`)
+                return undefined; 
+            } else {
+            return value 
         }
+      },
     },
     computed: {
-        ...mapState(useDataStore, { theme: "THEME" }),
+        ...mapStores(useDataStore),
+        finalData() {
+            return JSON.stringify(this.dataStore, this.proccessData)
+        }
     },
     mounted() {
         this.flowersOnscreen.push({ leftPosition: `${Math.ceil(Math.ceil(Math.random() * 100 / 2) * 2)}%`, colorIndex: this.colorIndex });
@@ -173,7 +184,7 @@ export default {
                 this.flowersOnscreen.splice(savedIndex, 1)
             }, 4000)
         }, 200);
-        this.downloadFile = new Blob([String(this.JsonData)], { type: 'text/plain' });
+        this.downloadFile = new Blob([String(this.finalData)], { type: 'text/plain' });
         this.downloadURL = window.URL.createObjectURL(this.downloadFile);
     }
 }
@@ -223,7 +234,7 @@ export default {
 }
 
 a {
-    color: v-bind("theme.secondaryColor");
+    color: v-bind("dataStore.THEME.secondaryColor");
     filter: brightness(0.75);
 }
 
@@ -246,13 +257,13 @@ a {
 }
 
 .action-btn {
-    color: v-bind("theme.secondaryColor");
+    color: v-bind("dataStore.THEME.secondaryColor");
     margin-top: 0.5rem;
     filter: brightness(0.75);
     /* border:  */
     display: inline-flex;
     align-items: center;
-    border: 1px v-bind("theme.secondaryColor") solid;
+    border: 1px v-bind("dataStore.THEME.secondaryColor") solid;
     border-radius: 0.5rem;
     padding: 0.25rem 0.5rem;
     gap: 0.4rem;
@@ -267,7 +278,7 @@ a {
 
 .action-btn:active {
     filter: brightness(1);
-    background-color: v-bind("theme.secondaryColor");
+    background-color: v-bind("dataStore.THEME.secondaryColor");
     color: white;
 }
 

@@ -21,4 +21,6 @@ what to do with isSaved? Get it from author's state?
 
 למחוק את האופציה של וידיאו מהמחשב?
 
-turn initFetch to mixin of vue3 subittute. Make a loop that goes through the array and turns it to object. Ask GPT?
+update README
+
+errors in ImageVideoInput

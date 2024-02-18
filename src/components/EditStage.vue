@@ -130,9 +130,8 @@ export default {
       }
       return(errorContent);
     },
-    nextStage (title) {
-      this.dataStore['TITLE'] = title;
-      this.$emit("next-stage", this.dataStore)
+    nextStage () {
+      this.$emit("next-stage")
     },
     saveToLocal () {
       swal({

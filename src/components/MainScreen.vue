@@ -107,7 +107,9 @@ export default {
                                 content: "input",
                             }).then((value) => {
                                 if (value) { // makes sure the user pressed confirm
-                                    this.$emit("next-stage", value)
+                                    // upadte TITLE in store
+                                    this.TITLE.name = value
+                                    this.$emit("next-stage")
                                 } else if (value === '') {
                                     swal({
                                         title: "אופס! נראה שלא הזנתם כותרת",
@@ -117,7 +119,7 @@ export default {
                                 }
                             });
                         } else {
-                            this.$emit("next-stage", this.TITLE.name)
+                            this.$emit("next-stage")
                         }
                     }
                 });

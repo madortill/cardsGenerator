@@ -21,14 +21,6 @@ export default {
     // request to save the js in the server
     async initFetch(data) {
       this.currentStage = 3;
-      this.lomdaTitle = data["TITLE"];
-      this.theme = data["THEME"];
-      const url2 = `https://api.github.com/search/commits?q=repo:freecodecamp/freecodecamp author-date:2022-04-01..2022-04-30`;
-      const reponse = await fetch(url2, {
-        "method": "GET",
-        // body: JSON.stringify(this.data)
-      });
-      const result = await reponse.json();
       this.jsonData = data;
       // result.items.forEach(i => console.log(i, i.full_name));
       // Time out so the loading screen will not disappear immediatly
@@ -41,13 +33,6 @@ export default {
       event.preventDefault();
       return (event.returnValue = "");
     },
-    proccessData (key, value) {
-        if (key === "picFile" || key === "videoFile") {
-          return undefined;
-        } else {
-          return value 
-        }
-      },
       startForm (saved = false) {
         this.currentStage +=2;
         if (saved) {
@@ -68,7 +53,7 @@ export default {
     <instructions v-else-if="currentStage === 1"></instructions>
     <edit-stage v-else-if="currentStage === 2" @next-stage="initFetch" :isSaved="isSaved"></edit-stage>
     <loading-screen v-else-if="currentStage === 3"></loading-screen>
-    <end-screen v-else-if="currentStage === 4" :lomdaTitle="lomdaTitle" :JsonData="JSON.stringify(this.jsonData, proccessData)"></end-screen>
+    <end-screen v-else-if="currentStage === 4" :lomdaTitle="lomdaTitle"></end-screen>
 </template>
 
 
