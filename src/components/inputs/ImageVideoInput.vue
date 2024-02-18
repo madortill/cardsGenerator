@@ -3,7 +3,8 @@
         <button class="image-btn" @click="$refs.fileInput.click()"> {{ imageOrVideo.inputPrompt }} </button>
         <input type="file" class="opacity" id="file-input" name="file-input" :accept="imageOrVideo.AcceptedFormats"
             @change="updateInput" ref="fileInput" />
-        <div v-if="cardInfo[imageOrVideo.propertyName] == [] || cardInfo[`${imageOrVideo.propertyName}File`]  === '' " class="error error-message">
+        <div v-if="cardInfo[imageOrVideo.propertyName] == [] || cardInfo[`${imageOrVideo.propertyName}File`] === ''"
+            class="error error-message">
             <img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="picture-warning" />
             <span class="error-text text"> {{ imageOrVideo.emptyError }}</span>
         </div>
@@ -73,6 +74,11 @@ export default {
             if (!file) {
                 return false;
             }
+
+            if (file.size > 32097152 /* = 30.6MB */) {
+                return("הקובץ שהעליתם גדול מדי");
+            }
+
             switch (presumedType) {
                 case "pic": {
                     return (pic.includes(file.type));
@@ -93,7 +99,7 @@ export default {
         },
     },
     computed: {
-        ...mapState(useDataStore, {theme: "THEME"}),
+        ...mapState(useDataStore, { theme: "THEME" }),
         // Image and video computed
         chosenMediaURL() {
             if (this.cardInfo[`${this.imageOrVideo.propertyName}File`] instanceof File) {
