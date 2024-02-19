@@ -41,6 +41,9 @@
                 </button>
             </div>
         </div>
+        <div class="MSword text"><span>רוצים להוסיף שאלות תרגול או מבחן? האפשרות לא קיימת במחולל, אבל ניתן להוריד פורמט, למלא אותו ולשלוח לנו
+            במייל ואנחנו נכניס את השאלות בשבילכם. </span><a href="https://drive.google.com/uc?export=download&id=1oJLD_auw7hNwke97bWl2IjjDUP8cQst1">להורדה</a>
+        </div>
     </div>
     <!-- <a :href="`https://madortill.github.io/${this.finalData.TITLE.name}/code/`">https://madortill.github.io/{{ this.finalData.TITLE.name }}/code/</a> -->
     <!-- <vue-qrcode :value="`https://madortill.github.io/${this.finalData.TITLE.name}/code/`" tag="svg"
@@ -198,6 +201,7 @@ export default {
     overflow-y: hidden;
     position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #f0ffff;
@@ -305,4 +309,33 @@ a {
     clip-rule: evenodd;
     fill: currentColor;
     stroke-width: 16;
-}</style>
+}
+
+.MSword {
+    position: relative;
+    padding: 0.4rem 0.2rem;
+    border-radius: 0.3rem;
+    margin-top: 2rem;
+    background-color: white;
+    border: 1px solid v-bind("theme.primaryColor");
+    max-width: 40rem;
+}
+ /* .MSword::before {
+    border-radius: 0.5rem;
+    content: '';
+    background-color: v-bind("theme.primaryColor");
+    opacity: 0.2;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+ }
+
+ .MSword span{
+    position: relative;
+    z-index: 1;
+ } */
+
+</style>
