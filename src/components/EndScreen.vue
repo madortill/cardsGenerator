@@ -317,7 +317,7 @@ a {
     border-radius: 0.3rem;
     margin-top: 2rem;
     background-color: white;
-    border: 1px solid v-bind("theme.primaryColor");
+    border: 1px solid v-bind("dataStore.THEME.primaryColor");
     max-width: 40rem;
 }
  /* .MSword::before {
