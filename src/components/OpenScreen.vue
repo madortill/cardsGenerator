@@ -89,12 +89,13 @@ export default {
     user-select: none;
     display: flex;
     display: grid;
-    grid-template-rows: 6rem 1fr;
-    grid-template-columns: 3fr 1fr;
+    grid-template-rows: 5rem 87%;
+    grid-template-columns: 4fr 2fr;
     justify-content: space-around;
     align-items: center;
     width: 100vw;
     height: 100vh;
+    overflow: hidden;
 }
 
 .actual-component {
@@ -116,9 +117,7 @@ export default {
 }
 
 .open-pic {
-    width: 37vw;
-    height: auto;
-    max-height: 95vh;
+    max-height: 100%;
     grid-column: -1 / -2;
     grid-row: 2 / 3;
     margin-left: 2rem;

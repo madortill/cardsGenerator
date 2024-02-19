@@ -315,27 +315,10 @@ a {
     position: relative;
     padding: 0.4rem 0.2rem;
     border-radius: 0.3rem;
-    margin-top: 2rem;
+    margin-top: 3rem;
     background-color: white;
     border: 1px solid v-bind("dataStore.THEME.primaryColor");
     max-width: 40rem;
 }
- /* .MSword::before {
-    border-radius: 0.5rem;
-    content: '';
-    background-color: v-bind("theme.primaryColor");
-    opacity: 0.2;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
- }
-
- .MSword span{
-    position: relative;
-    z-index: 1;
- } */
 
 </style>
