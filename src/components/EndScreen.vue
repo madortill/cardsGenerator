@@ -172,7 +172,7 @@ export default {
     computed: {
         ...mapStores(useDataStore),
         finalData() {
-            return JSON.stringify(this.dataStore, this.proccessData)
+            return JSON.stringify(this.dataStore.$state, this.proccessData)
         }
     },
     mounted() {
