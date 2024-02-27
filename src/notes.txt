@@ -13,9 +13,12 @@ components that ends with "Input" change their own (do not use a setter)
 
 InfoScreen sends its info to editStage and editStage updates the store
 
+In secondary.vue, we rerender the DragToOrder component when we add / remove card so it could get the new array as prop and save it  to its data.
+(for performance reasons, all changes on drag are done on array in the component data inside DragToOrder, and they update the parent component only on drop)
+
 -----------------------------------------------
 
-
+*********Change README!!!!!!!************
 
 what to do with isSaved? Get it from author's state?
 

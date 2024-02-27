@@ -63,7 +63,7 @@ import { mapState, mapActions } from 'pinia';
 import swal from 'sweetalert';
 
 export default {
-    name: "main-screen",
+    name: "MainScreen",
     data() {
         return {
             isDeleteMode: false,

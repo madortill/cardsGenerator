@@ -16,7 +16,7 @@
  - There is a CardsData object which all components inherit. Each component recieves the part it needs as a prop and they can change it reactivly.  
 
  - All the values in inputs are props ("modalValue"). It means none of the input components change the value of the input by themselves, but just emit an event with the desired value as parmeter and the parent component updates it.    
- - The parent of CustomInput.vue also get the value as prop and creats a computed (subject, secondary, topic) which updates based on the prop (chosenSubject, secondaryName, cardTopic) but sets the value to empty if it includes the words "subject", "secondary" and "topic" (matching), so there won't be two duplicate empty keys in the data object. Only the grandParent of CostumInput.vue changes the input value. 
+ - The parent of CustomInput.vue also get the value as prop and creates a computed (subject, secondary, topic) which updates based on the prop (chosenSubject, secondaryName, cardTopic) but sets the value to empty if it includes the words "subject", "secondary" and "topic" (matching), so there won't be two duplicate empty keys in the data object. Only the grandParent of CostumInput.vue changes the input value. 
  - When the user inserts an input, CustomInput.vue emits one of the following events - "input" for input event, "focusout" for focusout event and "update:ModalValue" for change event (So we can use v-modal with this component). All these events also emit "value" as parameter which is the current value of the input.   
  Disclaimer: when the events happen, the parent compnent emit another 
  **update:ModalValue**:
@@ -39,10 +39,23 @@
 - some of the general styles are in src/assets/main.css make sure no to miss them!
 - All the final checks (that no input is empty and no error messages appear) happen in EditStage.vue
 
-* Theme is in store without library because it was more simple and I didn't want to have to use computed all the time.
 * DataStore uses pina
 
 
+----------- Explanation -------------------
+Each parent gives prop (pathArray) to the child with the path to the child, meaning the entries to reach
+ the parent + the level name of the child ('DATA', 'learningContent', 'topic') and its index
+
+svg gets colors from the father component
+
+components that ends with "Input" change their own (do not use a setter)
+
+InfoScreen sends its info to editStage and editStage updates the store
+
+In secondary.vue, we rerender the DragToOrder component when we add / remove card so it could get the new array as prop and save it  to its data.
+(for performance reasons, all changes on drag are done on array in the component data inside DragToOrder, and they update the parent component only on drop)
+
+-----------------------------------------------
 
 ### Not Relevant
 

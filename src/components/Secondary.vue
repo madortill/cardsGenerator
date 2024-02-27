@@ -3,15 +3,29 @@
     <div class="flex">
       <span class="minus" @click="deleteSecondary(pathArray)" title="מחק תת-נושא"></span>
       <CustomInput class="secondary-name" placeholder="הכניסו תת-נושא" :placeholderStyle="{ color: '#ffffffC7' }"
-        :path-array="pathArray"></CustomInput>
+      :path-array="pathArray"></CustomInput>
     </div>
-    <div class="overflow-container scrollStyle" v-touch:swipe="handleSwipe" ref="overflowContainer">
-      <card v-for="(topicObj, index) in topicArr" :key="index" :pathArray="[...pathArray, 'topics', index]"
-        :isQuestion="false" @delete-card="deleteCard(topicObj)"></card>
-      <div>
-        <DropDownCard @add-page="createNewCard" :key="reRenderCounter" btnText="הוספת כרטיסיה"></DropDownCard>
-      </div>
-    </div>
+        <DragToOrder
+          :modelValue="topicArr"
+          @update:modelValue="onDrop"
+          dragClass="dragged"
+          handle=".drag"
+          class="overflow-container scrollStyle"
+          dragCursor="grabbing"
+          ref="overflowContainer"
+          isHorizontal
+          :key="'dragDrop' + dragNDropRender"
+          >
+          <template #item="{index, item}">
+            <card :pathArray="[...pathArray, 'topics', item.id]" @card-deleted="reRenderDrag()"/>
+          </template>
+
+        <template #footer>
+          <DropDownCard @add-page="createNewCard" :key="'dropdown' + reRenderCounter" btnText="הוספת כרטיסיה"></DropDownCard>
+        </template>
+        </DragToOrder>
+      <!-- <card v-for="(topicObj, index) in topicArr" :key="index" :pathArray="[...pathArray, 'topics', index]"
+        :isQuestion="false" @delete-card="deleteCard(topicObj)"/> -->
   </div>
 </template>
 
@@ -20,21 +34,29 @@ import CardSvg from "./svg/CardSvg.vue";
 import DropDownCard from "./DropDownCard.vue";
 import card from "./Card.vue";
 import CustomInput from "./CustomInput.vue";
+import DragToOrder from "./DragToOrder.vue"
 import { useDataStore } from '../stores/data';
 import { mapActions, mapState } from 'pinia';
 
 export default {
-  components: { CardSvg, DropDownCard, card, CustomInput },
+  components: { CardSvg, DropDownCard, card, CustomInput, DragToOrder},
   name: "Secondary",
   data() {
     return {
       showErrorMessage: false,
+      dragNDropRender: 0,
       reRenderCounter: 0,
+      smoothScroll: false,
+      list: [
+      { "name": "4", "error": "", "pageArray": [{ "cardType": "text", "content": "fsad" }] }, 
+      { "name": "3", "error": "", "pageArray": [{ "cardType": "picAndText", "content": "", "pic": "" }] },
+      { "name": "23", "error": "", "pageArray": [{ "cardType": "picAndText", "content": "", "pic": "" }] }
+      ]
     }
   },
   props: ["pathArray"],
   methods: {
-    ...mapActions(useDataStore, ["deleteItem", "getNestedItem", "addItem"]),
+    ...mapActions(useDataStore, ["deleteItem", "getNestedItem","setNestedItem" ,"addItem"]),
     createNewCard(choice) {
       let newCard = {
         "name": "",
@@ -65,8 +87,11 @@ export default {
     },
     /* swipes and scrolls */
     async scrollToHorizontalEnd() {
-      await this.$nextTick()
-      this.$refs.overflowContainer.scrollLeft = -this.$refs.overflowContainer.scrollWidth;
+      await this.reRenderDrag();
+      this.smoothScroll = true;
+      await this.$nextTick();
+      this.$refs.overflowContainer.$el.scrollLeft = -this.$refs.overflowContainer.$el.scrollWidth;
+      this.smoothScroll = false;
     },
     handleSwipe(direction, event) {
       let pixelsToMove = direction === "right" ? 600 : -600;
@@ -76,7 +101,7 @@ export default {
     deleteSecondary() {
       swal({
         icon: "warning",
-        title: `בטוחים שאתם רוצים למחוק? כל מה שכתבתם בתת הנושא "${this.secondaryName}" יימחק!`,
+        title: `בטוחים שאתם רוצים למחוק? כל מה שכתבתם בתת הנושא "${this.getNestedItem([...this.pathArray, "name"])}" יימחק!`,
         buttons: { cancel: "לבטל", confirm: "למחוק" },
         dangerMode: true,
         className: "swal-font",
@@ -87,17 +112,21 @@ export default {
           }
         });
     },
-    deleteCard(cardName) {
-      this.indexedKeys.splice(this.indexedKeys.indexOf(cardName), 1);
-      delete this.secondaryData[cardName];
+    onDrop(value) {
+      this.setNestedItem(value, [...this.pathArray,'topics']); 
+      this.reRenderDrag();
+
     },
+    async reRenderDrag() {
+      const scrolled = this.$refs.overflowContainer.$el.scrollLeft;
+      this.dragNDropRender++;
+      await this.$nextTick();
+      this.$refs.overflowContainer.$el.scrollLeft = scrolled;
+    }
   },
   computed: {
     topicArr() {
-      return this.getNestedItem([...this.pathArray, "topics"]);
-    },
-    secondaryName() {
-      return this.getNestedItem([...this.pathArray, "name"]);
+        return this.getNestedItem([...this.pathArray, "topics"]);  
     },
     ...mapState(useDataStore, {theme: "THEME"}),
   },
@@ -154,7 +183,6 @@ export default {
   flex-grow: 1;
 }
 
-
 .error-message-position {
   right: 11.5rem;
 }
@@ -169,7 +197,7 @@ export default {
   overflow-y: hidden;
   height: 31rem;
   margin-bottom: 1rem;
-  scroll-behavior: smooth;
+  scroll-behavior: v-bind("smoothScroll ? 'smooth' : 'auto'");
   display: flex;
   flex-direction: row;
   gap: 1.5rem;
@@ -178,5 +206,16 @@ export default {
 
 ::-webkit-scrollbar:horizontal {
   height: 7px;
+}
+
+.ignore {
+  display: contents;
+}
+
+/* DO NOT DELETE! This is the styles you want to apply to the elemnet while it's being dragged.
+class. If you want costume name for dragClass replace styledDragging with the class name. */
+div:deep(.dragged) {
+  position: relative;
+  bottom: 0.5rem;
 }
 </style>

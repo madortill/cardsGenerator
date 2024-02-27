@@ -4,6 +4,7 @@
       <CardSvg :color="theme.secondaryColor"></CardSvg>
       <button id="delete-btn" class="delete-btn">
         <img src="@/assets/colorNeutralAssets/trash-gray.svg" alt="פח אשפה" class="trash-can" @click="deleteCard" title="מחק כרטיסיה">
+        <img src="@/assets/colorNeutralAssets/moveIcon.svg" alt="גרור" class="trash-can drag" @click="" title="גרירת כרטיסיה">
       </button>
       <CustomInput placeholder="הכניסו נושא לכרטיסיה" class="topic" :placeholderStyle="placeholderStyle" :path-array="pathArray"></CustomInput>
       <card-input :path-array="[...pathArray, 'pageArray', this.currentPage]"  class="cardInput"></card-input>
@@ -93,6 +94,7 @@ export default {
       .then((willDelete) => {
         if (willDelete) {
           this.deleteItem(this.pathArray);
+          this.$emit('card-deleted')
         }
       });
     }
@@ -175,17 +177,27 @@ export default {
 
 .delete-btn {
   /* min-height: 3.5rem; */
-  width: 85%;
+  width: 100%;
   display: flex;
   align-items: center;
   grid-column: 1 / 2;
   grid-row: 1 / 2;
+  cursor: default;
+  padding-right: 5%;
+  padding-left: 4%;
+  box-sizing: border-box;
+
 }
 
 .trash-can {
   height: 1.5rem;
   cursor: pointer;
   margin-top: 0.5rem;
+}
+
+.drag {
+  margin-right: auto;
+  cursor: grab;
 }
 
 .cardInput {

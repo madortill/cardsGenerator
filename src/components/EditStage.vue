@@ -140,14 +140,31 @@ export default {
         button: "אישור",
         className: "swal-save-popup",
       }).then(() => {
-        localStorage.setItem('savedData', JSON.stringify(this.dataStore));
-        swal({
-          title: "המידע נשמר",
-          icon: "info",
-          button: "אישור",
-          className: "swal-save-popup",
-        })
+        if (JSON.stringify(this.dataStore)) {
+          localStorage.setItem('savedData', JSON.stringify(this.dataStore, this.replacer));
+          swal({
+            title: "המידע נשמר",
+            icon: "info",
+            button: "אישור",
+            className: "swal-save-popup",
+          })
+        } else {
+          swal({
+            title: "אופס! משהו השתבש",
+            text: 'יש להודיע למדור טיל בכתובת mador.till.mop@gmail.com',
+            icon: "error",
+            button: "אישור",
+            className: "swal-save-popup",
+          })
+        }
       })
+    },
+    replacer (key, value) {
+      if (key === "$id" || key === "_isOptionsAPI") {
+        return undefined
+      } else {
+        return value
+      }
     }
   },
   computed: {

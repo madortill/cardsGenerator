@@ -19,42 +19,59 @@ export const useDataStore = defineStore('data', {
         gradient: "#27c5f2",
         buttonsColor: "#1c3f55"
       },
-      "DATA": [
-        // Add more subjects as needed
-      ],
+      // "DATA": [
+      //   // Add more subjects as needed
+      // ],
+      "DATA": []
     }
   },
   actions: {
     /* --------------------------------- Utility functions-------------------------------------- */
-    getNestedItem(path, state) {
-      // // Access the nested element
-      let originalObj = state ? state : this;
-      let pathArray;
-      if (Array.isArray(path)) {
-        pathArray = [...path];
-      } else {
-        console.error('path is not a array')
+    getNestedItem(path, state = this) {
+      // check path type
+      if (!Array.isArray(path)) {
+        console.error('path is not a array');
+        return
       }
 
-      let result = pathArray.reduce((acc, index) => {
+      // Access the nested element
+      let result = path.reduce((acc, index) => {
         if (index in acc) {
           return acc[index];
         } else {
           console.error(`cannot find the ${index} in`, acc);
         }
-      }, originalObj);
+      }, state);
       return result;
+    },
+    setNestedItem(arrayContent, path, state = this) {
+      // check path type
+      if (!Array.isArray(path)) {
+        console.error('path is not a array');
+        return
+      }
+      
+      const finalKey = path.pop();
+      const target = path.reduce((acc, key) => {
+        if (key in acc) {
+          return (acc[key])
+        } else {
+          console.error(`cannot find the ${index} in`, acc);
+        }
+      }
+        , state);
+      target[finalKey] = arrayContent;
     },
     isDuplicateKey(arr, newName) {
       let iterator = this.getNestedItem(arr);
-      /* since the change happens before checking if the key is duplicate, the newName will appear at least once. 
-        If it's duplicated, it will appear twice or more */
       let appearances = 0;
       for (let i = 0; i < iterator.length; i++) {
         if (iterator[i].name === newName) {
           appearances++;
         }
       }
+      /* since the change happens before checking if the key is duplicate, the newName will appear at least once. 
+        If it's duplicated, it will appear twice or more */
       if (appearances > 1) {
         return true;
       }
