@@ -18,6 +18,7 @@ export default {
         return {
             draggedEl: null,
             startPos: {},
+            maxScroll: null,
             items: this.modelValue.map((item, index) => ({ "name": item, "id": index }))
         }
     },
@@ -56,6 +57,8 @@ export default {
                 this.draggedEl.querySelector(':first-child').classList.add(this.dragClass);
                 this.startPos.x = event.clientX;
                 this.startPos.y = event.clientY;
+                this.maxScroll = this.isHorizontal ? this.$refs.list.scrollWidth : this.$refs.list.scrollHeight;
+                console.log(this.$refs.list);
                 document.addEventListener('mousemove', this.drag);
                 document.addEventListener('mouseup', this.drop);
             }
@@ -83,7 +86,51 @@ export default {
 
         },
         drag(event) {
-            /* emulate mouseOver event over draggable elements (in case the mouse is outside of .list) */
+            this.emulateMouseOver(event);
+
+            const listBoundaries = this.$refs.list.getBoundingClientRect();
+            const dragElBounderies = this.draggedEl.getBoundingClientRect();
+
+            // scroll the parent element if the mouse is out of the parent element
+            if (this.isHorizontal) {
+                if (event.clientX < listBoundaries.left) {
+                    this.startPos.x = listBoundaries.left - 2; 
+                    this.$refs.list.scrollLeft = Math.max(this.$refs.list.scrollLeft + event.clientX - listBoundaries.left, -this.maxScroll);
+                } else if (event.clientX > listBoundaries.right) {
+                    this.$refs.list.scrollLeft = Math.min(this.$refs.list.scrollLeft + (event.clientX - listBoundaries.right), 0);
+                }
+            } else {
+                console.warn('scrolling out of bounds does not work on vertical mode yet')
+            }
+            
+            // if draggedEl is out of bounderies, don't let it move
+            // checking that both the mouse and the element are out of .list
+            console.log(event.clientX - this.startPos.x)
+            if (this.isHorizontal) {
+                if (dragElBounderies.left <= listBoundaries.left && event.clientX < listBoundaries.left) {
+                    return
+                } else if (dragElBounderies.right >= listBoundaries.right && this.$refs.list.scrollLeft === 0 && event.clientX > dragElBounderies.right){
+                    return
+                }
+            }
+            
+            // move the draaged element to the position of the mouse in the axis of the list
+            
+            if (this.isHorizontal) {
+                this.draggedEl.style.transform = `translateX(${this.clamp(this.startPos.x - listBoundaries.left, event.clientX - this.startPos.x, this.startPos.x - listBoundaries.right)}px)`;
+                this.draggedEl.style.transform = `translateX(${event.clientX - this.startPos.x}px)`;
+            } else {
+                this.draggedEl.style.transform = `translateY(${event.clientY - this.startPos.y}px)`;
+            }
+        },
+        /* called by drag() */
+        /* emulate mouseOver event over draggable elements (in case the mouse is outside of .list) */
+        emulateMouseOver(event) {
+            //  if the mouse in over .list, no need to emulate event
+            if (this.$refs.list.matches(':hover')) {
+                return
+            }
+
             let yValue;
             let xValue;
             if (this.isHorizontal) {
@@ -102,22 +149,6 @@ export default {
                 });
                 document.elementFromPoint(xValue, yValue).dispatchEvent(mouseOverEvent);
             }
-
-            // move the draaged element to the position of the mouse in the axis of the list
-            const boundaries = this.$refs.list.getBoundingClientRect();
-            if (this.isHorizontal) {
-                if (this.blockOutOfBoundery) {
-                    this.draggedEl.style.transform = `translateX(${this.clamp(boundaries.left, event.clientX, boundaries.right) - this.startPos.x}px)`;
-                } else {
-                    this.draggedEl.style.transform = `translateX(${event.clientX - this.startPos.x}px)`;
-                }
-            } else {
-                if (this.blockOutOfBoundery) {
-                    this.draggedEl.style.transform = `translateY(${this.clamp(boundaries.top, event.clientY, boundaries.bottom) - this.startPos.y}px)`;
-                } else {
-                    this.draggedEl.style.transform = `translateY(${event.clientY - this.startPos.y}px)`;
-                }
-            }
         },
         /* mouseup */
         // resets all necessary variables
@@ -129,6 +160,7 @@ export default {
                 this.draggedEl = null;
                 this.startPos.x = null;
                 this.startPos.y = null;
+                this.maxScroll = null;
                 document.removeEventListener('mousemove', this.drag);
                 document.removeEventListener('mouseup', this.drop);
                 // return items back to array of items and not array of objects
