@@ -42,7 +42,7 @@
             </div>
         </div>
         <div class="MSword text"><span>רוצים להוסיף שאלות תרגול או מבחן? האפשרות לא קיימת במחולל, אבל ניתן להוריד פורמט, למלא אותו ולשלוח לנו
-            במייל ואנחנו נכניס את השאלות בשבילכם. </span><a href="https://drive.google.com/uc?export=download&id=1oJLD_auw7hNwke97bWl2IjjDUP8cQst1">להורדה</a>
+            במייל ואנחנו נכניס את השאלות בשבילכם. </span><a href="https://drive.google.com/uc?export=download&id=1ZFJJTNFLzBr6MFAsqsyK2yXvzZW91T9L">להורדה</a>
         </div>
     </div>
     <!-- <a :href="`https://madortill.github.io/${this.finalData.TITLE.name}/code/`">https://madortill.github.io/{{ this.finalData.TITLE.name }}/code/</a> -->
@@ -172,7 +172,7 @@ export default {
     computed: {
         ...mapStores(useDataStore),
         finalData() {
-            return JSON.stringify(this.dataStore, this.proccessData)
+            return JSON.stringify(this.dataStore.$state, this.proccessData)
         }
     },
     mounted() {
