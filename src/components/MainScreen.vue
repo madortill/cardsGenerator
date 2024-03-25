@@ -75,7 +75,6 @@ export default {
     methods: {
         ...mapActions(useDataStore, ["deleteItem"]),
         deleteSubj(subjIndex) {
-            console.log('delete subject')
             swal({
                 icon: "warning",
                 title: `בטוחים שאתם רוצים למחוק את הנושא ${this.subjectArray[subjIndex]}?`,

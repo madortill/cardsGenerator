@@ -162,7 +162,6 @@ export default {
         },
         proccessData (key, value) {
             if (key === "picFile" || key === "videoFile" || key === "error" || key === "$id" || key === "_isOptionsAPI") {
-                console.log(`ignoring key: ${key}`)
                 return undefined; 
             } else {
             return value 

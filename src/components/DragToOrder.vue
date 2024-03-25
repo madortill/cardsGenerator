@@ -58,7 +58,6 @@ export default {
                 this.startPos.x = event.clientX;
                 this.startPos.y = event.clientY;
                 this.maxScroll = this.isHorizontal ? this.$refs.list.scrollWidth : this.$refs.list.scrollHeight;
-                console.log(this.$refs.list);
                 document.addEventListener('mousemove', this.drag);
                 document.addEventListener('mouseup', this.drop);
             }
@@ -105,7 +104,6 @@ export default {
             
             // if draggedEl is out of bounderies, don't let it move
             // checking that both the mouse and the element are out of .list
-            console.log(event.clientX - this.startPos.x)
             if (this.isHorizontal) {
                 if (dragElBounderies.left <= listBoundaries.left && event.clientX < listBoundaries.left) {
                     return

@@ -87,7 +87,6 @@ export default {
         });
       }
       if (document.querySelector(".swal-button")) {
-        console.log('change btn color')
         document.querySelector(".swal-button").style.backgroundColor = this.dataStore.THEME.primaryColor;
       }
     },
@@ -112,7 +111,6 @@ export default {
       let errorMessageList = document.querySelectorAll(".error-message");
       for (let item of errorMessageList) {
         errorContent = item.querySelector(".text").innerText;
-        console.log(item)
         if (errorContent !== "") {
           return(errorContent);
         }
@@ -122,7 +120,6 @@ export default {
       // Make sure there are not empty inputs without error
       for (let item of inputList) {
         if (item.value === "" && item.hasAttribute('required')) {
-          console.log(item)
           item.focus();
           item.blur();
           errorContent = "יש למלא את השדה";
@@ -140,8 +137,7 @@ export default {
         button: "אישור",
         className: "swal-save-popup",
       }).then(() => {
-        console.log(this.dataStore.$state)
-       
+  
           localStorage.setItem('savedData', JSON.stringify(this.dataStore.$state));
           swal({
             title: "המידע נשמר",

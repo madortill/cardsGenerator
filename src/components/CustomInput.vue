@@ -17,8 +17,6 @@
 import { useDataStore } from '../stores/data';
 import { mapActions } from 'pinia';
 
-// console.log('what if I register the store here?')
-
 export default {
 	name: "CustomInput",
 	props: {
