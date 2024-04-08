@@ -7,14 +7,15 @@ import EndScreen from './components/EndScreen.vue'
 
 
 export default {
-  components: { OpenScreen, Instructions, EditStage, LoadingScreen, EndScreen},
+  components: { OpenScreen, Instructions, EditStage, LoadingScreen, EndScreen },
   data() {
     return {
       currentStage: 0,
       lomdaTitle: '',
       theme: '',
       jsonData: '',
-      isSaved: false
+      isSaved: false,
+      newURL: null
     }
   },
   methods: {
@@ -22,23 +23,43 @@ export default {
     async initFetch(data) {
       this.currentStage = 3;
       this.jsonData = data;
-      // result.items.forEach(i => console.log(i, i.full_name));
-      // Time out so the loading screen will not disappear immediatly
+
+      const postURL = new URL(document.URL)
+
+      try {
+        const response = await fetch(`${postURL.protocol}//${postURL.host}/newCards`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        const responseText = await response.text()
+        if (response.ok) {
+          this.newURL = responseText;
+        } else {
+          this.newURL = null;
+        }
+      } catch(error) {
+        console.error(error);
+        this.newURL = null;
+      }
+
       setTimeout(() => {
-      this.currentStage = 4;
-      removeEventListener("beforeunload", this.onBeforeUnload ,true);
+        this.currentStage = 4;
+        removeEventListener("beforeunload", this.onBeforeUnload, true);
       }, 1900);
     },
     onBeforeUnload(event) {
       event.preventDefault();
       return (event.returnValue = "");
     },
-      startForm (saved = false) {
-        this.currentStage +=2;
-        if (saved) {
-          this.isSaved = true;
-        }
+    startForm(saved = false) {
+      this.currentStage += 2;
+      if (saved) {
+        this.isSaved = true;
       }
+    }
   },
   mounted() {
     addEventListener("beforeunload", this.onBeforeUnload, true);
@@ -49,11 +70,11 @@ export default {
 
 <template>
   <!-- there is no instructions yet, so openScreen increase currentStage by 2 to skip it -->
-    <open-screen @next-stage="startForm" v-if="currentStage === 0"></open-screen>
-    <instructions v-else-if="currentStage === 1"></instructions>
-    <edit-stage v-else-if="currentStage === 2" @next-stage="initFetch" :isSaved="isSaved"></edit-stage>
-    <loading-screen v-else-if="currentStage === 3"></loading-screen>
-    <end-screen v-else-if="currentStage === 4" :lomdaTitle="lomdaTitle"></end-screen>
+  <open-screen @next-stage="startForm" v-if="currentStage === 0"></open-screen>
+  <instructions v-else-if="currentStage === 1"></instructions>
+  <edit-stage v-else-if="currentStage === 2" @next-stage="initFetch" :isSaved="isSaved"></edit-stage>
+  <loading-screen v-else-if="currentStage === 3"></loading-screen>
+  <end-screen v-else-if="currentStage === 4" :newURL="newURL" :lomdaTitle="lomdaTitle"></end-screen>
 </template>
 
 

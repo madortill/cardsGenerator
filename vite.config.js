@@ -20,6 +20,6 @@ export default defineConfig({
   plugins: [
     vue({}),
   ],
-  base: process.env.NODE_ENV === "production" ? "/cardsGenerator/" : "/",
+  base: process.env.NODE_ENV === "production" ? "./" : "/",
 
 })

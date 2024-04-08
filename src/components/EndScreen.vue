@@ -4,14 +4,18 @@
             <FlowerSvg v-for="(flower) in flowersOnscreen" :flowerColors="colorArray[flower.colorIndex]"
                 :key="flower.leftPosition" class="flower" :style="`left: ${flower.leftPosition}`"></FlowerSvg>
         </div>
-        <div class="end-text">
-            <SubjectBtnSvg class="svg" :secondaryColor="dataStore.THEME.secondaryColor" :primaryColor="dataStore.THEME.primaryColor">
+        <div class="end-text" v-if="newURL === null">
+            <SubjectBtnSvg class="svg" :secondaryColor="dataStore.THEME.secondaryColor"
+                :primaryColor="dataStore.THEME.primaryColor">
             </SubjectBtnSvg>
-            <h1>יש לכם לומדה מוכנה!</h1>
+            <h1>אופס! משהו לא עבד</h1>
             <div class="text">
-                <span>השלב האחרון הוא להוריד את הקובץ שקיבלתם ולשלוח לנו אותו בכתובת: </span>
+                <span>התוכן שהכנסתם לא הצליח להגיע אלינו. כאן תוכלו להוריד את הקובץ שיצרתם ולשלוח לנו אותו בכתובת:
+                </span>
                 <br>
                 <a href="mailto:mador.till.mop@gmail.com">mador.till.mop@gmail.com</a>
+                <br>
+                <span>ואנחנו נכניס אותו באופן ידני.</span>
                 <br>
                 <br>
             </div>
@@ -41,13 +45,22 @@
                 </button>
             </div>
         </div>
-        <div class="MSword text"><span>רוצים להוסיף שאלות תרגול או מבחן? האפשרות לא קיימת במחולל, אבל ניתן להוריד פורמט, למלא אותו ולשלוח לנו
-            במייל ואנחנו נכניס את השאלות בשבילכם. </span><a href="https://drive.google.com/uc?export=download&id=1ZFJJTNFLzBr6MFAsqsyK2yXvzZW91T9L">להורדה</a>
+        <div class="end-text" v-else>
+            <SubjectBtnSvg class="svg" :secondaryColor="dataStore.THEME.secondaryColor"
+                :primaryColor="dataStore.THEME.primaryColor">
+            </SubjectBtnSvg>
+            <h1>יש לכם לומדה מוכנה!</h1>
+            <vue-qrcode :value="newURL" tag="svg" :options="{ width: 148, color: { light: '#00000000' } }"></vue-qrcode>
+            <div class="text">
+                <a :href="newURL">{{ newURL }}</a>
+                <div class="MSword text"><span>רוצים להוסיף שאלות תרגול או מבחן? האפשרות לא קיימת במחולל, אבל ניתן
+                        להוריד פורמט, למלא אותו ולשלוח לנו
+                        במייל ואנחנו נכניס את השאלות בשבילכם. </span><a
+                        href="https://drive.google.com/uc?export=download&id=1ZFJJTNFLzBr6MFAsqsyK2yXvzZW91T9L">להורדה</a>
+                </div>
+            </div>
         </div>
     </div>
-    <!-- <a :href="`https://madortill.github.io/${this.finalData.TITLE.name}/code/`">https://madortill.github.io/{{ this.finalData.TITLE.name }}/code/</a> -->
-    <!-- <vue-qrcode :value="`https://madortill.github.io/${this.finalData.TITLE.name}/code/`" tag="svg"
-        :options="{ width: 148, color: {light: '#00000000'} }"></vue-qrcode> -->
 </template>
 
 <script>
@@ -59,6 +72,7 @@ import { mapStores } from 'pinia';
 
 export default {
     name: "endingStage",
+    props: ['newURL'],
     components: { VueQrcode, FlowerSvg, SubjectBtnSvg },
     data() {
         return {
@@ -160,13 +174,13 @@ export default {
         testFileForShare() {
             navigator.canShare(this.downloadFile)
         },
-        proccessData (key, value) {
+        proccessData(key, value) {
             if (key === "picFile" || key === "videoFile" || key === "error" || key === "$id" || key === "_isOptionsAPI") {
-                return undefined; 
+                return undefined;
             } else {
-            return value 
-        }
-      },
+                return value
+            }
+        },
     },
     computed: {
         ...mapStores(useDataStore),
@@ -319,5 +333,4 @@ a {
     border: 1px solid v-bind("dataStore.THEME.primaryColor");
     max-width: 40rem;
 }
-
 </style>
