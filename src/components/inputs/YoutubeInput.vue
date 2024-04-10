@@ -75,7 +75,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .image-preview {
     max-height: 10rem;
     max-width: 100%;

@@ -8,11 +8,13 @@ export const useDataStore = defineStore('data', {
         "error": ""
       },
       "AMOUNT_EXAM_QUESTIONS": 0,
+      "DESCRIPTION": "",
       "TIME_FOR_EXAM": "00:00",
       "AUTHOR": {},
       "DEAFULT_ICON": "../assets/images/learning/Artboard 4.svg",
       "THEME": {
         name: "lightBlue",
+        hebrawName: "תכלת",
         primaryColor: "#20c5f2",
         secondaryColor: "#1de8f7",
         textColor: "#1c3f55",

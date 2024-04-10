@@ -31,8 +31,9 @@ export default {
     }
   },
   methods: {
-    finishInfo (infoObj, icon) {
+    finishInfo (infoObj, icon, description) {
       this.dataStore["AUTHOR"] = infoObj;
+      this.dataStore["DESCRIPTION"] = description;
       this.currentStage = 'main';
       if (icon) {
         this.dataStore["DEAFULT_ICON"] = icon;

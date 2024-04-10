@@ -168,8 +168,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 1rem 1rem;
-    ;
+    margin: 1rem 1rem;;
     width: 85%;
 }
 
@@ -185,4 +184,14 @@ export default {
     height: 1.5rem;
     margin-left: 0.4rem;
 }
+
+.textarea {
+    box-sizing: border-box;
+    resize: none;
+    flex-basis: 5rem;
+    padding: 0.3rem;
+    font-size: 1rem;
+    border-radius: 0.4rem;
+}
+
 </style>
