@@ -287,10 +287,6 @@ label {
     cursor: default;
 }
 
-
-
-
-
 .textarea {
     box-sizing: border-box;
     resize: none;
