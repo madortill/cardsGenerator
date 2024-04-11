@@ -8,7 +8,7 @@
                 <h1>כמה פרטים לפני שמתחילים...</h1>
                 <div>
                     <label for="name">איך קוראים לך?</label>
-                    <input class="text-input" id="name" type="text" v-model="inputValues.name">
+                    <input class="text-input" id="name" type="text" v-model="inputValues.name" autocomplete="name" >
                 </div>
                 <div>
                     <label for="rank">מה הדרגה שלך?</label>
@@ -19,8 +19,17 @@
                     <input class="text-input" id="role" type="text" v-model="inputValues.role">
                 </div>
                 <div>
+                    <label for="description">תיאור הלומדה: (לא חובה)</label>
+                    <textarea class="textarea" id="description" type="text" v-model="description"></textarea>
+                </div>
+                <div class="bhd-father">
+                    <label for="DropDown">בחרו בה"ד</label>
+                    <DropDown class="dropdown text-input" id="DropDown" type="text" :optionList="bahadim" placeholder='יש לבחור בה"ד' 
+                    @choice="(chosen) => {inputValues.bhd = chosen}" />
+                </div>
+                <div>
                     <label for="icon">תרצו להכניס סמל ללומדה \ סמל הבה"ד? <span class='small-font'>(לא חובה)</span></label>
-                    <input type="file" ref="imgInput" class="opacity" @change="updateInput" name="img-input" accept=".jpg, .jpeg, .png, .svg">
+                    <input type="file" ref="imgInput" class="opacity" @change="updateInput" name="icon" id="icon" accept=".jpg, .jpeg, .png, .svg">
                     <button class="image-btn" @click.prevent="$refs.imgInput.click()"> בחירת תמונה </button>
                 </div>
                 <img v-if="icon" alt="תצוגה מקדימה" :src="chosenMediaURL" class="image-preview" @click.prevent="$refs.imgInput.click()"/>
@@ -33,6 +42,8 @@
 </template>
 
 <script>
+import DropDown from './DropDown.vue';
+
 
 
 export default {
@@ -43,26 +54,37 @@ export default {
                 name: '',
                 rank: '',
                 role: '',
+                bhd: ''
             },
+            description: '',
             error: '',
             icon: null,
-            iconFile: undefined
+            iconFile: undefined,
+            bahadim: {"6בהד": 'בה"ד 6 - לוגיסטיקה',"7בהד": 'בה"ד 7 - תקשוב', "10בהד": 'בה"ד 10 -רפואה', "11בהד": 'בה"ד 11 - משאבי אנוש'
+            , "13בהד": 'בה"ד 13 - משטרה צבאית', "20בהד": 'בה"ד 20 - טכנולוגיה ואחזקה', "חינוך":'בה"ד חינוך', "מפקדה":'מפקדה'}
         }
     },
+    components: { DropDown },
     methods: {
         validateInput () {
             let isAllValid = true;
+            if (this.inputValues.bhd === '') {
+                this.error = '*יש לבחור את שם הבה"ד';
+                return
+            }
             for (const key in this.inputValues) {
-                if (this.inputValues[key].length <= 1) {
+                if (this.inputValues[key].length <= 1 && key !== 'bhd') {
                     isAllValid = false;
-                    this.error = "*כל השדות צריכים להיות מלאים וארוכים מאות אחת"
+                    this.error = "*כל השדות צריכים להיות מלאים וארוכים מאות אחת";
+                    break
                 }
             }
 
 
             //  continues to next stage
             if (isAllValid) {
-                this.$emit("next", this.inputValues, this.icon)
+                // creating an object that contains both inputValues
+                this.$emit("next", this.inputValues, this.icon, this.description)
             }
         },
         // image input functions
@@ -171,7 +193,7 @@ label {
     font-size: 0.7em;
 }
 
-.text-input {
+:deep(.text-input) {
     border-radius: 0.4rem;
     border: solid black 1px;
     padding: 0.2rem 0.6rem;
@@ -225,5 +247,60 @@ label {
     box-sizing: border-box;
     font-size: 1.3rem;
     margin: 0rem;
+}
+
+/* overriding DropDown component inner styles (Because I used them somewhere else so I can't delete them) */
+
+.bhd-father:deep(.dropdown) {
+    border: 1px solid black;
+    display: inline-flex;
+    min-height: 1.6em;
+    font-size: 1em;
+}
+
+.bhd-father:deep(#DropDown) {
+    display: inline-block;
+    font-size: 1.2rem;
+}
+
+
+.bhd-father:deep(.options-container ) {
+    gap: 0em;
+    padding: 0;
+    z-index: 1;
+    max-height: 15rem;
+    overflow-y: auto;
+}
+
+.bhd-father:deep(.option) {
+    padding-right: 1em;
+    padding-block: 0.35em;
+}
+
+.bhd-father:deep(.option:not(.disabled):hover) {
+    background-color: rgb(201, 201, 201);
+    background-color: rgba(131, 208, 244, 0.688)}
+
+.bhd-father:deep(.disabled, .disabled:hover) {
+    /* In father component */
+    background-color: rgba(128, 128, 128, 0.594);
+    cursor: default;
+}
+
+
+
+
+
+.textarea {
+    box-sizing: border-box;
+    resize: none;
+    font-size: 1rem;
+    border-radius: 0.4rem;
+    display: block;
+    min-width: 74%;
+    margin-top: 0.6rem;
+    min-height: 4.1rem;
+    font-size: 1.2rem;
+    padding: 0.3rem 0.6rem;
 }
 </style>
