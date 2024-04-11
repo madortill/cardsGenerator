@@ -268,6 +268,8 @@ label {
     gap: 0em;
     padding: 0;
     z-index: 1;
+    max-height: 15rem;
+    overflow-y: auto;
 }
 
 .bhd-father:deep(.option) {
