@@ -3,12 +3,12 @@
         <button class="image-btn" @click="$refs.fileInput.click()"> {{ imageOrVideo.inputPrompt }} </button>
         <input type="file" class="opacity" id="file-input" name="file-input" :accept="imageOrVideo.AcceptedFormats"
             @change="updateInput" ref="fileInput" />
-        <div v-if="cardInfo[imageOrVideo.propertyName] == [] || cardInfo[`${imageOrVideo.propertyName}File`] === ''"
+        <div v-if="error"
             class="error error-message">
             <img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="picture-warning" />
-            <span class="error-text text"> {{ imageOrVideo.emptyError }}</span>
+            <span class="error-text text"> {{ this.error }}</span>
         </div>
-        <div class="preview" v-else-if="cardInfo[`${imageOrVideo.propertyName}File`] !== 'invalid'">
+        <div class="preview" v-else>
             <div class="image-details">
                 <img v-if="cardInfo.cardType === 'picAndText'" :alt="imageOrVideo.alt" :src="chosenMediaURL"
                     class="image-preview" />
@@ -17,10 +17,6 @@
                     הדפדפן לא תומך בהצגת סרטונים
                 </video>
             </div>
-        </div>
-        <div v-else class="error error-message">
-            <img src="@/assets/colorNeutralAssets/triangle-warning-red.svg" alt="warning symbol" class="picture-warning" />
-            <div class="text">סוג הקובץ לא מתאים <br> לאפשרויות הקיימות</div>
         </div>
         <textarea class="textarea" v-model="cardInfo.content" placeholder="הכניסו טקסט הסבר (לא חובה)"></textarea>
     </div>
@@ -31,18 +27,30 @@ import { useDataStore } from '../../stores/data';
 import { mapState } from 'pinia';
 
 export default {
+    data() {
+        return {
+            error: this.cardInfo.cardType === 'picAndText' ? "לא בחרתם תמונה" : "לא בחרתם סרטון"
+        }
+    },
     props: ["cardInfo"],
     methods: {
         // Image and video functions
         updateInput() {
             this.updateImageDisplay();
             if (this.cardInfo.cardType === 'videoAndText') {
-                this.$refs.video.load();
+                this.loadVideo();
             }
+        },
+        async loadVideo() {
+            await this.$nextTick;
+            this.$refs.video.load();
         },
         updateImageDisplay() {
             let fileList = this.$refs.fileInput.files;
-            if (this.isFileValid(fileList[0], this.imageOrVideo.propertyName)) {
+            const fileErr = this.fileError(fileList[0], this.imageOrVideo.propertyName);
+            this.error = fileErr;
+            console.log(this.error);
+            if (fileErr === null) {
                 this.saveAsBase64(fileList[0]);
                 this.cardInfo[`${this.imageOrVideo.propertyName}File`] = fileList[0];
             } else {
@@ -54,7 +62,13 @@ export default {
                 }
             }
         },
-        isFileValid(file, presumedType = "pic") {
+        /**
+         * 
+         * @param {File} file 
+         * @param {String} presumedType either "pic" or "video"
+         * @returns error messsage - if null, than the file is valid. Otherwise, a string that describes what's wrong
+         */
+         fileError(file, presumedType = "pic") {
             const pic = [
                 "image/apng",
                 "image/bmp",
@@ -72,20 +86,20 @@ export default {
             ]
 
             if (!file) {
-                return false;
+                return (presumedType === "pic" ? "לא בחרתם תמונה" : "לא בחרתם סרטון");
             }
 
             if (file.size > 32097152 /* = 30.6MB */) {
-                return("הקובץ שהעליתם גדול מדי");
+                return("הקובץ גדול מדי");
             }
 
             switch (presumedType) {
                 case "pic": {
-                    return (pic.includes(file.type));
+                    return (pic.includes(file.type) ? null : 'סוג הקובץ לא מתאים לאפשרויות הקיימות');
                 } case "video": {
-                    return (video.includes(file.type));
+                    return (video.includes(file.type) ? null : 'סוג הקובץ לא מתאים לאפשרויות הקיימות');
                 } default: {
-                    throw new Error("type argument in isFileValid is missing or invalid");
+                    throw new Error("presumedType argument in fileError is missing or invalid");
                 }
             }
         },
@@ -113,7 +127,6 @@ export default {
                 return {
                     AcceptedFormats: ".jpg, .jpeg, .png, .svg",
                     inputPrompt: "איזו תמונה תרצו לצרף? (PNG, JPG, SVG)",
-                    emptyError: "לא בחרתם תמונה",
                     previewAlt: "התמונה שבחרתם",
                     propertyName: "pic"
                 }
@@ -121,7 +134,6 @@ export default {
                 return {
                     AcceptedFormats: ".mp4",
                     inputPrompt: "איזה סרטון תרצו לצרף? (MP4)",
-                    emptyError: "לא בחרתם סרטון",
                     previewAlt: "הסרטון שבחרתם",
                     propertyName: "video"
                 }
@@ -130,7 +142,7 @@ export default {
                 return undefined
             }
         },
-    }
+    },
 }
 </script>
 
