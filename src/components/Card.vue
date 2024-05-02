@@ -82,6 +82,7 @@ export default {
     },
     removePage() {
       this.deleteItem([...this.pathArray, "pageArray", this.currentPage]);
+      this.currentPage--;
     },
     deleteCard() {
       swal({
