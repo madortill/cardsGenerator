@@ -29,7 +29,7 @@ import { mapState } from 'pinia';
 export default {
     data() {
         return {
-            error: this.cardInfo.cardType === 'picAndText' ? "לא בחרתם תמונה" : "לא בחרתם סרטון"
+            error: null
         }
     },
     props: ["cardInfo"],
@@ -86,6 +86,7 @@ export default {
             ]
 
             if (!file) {
+                this.cardInfo[this.imageOrVideo.propertyName] = "";
                 return (presumedType === "pic" ? "לא בחרתם תמונה" : "לא בחרתם סרטון");
             }
 
@@ -118,6 +119,10 @@ export default {
         chosenMediaURL() {
             if (this.cardInfo[`${this.imageOrVideo.propertyName}File`] instanceof File) {
                 return (URL.createObjectURL(this.cardInfo[`${this.imageOrVideo.propertyName}File`]));
+            // make sure the pic or video key is base64 (Don't trust this check! It's against programmer mistakes, not malicious code)
+            // fixed the problem that picFile and videoFile returns empty object after refresh
+            } else if (this.cardInfo[`${this.imageOrVideo.propertyName}`].startsWith('data:')) {
+                return this.cardInfo[`${this.imageOrVideo.propertyName}`];
             } else {
                 return undefined;
             }
@@ -143,6 +148,16 @@ export default {
             }
         },
     },
+    // set error's intial value
+    mounted() {
+        if (this.cardInfo.cardType === 'picAndText' && !this.cardInfo[`pic`]) {
+            this.error = "לא בחרתם תמונה";
+        } else if (this.cardInfo.cardType === 'videoAndText' && !this.cardInfo[`video`]) {
+            this.error = "לא בחרתם סרטון";
+        } else {
+            this.error = null;
+        }
+    }
 }
 </script>
 
