@@ -137,8 +137,9 @@ export default {
         text: "המידע שלכם יישמר על המחשב שלכם בלבד! לנו אין גישה אליו. כלומר, אם הנתונים של הדפדפן שלכם נמחקים או חשבון הגוגל מתחלף, אין לנו אפשרות לשחזר את המידע!",
         button: "אישור",
         className: "swal-save-popup",
-      }).then(() => {
-  
+      })
+      .then(() => {
+        try {
           localStorage.setItem('savedData', JSON.stringify(this.dataStore.$state));
           swal({
             title: "המידע נשמר",
@@ -146,6 +147,16 @@ export default {
             button: "אישור",
             className: "swal-save-popup",
           })
+        } catch (error) {
+          console.error(error);
+          swal({
+            title: "אופס! קרתה שגיאה בשמירה",
+            text: "יש לנסות שוב מאוחר יותר. \nאם שמרתם סרטונים מהמחשב יכול להיות שהם גדולים מדי וצריך להחליף אותם בקבצים קטנים יותר.",
+            icon: "error",
+            button: "אישור",
+            className: "swal-save-popup",
+          })
+        }
       })
     },
   },
