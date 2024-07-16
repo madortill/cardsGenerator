@@ -39,8 +39,8 @@ export default {
 
 /* Error messages styles */
 .textarea-error {
-    border: none;
-    outline: rgb(216, 10, 10) 2px solid;
+    outline: none;
+    border: rgb(216, 10, 10) 2px solid;
 }
 
 .textarea-error-innertext {

@@ -27,6 +27,11 @@ textarea {
   resize: none;
 }
 
+textarea:focus-visible {
+  outline: none;
+  border: #101010 solid 2px;
+}
+
 .swal-save-popup .swal-text {
   font-size: 21px;
   text-align: right;

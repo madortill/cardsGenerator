@@ -118,7 +118,8 @@ export default {
 }
 
 .paper-clip-content:focus-within {
-    outline: black solid 2px;
+    outline: none;
+    border: black solid 2px;
 }
 
 .secondary-container {

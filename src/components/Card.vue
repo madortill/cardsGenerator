@@ -163,7 +163,8 @@ export default {
   font-size: 1.5rem;
   border: none;
   font-weight: 800;
-  outline: gray 2px dashed;
+  outline: none;
+  border: gray 2px dashed;
   background-color: transparent;
   text-align: center;
   padding: 0rem 0rem 0.2rem;

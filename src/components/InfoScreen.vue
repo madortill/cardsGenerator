@@ -203,6 +203,11 @@ label {
     color: rgb(69, 69, 69);
 }
 
+.text-input:focus-visible {
+    border: #101010 solid 2px;
+    outline: none;
+}
+
 .error {
     box-sizing: border-box;
     color: rgb(198, 45, 45);

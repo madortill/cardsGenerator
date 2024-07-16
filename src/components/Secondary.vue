@@ -146,7 +146,7 @@ export default {
   font-size: 1.4rem;
   width: 17rem;
   outline: none;
-  outline: white solid 1px;
+  border: white solid 1px;
 }
 
 .minus {
@@ -175,7 +175,7 @@ export default {
 
 .secondary-name {
   background-color: transparent;
-  border: none;
+  /* border: none; */
   box-sizing: border-box;
   padding: 0.2rem;
   display: inline-block;
