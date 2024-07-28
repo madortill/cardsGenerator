@@ -58,7 +58,7 @@ export default {
           name: "darkBlue",
           hebrawName: "כחול כהה",
           primaryColor: "#223D6D",
-          secondaryColor: "#516FA5 ",
+          secondaryColor: "#516FA5",
           textColor:"#031520", // "#223d6d",
           gradient: "#516FA5",
           buttonsColor: "#031520"
