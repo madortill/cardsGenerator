@@ -1,3 +1,5 @@
+//  pinia store
+
 import { defineStore } from 'pinia'
 
 export const useDataStore = defineStore('data', {
@@ -21,9 +23,6 @@ export const useDataStore = defineStore('data', {
         gradient: "#27c5f2",
         buttonsColor: "#1c3f55"
       },
-      // "DATA": [
-      //   // Add more subjects as needed
-      // ],
       "DATA": []
     }
   },

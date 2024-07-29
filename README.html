@@ -1,0 +1,243 @@
+<!DOCTYPE html dir="rtl">
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>README</title>
+    <style>
+        code {
+            direction: ltr;
+        }
+    </style>
+    <!-- add colors to code blocks -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</head>
+
+<body style="font-family:Arial">
+    <h1> מחולל לומדת כרטיסיות</h1>
+    <div dir="ltr">
+        <b>meaning of important words: </b> <br>
+        > theme = color set <br>
+        > title = the name of the site as written in chrome tab (`&lt;title&gt;` tag) <br>
+        > subject = main subject (נושא ראשי) <br>
+        > secondary = secondary subject (תת-נושא) <br>
+        > topic = card title <br>
+        > page = the part of the card we see (and can switch between) <br>
+    </div>
+    <div>
+        <b>יצירת לומדה חדשה</b>
+        <ol>
+            <li>
+                תבקשו מהלקוח למלא את התוכן במחולל בקישור <a
+                    href="https://github.com/madortill/generic-cards.git">https://github.com/madortill/generic-cards.git</a>
+            </li>
+            <li>clone את הריפו למחשב שלכן <a
+                    href="https://github.com/madortill/generic-cards.git">https://github.com/madortill/generic-cards.git</a>
+            </li>
+            <li>עקבו אחרי ההוראות בקובץ ה .docx בתיקייה שעשיתן לה clone</li>
+        </ol>
+    </div>
+    <h2>הסברים על הקוד של המחולל</h2>
+    <code><a href="./src/stores/data.js">./src/stores/data.js: </code></a> <br>
+    משתנה שמשותף לכל הקומפוננטות. זהו אובייקט שבנוי כמו קומפוננטה של vue
+    כאשר:
+    <ul>
+        <li>state = data</li>
+        <li>actions = methods</li>
+    </ul>
+    <br>
+    המשתנים בחנות הם ריאקטיביים, וכל קומפוננטה יכולה לגשת אליהם בעזרת
+    <pre dir="ltr" style="text-align: left"><code dir="ltr" >
+                import { useDataStore } from '../stores/data'; 
+                import { mapActions } from 'pinia'; 
+        
+                methods: {
+                ...mapActions(useDataStore, ["getNestedItem"]), 
+                }
+
+                או  
+                import { useDataStore } from '../stores/data'; 
+
+                import { mapWritableState } from 'pinia'; 
+
+                computed: {
+                ...mapWritableState(useDataStore, {theme: "THEME"}), 
+                }
+            </code>
+            </pre>
+    <b>קבלת מידע מהחנות</b> <br>
+    1. כל הקומפוננטות שמתעסקות ב input החל מ inputScreen ועד cardInput (כולל כל הקומפוננטות שביניהם) מקבלות prop
+    שנקרא pathArray. <br>
+    הפרופ הזה מכיל את כל השלבים שצריך לרדת במבנה הנתונים כדי להגיע למקום שהקומפוננטה מייצגת. לדוגמה, אם במבנה
+    הנתונים הבא יש לי קומפוננטה שצריכה להציג את הערך 2, אז
+
+    <pre dir="ltr" style="text-align: left"><code>
+
+                let demo = [{
+                    "one": 1
+                },
+                {
+                    "two": 2
+                }]
+
+                component.path = [1, "two"]
+            </code></pre>
+    ואם צריך להציג את this is text (במבנה נתונים תואם למבנה בלומדה עצמה):
+    <pre dir="ltr" style="text-align: left"><code>
+                let "DATA" = [
+                {
+                    learningContent: 
+                        [{
+                          "name":"sub-subject",
+                          "error":"",
+                          "topics":[
+                            {
+                            "name":"topic",
+                             "error":"",
+                             "pageArray":[
+                                {
+                                  "cardType":"text",
+                                  "content":"This is text"
+                                }]
+                            }]
+                        }]
+                }]
+
+                component.path = ["DATA",0,"learningContent",0,"topics",0,"pageArray",0, "content"]
+            </code></pre>
+
+
+    הקומפוננטות מעבירות את ה pathArray שהן קיבלו ל store בעזרת הפונקציה getNestedItem (שמיושמת ב store), ושומרות
+    את התוצאה שהיא מחזירה בתור computed.
+    כך הן מתייחסות למידע הכי מעודכן כל הזמן. <br>
+    2. מכיוון ש colorPicker לא מתעסק באובייקטים מקוננים, הוא לוקח את כל המידע שהוא צריך בעזרת פונקציה של pinia
+    שנקראית <code>mapWritableState()</code>.
+    הערה: כל הקומפוננטות של svg לא מקושרות ל store ומקבלות את ה theme כ prop מההורים שלהן. שאר הקומפוננטות מקושרות
+    ישירות ל store ומקבלות את ה theme משם כ computed.
+    <br>
+    <br>
+    <b>עריכת מידע בחנות</b> <br>
+    עריכת מידע נעשית באמצעות הפונקציה onInput או setNestedItem או ישירות. <br>
+    * onInput מיועדת ל customInput והיא קורית כל פעם שמקלידים בתוך ה input. הפונקציה מקבלת את ה path של הקומפוננטה, וערך
+    חדש (newName) ומחליפה את הכותרת של הקומפוננטה (name) לערך החדש. <br>
+    * setNestedItem מיועדת ל DragToOrder וקורית בכל פעם ש dragToOrder מתעדכנת (עוד על dragToOrder בהמשך) <br>
+    * הקומפוננטות ברמה הכי תחתונה - TextInput, ImageVideoInput, YoutubeInput מקבלות אובייקט cardInfo שהקומפוננטה שמעליהן
+    (cardInput) מוציאה מה store ומשנות אותו באופן ישיר. מכיוון שמדובר באובייקט, אפשר לשנות את ה prop והריאקטיביות נשמרת
+    (בניגוד ל string למשל)
+
+    <br>
+    <ul>
+        <b>סקירת קומפוננטות</b>
+        <li> הקומפוננטה הראשונה שמופיעה היא openScreen.
+            בקומפוננטה הזו מתבצעת בדיקה אם יש משהו שמור ב localStorage.
+            אם כן - היא שואלת את המשתמש אם הוא רוצה להמשיך לומדה שהוא כבר התחיל
+            ומעבירה את התשובה ל <code>editStage</code>. </li>
+        <li> אם המשתמש מתחיל לומדה חדשה, <code>editScreen</code>
+            מציג את <code>infoScreen</code>
+            שבו המשתמש מזין את הפרטים האישיים שלו - שם, דרגה, תפקיד, בה"ד ואייקון ללומדה (אופציונלי) - ישמשו למסך
+            האודות בלומדה שתיווצר
+        </li>
+        <li> לאחר מכן מתחילה עריכת הנושאים בקומפוננטה <code>mainScreen.vue:</code> <br>
+            <ul>
+                <li>
+                    לחיצה על כפתור השמירה במסך הראשי תשמור את הלומדה שנוצרה עד עכשיו ב localStorage.
+                    השמירה נעשית על ידי <code>editScreen</code>
+                    בעזרת sweetAlert library (swal) ו - promises
+                </li>
+                <li> <code>colorPicker: </code><br>
+                    * שומר בתוכו את כל ערכות הנושא לכל הצבעים שיכולים להיות <br>
+                    * בלחיצה על אחד הצבעים שומר את ערכת הנושא שנבחרה ב store
+                    שמשם כל הקומפוננטות יכולות לגשת אליה
+                </li>
+                <li><code>mainScreen</code>: מציגה את כל הנושאים הקיימים, מאפשרת להכנס לערוך אותם (קוראת ל inputScreen),
+                    וכן מאפשרת למחוק או להוסיף נושא. <br>
+                    מחיקת נושא (במצב מחיקה) קוראת לפונקציה שמוודאת הסכמה של המשתמשים ולאחר מכן משתמשת בפונקציה
+                    deleteItem של ה store כדי למחוק את הנושא ישירות מה store. <br>
+                    יצירת נושא חדש יוצרת אירוע חדש שנשלח ל editStage, שיוצר את ה enteries הדרושים ב store ופותח את
+                    inputScreen.
+                </li>
+                <li><code>customInput</code>
+                    משמשת בעיקר לכותרות - נושא הלומדה, נושאים, תתי נושא וכותרות לכרטיסיות. שימו לב שמבחינת פונקציונליות
+                    כמעט אין בה כלום - היא מקבל תאת הערך הנוכחי של ה input דרך ה store עם getNestedItem ומשנה אותו בעזרת
+                    פונקציות של ה store שמטפלות גם במקרים של שגיאות</li>
+                <li><code>editStage:</code> הקומפוננטה עם הכי הרבה פונקציונליות. הבדיקה אם התוכן ב inputScreen תקין
+                    ואפשר לחזור ל mainScreen מתבצעת <b>פה</b>.
+                    אם כל ה inputs ב InputScreen ריקים, אז הנושא החדש שיצרנו נמחק.
+                    אם יש התוכן של אחד האינפוטים לא תקני או שמופיעה שגיאה על המסך, מקפיץ למשתמש הודעה שיש שגיאה (בהתאם
+                    לסוג השגיאה) ומשאיר אותו ב inputScreen.
+                    רק אם אין שגיאות לגמרי, עובר לmainScreen. השמירה המקומית קורית רק ב mainScreen כדי לא לשמור בטעות
+                    שגיאות.</li>
+                <li><code>dragToOrder</code>:
+                    מאוד דומה ל draggable.js. ה - props שלהם הם:
+                    <ul>
+                        <li><code>:modelValue </code> - מערך שמייצג את סדר האלמנטים. זה המערך שישתנה כשנסדר את הסדר שלהם
+                            בעזרת הקומפוננטה. בכל שינוי של המערך יופעל האירוע update:modelValue</li>
+                        <li><code>@update:modelValue="onDrop"</code> - אירוע שקורה בכל פעם שסדר האלמנטים במערך משתנה.
+                            כשהאירוע קורה נקרא לפונקציה onDrop
+                            <br> &nbsp <code>onDrop</code>: קורית כשהמערך מתעדכן. מעדכנת אותו ב store בעזרת
+                            setNestedItem ועושה rerender לקומפוננטה dragToOrder (כולל שמירה של מיקום ה scrolling ושחזור
+                            שלו אחרי ה rerender כדי שהמשתמש לא יראה קפיצה על המסך)
+                        </li>
+
+                        <li><code>dragClass</code> המחלקה שניתנת לאלמנט שאנחנו גוריים כרגע ומאפשרת לעצב אותו באופן שונה
+                        </li>
+                        <li><code>handle</code> סלקטור של ידית (אם אנחנו רוצים לאפשר גרירה רק בלחיצה על חלק מסוים בתוך
+                            האלמנט)</li>
+                        <li><code>dragCursor</code> צורת העכבר בזמן הגרירה</li>
+                        <li><code>ref="overflowContainer"</code>אפשרות גישה תכנותית למיכל של ה dragToOrder</li>
+                        <li><code>isHorizontal</code> הופך את הגרירה לאופקית במקום אנכית</li>
+                        <li><code>:key="'dragDrop' + dragNDropRender"</code> מאפשר לנו לעשות rerender לקומפוננטה ע"י
+                            שינוי המשתנה dragNDropRender</li>
+                        <li><code>template</code> זהו לא prop אלא html שנכנס בתוך הקומפוננטה. לקומפוננטה יש כמה template
+                            שניתן להכניס: <br>
+                            <code>	&lt;template  #item="{index, item}"&gt; &lt;/template&gt;</code> <br>
+                            האלמנטים שאותם גוררים. בתוך ה template נכניס html של אלמנט אחד שנרצה לגרור, והקומפוננטה תעשה
+                            עליו v-for. בתוך ה template יש לנו גישה למשתנים index, item שהגדרנו למעלה ומאפשרים לנו גישה
+                            לערכים מתוך המערך של modelValue <br>
+                            <code> &lt;template #footer&gt;&lt;/template&gt; או &lt;template #header&gt;&lt;/template&gt; </code>
+                            <br>
+                            מאפשר לנו להגדיר רכיבים שאי אפשר לגרור כמו footer או header
+                        </li>
+                    </ul>
+                </li>
+                <li><code>ImageVideoInput</code>:
+                    מקבל את כל המידע כאובייקט prop ומשנה רק אותות (לא משנה את המידע ב store ישירות אלא דרך ההורה שלו).
+                    <br>
+                    בתוך האובייקט יש שני שדות רלוונטיים: pic (or video) ששומר את התמונה או הסרטון בקידוד base64 שמתאים
+                    להעברה דרך HTTP וגם picFile, videoFile ששומר את הקובץ כמו שהמשתמש העלה אותו (כבינארי) <br>
+                    בהתחלה, בודק שאין קובץ file שמור ב prop ואם אין מציג הודעה שה input ריק ומבקש להכניס תמונה.
+                    ה input הוא של תמונה או של וידיאו בהתאם לסוג הקלף שמקבל כ prop. <br>
+                    כשמעדכנים תמונה, קורא ל updateImageDisplay שלוקח את הקבצים המ input בודק שהם תקינים בעזרת
+                    inputError() ושומר אותם כקובץ בשדה picFile או videoFile.
+                    הפונקציה גם קוראת ל saveAsBase64() שמעדכן את התוצאה המקודדת ב pic או video.
+                    <b>תצוגה מקדימה:</b> התצוגה המקדימה מופיעה רק אם ערך השגיאה הוא <code>null</code>. השגיאה היא משתנה
+                    ריאקטיבי של הקומפוננטה ולא חשוף לאבא של הקומפוננטה (בניגוד ל customInput ששומרת את השגיאות שלה ב
+                    store). <br>
+                    אם השגיאה לא מוגדרת, סימן שאין שגיאה ואפשר להציג את התצוגה המקדימה. ה src הוא chosenMediaURL, שהוא
+                    computed שמחזיר imgae url אם יש קובץ לעבוד איתו, ואם אין קובץ בינארי אלא רק בקידוד 64 מחזיר את
+                    המחרוזת של base64. (ה localStorage לא יכול לשמור קבצים ולכן בטעינה מחדש של לומדות שהתחלנו בזמן אחר
+                    יש לנו גישה רק ל base64 ולא לקבצים המקוריים)
+                </li>
+                <li><code>app.vue</code>
+                    כשעוברים בין EditScreen ו EndScreen, app/vue קורא ל initFetch ששולח בקשת POST לשרת (אם יש שרת)
+                    ומבקשל שמור את המידע שהזינו למחולל. אם השמירה נכשלת, EndScreen יוצר עותק של המידע כקובץ שאפשר להוריד
+                    כקובץ json ולשלוח אלינו ידנית
+                </li>
+            </ul>
+    </ul>
+    <div>
+        <b>הערות נוספות:</b> <br>
+        <ul>
+            <li>הכפתורים "delete", "add-subj-btn" בתוך MainScreen.vue וגם "minus" בתוך secondary.vue הם לא תמונות, הם נוצרו
+                בעזרת ::before ו- ::after שיוצרים את הפסים.</li>
+            לאלמנט שמעליהם (ההורה שלהם) יש position:relative כדי שנוכל להתשמש ביחידות של אחוזים אצלך הילד והן יתייחסו לגודל
+            של ההורה. <br>
+            <li>חלק מהעיצובים הכלליים נמצאים בקובץ src/assets/main.css, שימו לב לא לפספס אותם</li>
+        </ul>
+    </div>
+</body>
+
+</html>

@@ -50,6 +50,7 @@ export default {
         removeEventListener("beforeunload", this.onBeforeUnload, true);
       }, 1900);
     },
+    // prompt user before refresh
     onBeforeUnload(event) {
       event.preventDefault();
       return (event.returnValue = "");

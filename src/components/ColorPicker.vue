@@ -126,6 +126,7 @@ export default {
     }
   },
   computed: {
+    // access the store variable "THEME" via the local variable "theme" 
     ...mapWritableState(useDataStore, {theme: "THEME"}),
   },
   mounted () {

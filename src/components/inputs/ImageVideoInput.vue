@@ -41,8 +41,9 @@ export default {
                 this.loadVideo();
             }
         },
+        // wait for vue to update the DOM before loading the new video
         async loadVideo() {
-            await this.$nextTick;
+            await this.$nextTick();
             this.$refs.video.load();
         },
         updateImageDisplay() {
