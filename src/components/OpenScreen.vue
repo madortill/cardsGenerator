@@ -34,7 +34,7 @@
         <div class="actual-component" v-else>
             <div class="icon-container">
                 <img src="@/assets/symbols/madortill.svg" alt='סמל מדור טי"ל' class="icon">
-                <img src="@/assets/symbols/hadracha.png" alt='סמל ענף הדרכה' class="icon">
+                <img src="@/assets/symbols/hadracha.png" alt='סמל ענף הדרכה' class="icon mifkada">
             </div>
             <div class="content">
                 <div class="title"><span class="main">ברוכים הבאים</span> למחולל הלומדות</div>
@@ -103,6 +103,8 @@ export default {
 }
 
 .icon-container {
+    position: relative;
+    top: 0.75rem;
     direction: ltr;
     grid-column: 1 / -1;
     justify-self: strech;
@@ -114,6 +116,7 @@ export default {
 
 .icon {
     max-width: 5rem;
+    margin: 0.5rem;
 }
 
 .open-pic {

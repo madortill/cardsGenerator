@@ -5,46 +5,47 @@
             <img src="@/assets/symbols/hadracha.png" alt='סמל ענף הדרכה' class="icon">
         </div>
         <form class="form grid">
-                <h1>כמה פרטים לפני שמתחילים...</h1>
-                <div>
-                    <label for="name">איך קוראים לך?</label>
-                    <input class="text-input" id="name" type="text" v-model="inputValues.name" autocomplete="name" >
-                </div>
-                <div>
-                    <label for="rank">מה הדרגה שלך?</label>
-                    <input class="text-input" id="rank" type="text" v-model="inputValues.rank">
-                </div>
-                <div>
-                    <label for="role">מה התפקיד שלך?</label>
-                    <input class="text-input" id="role" type="text" v-model="inputValues.role">
-                </div>
-                <div>
-                    <label for="description">תיאור הלומדה: (לא חובה)</label>
-                    <textarea class="textarea" id="description" type="text" v-model="description"></textarea>
-                </div>
-                <div class="bhd-father">
-                    <label for="DropDown">בחרו בה"ד</label>
-                    <DropDown class="dropdown text-input" id="DropDown" type="text" :optionList="bahadim" placeholder='יש לבחור בה"ד' 
-                    @choice="(chosen) => {inputValues.bhd = chosen}" />
-                </div>
-                <div>
-                    <label for="icon">תרצו להכניס סמל ללומדה \ סמל הבה"ד? <span class='small-font'>(לא חובה)</span></label>
-                    <input type="file" ref="imgInput" class="opacity" @change="updateInput" name="icon" id="icon" accept=".jpg, .jpeg, .png, .svg">
-                    <button class="image-btn" @click.prevent="$refs.imgInput.click()"> בחירת תמונה </button>
-                </div>
-                <img v-if="icon" alt="תצוגה מקדימה" :src="chosenMediaURL" class="image-preview" @click.prevent="$refs.imgInput.click()"/>
-                <p v-else class="pic-error">לא נבחרה תמונה</p>
-                <button class="submit" @click.prevent="validateInput">המשך</button>
-                <div class="error"> {{ error }}</div>
-            </form>
-            
+            <h1>כמה פרטים לפני שמתחילים...</h1>
+            <div>
+                <label for="name">איך קוראים לך?</label>
+                <input class="text-input" id="name" type="text" v-model="inputValues.name" autocomplete="name">
+            </div>
+            <div>
+                <label for="rank">מה הדרגה שלך?</label>
+                <input class="text-input" id="rank" type="text" v-model="inputValues.rank">
+            </div>
+            <div>
+                <label for="role">מה התפקיד שלך?</label>
+                <input class="text-input" id="role" type="text" v-model="inputValues.role">
+            </div>
+            <div>
+                <label for="description">תיאור הלומדה: (לא חובה)</label>
+                <textarea class="textarea" id="description" type="text" v-model="description"></textarea>
+            </div>
+            <div class="bhd-father">
+                <label for="DropDown">בחרו בה"ד</label>
+                <DropDown class="dropdown text-input" id="DropDown" type="text" :optionList="bahadim" placeholder='יש לבחור בה"ד' 
+                    @choice="handleChoice" />
+            </div>
+            <div v-if="inputValues.bhd === 'אחר'">
+                <label for="otherBhd" class="smaller-other">אז מאיפה אתה?</label>
+                <input class="text-input smaller-other" id="otherBhd" type="text" v-model="inputValues.otherBhd">
+            </div>
+            <div>
+                <label for="icon">תרצו להכניס סמל ללומדה \ סמל הבה"ד? <span class='small-font'>(לא חובה)</span></label>
+                <input type="file" ref="imgInput" class="opacity" @change="updateInput" name="icon" id="icon" accept=".jpg, .jpeg, .png, .svg">
+                <button class="image-btn" @click.prevent="$refs.imgInput.click()"> בחירת תמונה </button>
+            </div>
+            <img v-if="icon" alt="תצוגה מקדימה" :src="chosenMediaURL" class="image-preview" @click.prevent="$refs.imgInput.click()"/>
+            <p v-else class="pic-error">לא נבחרה תמונה</p>
+            <button class="submit" @click.prevent="validateInput">המשך</button>
+            <div class="error"> {{ error }}</div>
+        </form>
     </div>
 </template>
 
 <script>
 import DropDown from './DropDown.vue';
-
-
 
 export default {
     name: 'InfoScreen',
@@ -54,40 +55,68 @@ export default {
                 name: '',
                 rank: '',
                 role: '',
-                bhd: ''
+                bhd: '',
+                otherBhd: ''
             },
             description: '',
             error: '',
             icon: null,
             iconFile: undefined,
-            bahadim: {"6בהד": 'בה"ד 6 - לוגיסטיקה',"7בהד": 'בה"ד 7 - תקשוב', "10בהד": 'בה"ד 10 -רפואה', "11בהד": 'בה"ד 11 - משאבי אנוש'
-            , "13בהד": 'בה"ד 13 - משטרה צבאית', "20בהד": 'בה"ד 20 - טכנולוגיה ואחזקה', "חינוך":'בה"ד חינוך', "מפקדה":'מפקדה'}
+            bahadim: {
+                "6בהד": 'בה"ד 6 - לוגיסטיקה',
+                "7בהד": 'בה"ד 7 - תקשוב', 
+                "10בהד": 'בה"ד 10 -רפואה', 
+                "11בהד": 'בה"ד 11 - משאבי אנוש',
+                "13בהד": 'בה"ד 13 - משטרה צבאית', 
+                "20בהד": 'בה"ד 20 - טכנולוגיה ואחזקה', 
+                "חינוך": 'בה"ד החינוך והנוער', 
+                "מפקדה": 'מפקדת קריית ההדרכה', 
+                "אחר": 'אחר'
+            }
         }
     },
     components: { DropDown },
     methods: {
-        validateInput () {
+        handleChoice(chosen) {
+            this.inputValues.bhd = chosen;
+            if (chosen !== 'אחר') {
+                this.inputValues.otherBhd = '';
+            }
+        },
+        validateInput() {
             let isAllValid = true;
+            const hebrewPattern = /^[\u0590-\u05FF\s]+$/; // Pattern for Hebrew letters and spaces
+            const otherBhdPattern = /^[\u0590-\u05FF\s\d]*["]?[\u0590-\u05FF\s\d]*["]?[\u0590-\u05FF\s\d]*$/; // Pattern for Hebrew letters, optional quotation marks, and numbers
+
             if (this.inputValues.bhd === '') {
                 this.error = '*יש לבחור את שם הבה"ד';
-                return
+                return;
             }
+            if (this.inputValues.bhd === 'אחר' && 
+                (!this.inputValues.otherBhd || !otherBhdPattern.test(this.inputValues.otherBhd))) {
+                this.error = 'השם שבחרת אינו תקין';
+                return;
+            }
+
             for (const key in this.inputValues) {
-                if (this.inputValues[key].length <= 1 && key !== 'bhd') {
+                if (this.inputValues[key].length <= 1 && key !== 'bhd' && key !== 'otherBhd') {
                     isAllValid = false;
                     this.error = "*כל השדות צריכים להיות מלאים וארוכים מאות אחת";
-                    break
+                    break;
+                }
+                if (key !== 'bhd' && key !== 'otherBhd' && !hebrewPattern.test(this.inputValues[key])) {
+                    isAllValid = false;
+                    this.error = "*כל השדות צריכים להכיל אותיות בעברית בלבד";
+                    break;
                 }
             }
 
-
-            //  continues to next stage
+            // Continues to next stage
             if (isAllValid) {
-                // creating an object that contains both inputValues
-                this.$emit("next", this.inputValues, this.icon, this.description)
+                this.$emit("next", this.inputValues, this.icon, this.description);
             }
         },
-        // image input functions
+        // Image input functions
         updateInput() {
             let fileList = this.$refs.imgInput.files;
             if (this.isFileValid(fileList[0])) {
@@ -119,7 +148,7 @@ export default {
             return (pic.includes(file.type));
         },
         saveAsBase64(file) {
-            let context = this
+            let context = this;
             let reader = new FileReader();
             reader.onloadend = function() {
                 context.icon = reader.result;
@@ -138,8 +167,8 @@ export default {
         },
     }
 }
-
 </script>
+
 
 <style scoped>
 .icon-container {
@@ -307,5 +336,9 @@ label {
     min-height: 4.1rem;
     font-size: 1.2rem;
     padding: 0.3rem 0.6rem;
+}
+
+.smaller-other {
+    font-size: 1.1rem;
 }
 </style>
