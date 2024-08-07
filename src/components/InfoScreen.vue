@@ -85,17 +85,20 @@ export default {
         },
         validateInput() {
             let isAllValid = true;
-            const hebrewPattern = /^[\u0590-\u05FF\s]+$/; // Pattern for Hebrew letters and spaces
-            const otherBhdPattern = /^[\u0590-\u05FF\s\d]*["]?[\u0590-\u05FF\s\d]*["]?[\u0590-\u05FF\s\d]*$/; // Pattern for Hebrew letters, optional quotation marks, and numbers
+            // Pattern for Hebrew letters and spaces
+            const hebrewPattern = /^[\u0590-\u05FF\s]+$/;
+            // Pattern for "otherBhd": Hebrew letters, optional quotation marks, and numbers
+            const otherBhdPattern = /^(?=.*[\u0590-\u05FF])[\"*\u0590-\u05FF\s\d]*$/; 
 
             if (this.inputValues.bhd === '') {
                 this.error = '*יש לבחור את שם הבה"ד';
                 return;
             }
-            if (this.inputValues.bhd === 'אחר' && 
-                (!this.inputValues.otherBhd || !otherBhdPattern.test(this.inputValues.otherBhd))) {
-                this.error = 'השם שבחרת אינו תקין';
-                return;
+            if (this.inputValues.bhd === 'אחר') {
+                if (!this.inputValues.otherBhd || !otherBhdPattern.test(this.inputValues.otherBhd) || this.inputValues.otherBhd.length <= 1) {
+                    this.error = 'השם שבחרת אינו תקין';
+                    return;
+                }
             }
 
             for (const key in this.inputValues) {
