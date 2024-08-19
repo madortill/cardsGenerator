@@ -10,7 +10,7 @@ export default {
   components: { OpenScreen, Instructions, EditStage, LoadingScreen, EndScreen},
   data() {
     return {
-      currentStage: 0,
+      currentStage: 0 ,
       lomdaTitle: '',
       theme: '',
       jsonData: '',
