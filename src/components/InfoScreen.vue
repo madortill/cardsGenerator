@@ -82,6 +82,7 @@ export default {
             if (chosen !== 'אחר') {
                 this.inputValues.otherBhd = '';
             }
+    
         },
         validateInput() {
             let isAllValid = true;
