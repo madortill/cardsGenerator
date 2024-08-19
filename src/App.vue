@@ -15,7 +15,7 @@ export default {
       theme: '',
       jsonData: '',
       isSaved: false,
-      newURL: null
+      newURL: null,
     }
   },
   methods: {
