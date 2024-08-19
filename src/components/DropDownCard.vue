@@ -15,6 +15,7 @@
     </div>
 </template>
 
+
 <script>
 import DropDown from "./DropDown.vue";
 import CardSvg from "./svg/CardSvg.vue";
