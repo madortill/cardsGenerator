@@ -79,6 +79,8 @@ export default {
     methods: {
         handleChoice(chosen) {
             this.inputValues.bhd = chosen;
+            console.log("hello");
+            console.log(chosen);
             if (chosen !== 'אחר') {
                 this.inputValues.otherBhd = '';
             }
