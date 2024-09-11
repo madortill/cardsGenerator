@@ -86,41 +86,101 @@ export default {
     
         },
         validateInput() {
-            let isAllValid = true;
-            // Pattern for Hebrew letters and spaces
+            // Hebrew letters and spaces pattern
             const hebrewPattern = /^[\u0590-\u05FF\s]+$/;
-            // Pattern for "otherBhd": Hebrew letters, optional quotation marks, and numbers
-            const otherBhdPattern = /^(?=.*[\u0590-\u05FF])[\"*\u0590-\u05FF\s\d]*$/; 
-
+            let isAllValid = true;
+            
+            // 1. Check if the name field is not empty
+            if (!this.inputValues.name) {
+                this.error = '*שדה השם אינו יכול להיות ריק';
+                return;
+            }
+            
+            // 2. Check if the name field contains only Hebrew letters
+            if (!hebrewPattern.test(this.inputValues.name)) {
+                this.error = '*יש להזין שם בעברית בלבד';
+                return;
+            }
+            
+            // 3. Validate the other fields similarly:
+            
+            // Check if rank field is not empty and contains Hebrew letters
+            if (!this.inputValues.rank) {
+                this.error = '*שדה הדרגה אינו יכול להיות ריק';
+                return;
+            }
+            if (!hebrewPattern.test(this.inputValues.rank)) {
+                this.error = '*יש להזין דרגה בעברית בלבד';
+                return;
+            }
+            
+            // Check if role field is not empty and contains Hebrew letters
+            if (!this.inputValues.role) {
+                this.error = '*שדה התפקיד אינו יכול להיות ריק';
+                return;
+            }
+            if (!hebrewPattern.test(this.inputValues.role)) {
+                this.error = '*יש להזין תפקיד בעברית בלבד';
+                return;
+            }
+            
+            // 4. Validate the selection of bhd
             if (this.inputValues.bhd === '') {
                 this.error = '*יש לבחור את שם הבה"ד';
                 return;
             }
+            
+            // 5. If bhd is 'אחר', validate the otherBhd field
             if (this.inputValues.bhd === 'אחר') {
+                const otherBhdPattern = /^(?=.*[\u0590-\u05FF])[\u0590-\u05FF\s\d]*$/;
                 if (!this.inputValues.otherBhd || !otherBhdPattern.test(this.inputValues.otherBhd) || this.inputValues.otherBhd.length <= 1) {
                     this.error = 'השם שבחרת אינו תקין';
                     return;
                 }
             }
-
-            for (const key in this.inputValues) {
-                if (this.inputValues[key].length <= 1 && key !== 'bhd' && key !== 'otherBhd') {
-                    isAllValid = false;
-                    this.error = "*כל השדות צריכים להיות מלאים וארוכים מאות אחת";
-                    break;
-                }
-                if (key !== 'bhd' && key !== 'otherBhd' && !hebrewPattern.test(this.inputValues[key])) {
-                    isAllValid = false;
-                    this.error = "*כל השדות צריכים להכיל אותיות בעברית בלבד";
-                    break;
-                }
-            }
-
-            // Continues to next stage
-            if (isAllValid) {
-                this.$emit("next", this.inputValues, this.icon, this.description);
-            }
+            
+            // 6. If all validations passed, continue to the next step
+            this.error = ''; // Clear the error if all fields are valid
+            this.$emit("next", this.inputValues, this.icon, this.description);
         },
+        // validateInput() {
+        //     let isAllValid = true;
+        //     // Pattern for Hebrew letters and spaces
+        //     const hebrewPattern = /^[\u0590-\u05FF\s]+$/;
+        //     // Pattern for "otherBhd": Hebrew letters, optional quotation marks, and numbers
+        //     const otherBhdPattern = /^(?=.*[\u0590-\u05FF])[\"*\u0590-\u05FF\s\d]*$/; 
+
+        //     for (const key in this.inputValues) {
+        //         if (this.inputValues[key].length <= 1 && key !== 'bhd' && key !== 'otherBhd') {
+        //             isAllValid = false;
+        //             this.error = "*כל השדות צריכים להיות מלאים וארוכים מאות אחת";
+        //             break;
+        //         }
+        //         if (key !== 'bhd' && key !== 'otherBhd' && !hebrewPattern.test(this.inputValues[key])) {
+        //             isAllValid = false;
+        //             this.error = "*כל השדות צריכים להכיל אותיות בעברית בלבד";
+        //             break;
+        //         }
+        //     }
+
+        //     if (this.inputValues.bhd === '') {
+        //         this.error = '*יש לבחור את שם הבה"ד';
+        //         return;
+        //     }
+        //     if (this.inputValues.bhd === 'אחר') {
+        //         if (!this.inputValues.otherBhd || !otherBhdPattern.test(this.inputValues.otherBhd) || this.inputValues.otherBhd.length <= 1) {
+        //             this.error = 'השם שבחרת אינו תקין';
+        //             return;
+        //         }
+        //     }
+
+
+
+        //     // Continues to next stage
+        //     if (isAllValid) {
+        //         this.$emit("next", this.inputValues, this.icon, this.description);
+        //     }
+        // },
         // Image input functions
         updateInput() {
             let fileList = this.$refs.imgInput.files;

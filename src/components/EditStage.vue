@@ -131,10 +131,14 @@ export default {
     },
     saveToLocal () {
       swal({
-        title: "שמירה זמנית",
-        text: "המידע שלכם יישמר על המחשב שלכם בלבד! לנו אין גישה אליו. כלומר, אם הנתונים של הדפדפן שלכם נמחקים או חשבון הגוגל מתחלף, אין לנו אפשרות לשחזר את המידע!",
+        content: {
+          element: "span",
+          attributes: {
+            innerHTML: '<span class="red-span">שמירה זמנית!</span>'
+          }
+        },
+        text: "המידע שלכם יישמר על המחשב שלכם בלבד! לנו אין גישה אליו. כלומר, אם הנתונים של הדפדפן שלכם נמחקים או חשבון הגוגל מתחלף (משתמש אחר), אין לנו אפשרות לשחזר את המידע!",
         button: "אישור",
-        className: "swal-save-popup",
       })
       .then(() => {
         try {
@@ -170,6 +174,21 @@ export default {
 </script>
 
 <style>
+.red-span {
+  direction: rtl;
+  color: rgb(222, 84, 84);
+  text-align: center; /* Align the text to the right */
+  font-size: 1.3rem;
+  position: absolute; /* Make the span absolute to place it at the top */
+  top: 0.5rem; /* Position it at the top */
+  right: 0; /* Align it to the right side of the container */
+  width: 100%; /* Ensure it spans the width of the container */
+}
+
+.swal-text {
+  top: 0.7rem;
+  text-align: center;
+}
 
 .swal-footer {
   text-align: left;
