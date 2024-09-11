@@ -24,8 +24,6 @@
           <DropDownCard @add-page="createNewCard" :key="'dropdown' + reRenderCounter" btnText="הוספת כרטיסיה"></DropDownCard>
         </template>
         </DragToOrder>
-      <!-- <card v-for="(topicObj, index) in topicArr" :key="index" :pathArray="[...pathArray, 'topics', index]"
-        :isQuestion="false" @delete-card="deleteCard(topicObj)"/> -->
   </div>
 </template>
 

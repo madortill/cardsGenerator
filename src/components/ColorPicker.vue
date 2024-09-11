@@ -165,6 +165,7 @@ export default {
       margin: 0.5em;
       height: 6em;
       width: 6em;
+      cursor: pointer;
     }
 
     .chosen {

@@ -1,7 +1,7 @@
 <template>
     <div class="input-container">
         <div class="youtube-input-container">
-            <input type="url" class="youtube-input" placeholder="הכניסו קישור ליוטיוב" ref="youtubeInput"
+            <input type="url" class="youtube-input" placeholder="הכניסו קישור לסרטון" ref="youtubeInput"
                 @focus="(event) => { event.target.select() }" v-model="youtubeLink" @keydown.enter="updateYoutubeValue"/>
             <button class="load-youtube" @click="updateYoutubeValue">טען</button>
         </div>

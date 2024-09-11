@@ -5,6 +5,7 @@
             <img src="@/assets/symbols/hadracha.png" alt='סמל ענף הדרכה' class="icon">
         </div>
         <form class="form grid">
+            <div class="error"> {{ error }}</div>
             <h1>כמה פרטים לפני שמתחילים...</h1>
             <div>
                 <label for="name">איך קוראים לך?</label>
@@ -19,7 +20,7 @@
                 <input class="text-input" id="role" type="text" v-model="inputValues.role">
             </div>
             <div>
-                <label for="description">תיאור הלומדה: (לא חובה)</label>
+                <label for="description">תיאור הלומדה: <span class='small-font'>(לא חובה)</span></label>
                 <textarea class="textarea" id="description" type="text" v-model="description"></textarea>
             </div>
             <div class="bhd-father">
@@ -32,14 +33,14 @@
                 <input class="text-input smaller-other" id="otherBhd" type="text" v-model="inputValues.otherBhd">
             </div>
             <div>
-                <label for="icon">תרצו להכניס סמל ללומדה \ סמל הבה"ד? <span class='small-font'>(לא חובה)</span></label>
+                <label for="icon">תרצו להכניס סמל ללומדה \ סמל הבה"ד \ סמל יחידה? <span class='small-font'>(לא חובה)</span></label>
                 <input type="file" ref="imgInput" class="opacity" @change="updateInput" name="icon" id="icon" accept=".jpg, .jpeg, .png, .svg">
                 <button class="image-btn" @click.prevent="$refs.imgInput.click()"> בחירת תמונה </button>
             </div>
             <img v-if="icon" alt="תצוגה מקדימה" :src="chosenMediaURL" class="image-preview" @click.prevent="$refs.imgInput.click()"/>
             <p v-else class="pic-error">לא נבחרה תמונה</p>
             <button class="submit" @click.prevent="validateInput">המשך</button>
-            <div class="error"> {{ error }}</div>
+            
         </form>
     </div>
 </template>
@@ -79,8 +80,6 @@ export default {
     methods: {
         handleChoice(chosen) {
             this.inputValues.bhd = chosen;
-            console.log("hello");
-            console.log(chosen);
             if (chosen !== 'אחר') {
                 this.inputValues.otherBhd = '';
             }
@@ -177,9 +176,10 @@ export default {
 
 
 <style scoped>
+
 .icon-container {
     direction: ltr;
-    justify-self: strech;
+    justify-self: stretch;
     display: flex;
     justify-content: space-between;
     padding: 0rem 1rem;
@@ -190,6 +190,16 @@ export default {
 .icon {
     max-width: 5rem;
     z-index: 3;
+    position: fixed;
+    top: 1rem; 
+}
+
+.icon:nth-child(1) {
+    left: 1.3rem; 
+}
+
+.icon:nth-child(2) {
+    right: 1.3rem; 
 }
 
 .grid {
@@ -244,12 +254,12 @@ label {
 }
 
 .error {
-    box-sizing: border-box;
+    position: fixed;
+    top: 1rem;
     color: rgb(198, 45, 45);
     font-size: 1.3rem;
-    /* height: 1.8rem; */
-    padding: 0rem 0.5rem;
-    margin-bottom: 0.3rem;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .opacity {

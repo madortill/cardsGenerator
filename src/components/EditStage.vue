@@ -3,8 +3,6 @@
     <InfoScreen v-if="currentStage === 'info'" @next="finishInfo"></InfoScreen>
     <mainScreen v-else-if="(currentStage === 'main')" @go-to-subject="goToSubj" @next-stage="nextStage" @temp-save="saveToLocal"></mainScreen>
     <Input-screen v-else-if="(currentStage === 'input')" :pathArray="['DATA', chosenSubjIndex]" @back-to-main="updateThanMain"></Input-screen>
-    <!-- <add-questions type = "test" v-else-if="(currentStage === 'test')"></add-questions> -->
-    <!-- <add-questions type = "practice" v-else-if="(currentStage === 'practice')"></add-questions> -->
     <img class="till-logo" src="@/assets/colorNeutralAssets/till-logo-text-white.svg" alt='לוגו מדור טי"ל'>
   </div>
 </template>
