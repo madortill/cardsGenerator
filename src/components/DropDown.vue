@@ -23,7 +23,8 @@ export default {
             arrowDirection: "down-triangle"
         }
     },
-    props: {
+    props: {   
+        
         // list of all the options as array or object when the key is the what we want to return and the value is what is appears on screen.
         "optionList":
         {
